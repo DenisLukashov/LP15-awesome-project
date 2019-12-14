@@ -14,8 +14,6 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text)
     avatar = db.Column(db.String(100))
     
-    equipment = db.relationship('Equipment', backref='users')
-    
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
     
@@ -32,7 +30,7 @@ class Equipment(db.Model):
     avatar = db.Column(db.String)
     about = db.Column(db.Text)
     
-    stats = db.relationship("Stats", backref='equipments')
+    stats = db.relationship("Stats", backref='users')
 
 
 class Stats(db.Model):
