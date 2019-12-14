@@ -26,7 +26,7 @@ class Story(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     story_text = db.Column(db.Text)
     
-    image = db.relationship('Image', backref='story')
+    images = db.relationship('Image', backref='story')
     
     stats_id = db.Column(db.Integer, db.ForeignKey('stats.id'))
     stats = db.relationship('Stats', backref='story')
@@ -34,6 +34,6 @@ class Story(db.Model):
     
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    src = db.Columnm(db.String(100))
+    src = db.Columnm(db.Text)
     story_id = db.Column(db.Integer, db.ForeignKey('story.id'))
         
