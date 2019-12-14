@@ -5,7 +5,7 @@ from flask_login import UserMixin
 db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(30))
     second_name = db.Column(db.String(30))
@@ -13,7 +13,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.Text)
     avatar = db.Column(db.String(100))
-    equipment = db.relationship('Equipment', backref='user')
+    
+    equipment = db.relationship('Equipment', backref='users')
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -23,20 +24,21 @@ class User(UserMixin, db.Model):
 
 
 class Equipment(db.Model):
-    __tablename__ = 'equipment'
+    __tablename__ = 'equipments'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column(db.String, nullable=False)
     type = db.Column(db.SmallInteger, nullable=False)  
     avatar = db.Column(db.String)
     about = db.Column(db.Text)
-    stats = db.relationship("Stats", backref='equipment')
+    
+    stats = db.relationship("Stats", backref='equipments')
 
 
 class Stats(db.Model):
     __tablename__ = 'stats'
     id = db.Column(db.Integer, primary_key=True)
-    equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'))
+    equipment_id = db.Column(db.Integer, db.ForeignKey('equipments.id'))
     date = db.Column(db.Date, nullable=False)
     distance = db.Column(db.BigInteger)
     time = db.Column(db.BigInteger)
@@ -54,23 +56,24 @@ class Stats(db.Model):
     total_down_altitude = db.Column(db.SmallInteger)
     min_altitude = db.Column(db.SmallInteger)
     max_altitude = db.Column(db.SmallInteger)
-    story_id = db.Column(db.Integer, db.ForeignKey('story.id'))
+    
+    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     story = db.relationship("Story", uselist=False, back_populates="stats")
   
     
 class Story(db.Model):
-    __tablename__ = 'story'
+    __tablename__ = 'stories'
     id = db.Column(db.Integer, primary_key=True)
     story_text = db.Column(db.Text)
     
-    images = db.relationship('Image', backref='story')
+    images = db.relationship('Image', backref='stories')
     
     stats_id = db.Column(db.Integer, db.ForeignKey('stats.id'))
-    stats = db.relationship('Stats', backref='story')
+    stats = db.relationship('Stats', backref='stories')
     
     
 class Image(db.Model):
-    __tablename__ = 'image'
+    __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
     src = db.Columnm(db.Text)
-    story_id = db.Column(db.Integer, db.ForeignKey('story.id'))
+    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
