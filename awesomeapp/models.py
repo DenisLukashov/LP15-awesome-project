@@ -10,7 +10,7 @@ class Equipment(db.Model):
     type = db.Column(db.SmallInteger, nullable=False)  
     avatar = db.Column(db.String)
     about = db.Column(db.Text)
-    stats = db.relationship("Stats", beckref='equipment')
+    stats = db.relationship("Stats", backref='equipment')
 
 
 class Stats(db.Model):
@@ -34,5 +34,5 @@ class Stats(db.Model):
     total_down_altitude = db.Column(db.SmallInteger)
     min_altitude = db.Column(db.SmallInteger)
     max_altitude = db.Column(db.SmallInteger)
-    story_id = db.Column(db.Integer, db.ForeignKey('stotry.id'))
+    story_id = db.Column(db.Integer, db.ForeignKey('story.id'))
     story = db.relationship("Story", uselist=False, back_populates="stats")
