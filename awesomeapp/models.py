@@ -22,11 +22,11 @@ class User(UserMixin, db.Model):
 
 
 class Equipment(db.Model):
-    __tablename__ = 'equipments'
+    __tablename__ = 'equipment'
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', backref='equipments')
+    user = db.relationship('User', backref='equipment')
 
     name = db.Column(db.String(128), nullable=False)
     type = db.Column(db.SmallInteger, nullable=False)  
@@ -38,7 +38,7 @@ class Stats(db.Model):
     __tablename__ = 'stats'
     id = db.Column(db.Integer, primary_key=True)
 
-    equipment_id = db.Column(db.Integer, db.ForeignKey('equipments.id'))
+    equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref='stats')
 
     date = db.Column(db.Date, nullable=False)
@@ -74,7 +74,7 @@ class Story(db.Model):
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
-    src = db.Columnm(db.Text)
+    src = db.Column(db.Text)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     story = db.relationship('Story', backref='images') 
