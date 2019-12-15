@@ -7,12 +7,12 @@ db = SQLAlchemy()
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(30))
-    second_name = db.Column(db.String(30))
+    first_name = db.Column(db.String(64))
+    second_name = db.Column(db.String(64))
     email = db.Column(db.String(40), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.Text)
-    avatar = db.Column(db.String(100))
+    avatar = db.Column(db.String(128))
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -24,19 +24,23 @@ class User(UserMixin, db.Model):
 class Equipment(db.Model):
     __tablename__ = 'equipments'
     id = db.Column(db.Integer, primary_key=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    name = db.Column(db.String, nullable=False)
+    user = db.relationship('User', backref='equipments')
+
+    name = db.Column(db.String(128), nullable=False)
     type = db.Column(db.SmallInteger, nullable=False)  
-    avatar = db.Column(db.String)
+    avatar = db.Column(db.String(128))
     about = db.Column(db.Text)
-    
-    stats = db.relationship("Stats", backref='users')
 
 
 class Stats(db.Model):
     __tablename__ = 'stats'
     id = db.Column(db.Integer, primary_key=True)
+
     equipment_id = db.Column(db.Integer, db.ForeignKey('equipments.id'))
+    equipment = db.relationship('Equipment', backref='stats')
+
     date = db.Column(db.Date, nullable=False)
     distance = db.Column(db.BigInteger)
     time = db.Column(db.BigInteger)
@@ -56,22 +60,21 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    story = db.relationship("Story", uselist=False, back_populates="stats")
+    story = db.relationship('Story', uselist=False, backref='stats')
   
     
 class Story(db.Model):
     __tablename__ = 'stories'
     id = db.Column(db.Integer, primary_key=True)
-    story_text = db.Column(db.Text)
-    
-    images = db.relationship('Image', backref='stories')
-    
+    text = db.Column(db.Text)
+ 
     stats_id = db.Column(db.Integer, db.ForeignKey('stats.id'))
-    stats = db.relationship('Stats', backref='stories')
     
     
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
     src = db.Columnm(db.Text)
+    
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
+    story = db.relationship('Story', backref='images') 
