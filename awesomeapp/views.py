@@ -15,9 +15,10 @@ def index():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if User is not None and user.check_password(form.password.data):
+        if user is not None and user.check_password(form.password.data):
             login_user(user, remember_me=form.remember_me.data)
             desired_page = request.args.get('next')
             if not desired_page or url_parse(desired_page).netloc != '':
@@ -25,5 +26,4 @@ def login():
             return redirect(desired_page)
         flash('Не верный email или пароль')
         return redirect(url_for('login'))
-    form = LoginForm()
     return render_template('login.html', form=form)
