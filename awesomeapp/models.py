@@ -1,6 +1,8 @@
 from awesomeapp import db
+from config import Config
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 
 class User(UserMixin, db.Model):
@@ -11,7 +13,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.Text)
-    avatar = db.Column(db.String(128), default='static/images/default-avatar.png')
+    avatar = db.Column(db.String(128), default=os.path.join(Config.IMAGE_PATH, 'default-avatar.png'))
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -59,7 +61,7 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    story = db.relationship('Story', uselist=False, backref='stats')
+    story = db.relationship('Story', uselist=False, backref='stats', foreign_keys='Story.stats_id')
   
     
 class Story(db.Model):

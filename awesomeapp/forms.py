@@ -1,7 +1,7 @@
 from awesomeapp.models import User
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 
 
@@ -12,7 +12,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField(
         'Повторить пароль', validators=[DataRequired(), EqualTo('password')])
-    about = StringField('Обо мне')
+    about_me = TextAreaField('Обо мне')
     avatar = FileField('Выбьрать файл', validators=[FileAllowed(
         ['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')]
     )
