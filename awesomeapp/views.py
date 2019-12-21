@@ -1,22 +1,20 @@
 from awesomeapp import app, db, login
 from config import Config
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import current_user
 from .models import User
 from .forms import RegistrationForm
 import imghdr
 import os
 
-
 @app.route('/')
 def index():
-    user = User.query.get(1)
-    img = user.avatar
-    return render_template('index.html', title='Твой профиль', img=img)
+    return 'Hello world!'
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        print('1')
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -39,3 +37,7 @@ def register():
             db.session.commit()
         return redirect(url_for('index'))
     return render_template('register.html', title='Регистрация', form=form)
+    
+@app.route('/static/<path>/<filename>')
+def send_static(path, filename):
+    return send_from_directory(f'{Config.STATIC_FOLDER}/{path}', filename)
