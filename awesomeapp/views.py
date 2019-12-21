@@ -1,11 +1,14 @@
-from awesomeapp import app, db, login
-from config import Config
-from flask import render_template, redirect, url_for, send_from_directory
-from flask_login import current_user
-from .models import User
-from .forms import RegistrationForm
 import imghdr
 import os
+
+from flask import render_template, redirect, url_for, send_from_directory
+from flask_login import current_user
+
+from awesomeapp import app, db, login
+from config import Config
+from .models import User
+from .forms import RegistrationForm
+
 
 @app.route('/')
 def index():
@@ -14,7 +17,6 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        print('1')
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
