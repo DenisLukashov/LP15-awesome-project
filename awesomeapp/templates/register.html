@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <title>{{ title }}</title>
+    </head>
+    <body class="text-center">
+        <form class="form-signin" action="" method="post" novalidate enctype="multipart/form-data">
+            <div class ='container'>
+                <br>
+                {{ form.hidden_tag() }}
+                <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
+                <span class="sr-only">{{ form.first_name.label }}</span>
+                {{ form.first_name }}
+                <span class="sr-only">{{ form.second_name.label }}</span>
+                {{ form.second_name }}
+                <span class="sr-only">{{ form.email.label }}</span>
+                {{ form.email }}
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+                <span class="sr-only">{{ form.password.label }}</span>
+                {{ form.password }}
+                <span class="sr-only">{{ form.password2.label }}</span>
+                {{ form.password2 }}<br>
+                {% for error in form.password2.errors %}
+                <span>Пароли должны совпадать</span>
+                {% endfor %}
+                <span class="sr-only">{{ form.about_me.label }}</span>
+                {{ form.about_me }}<br>
+                <p>{{ form.avatar.label }}
+                {{ form.avatar}}<br>
+                <p>{{ form.submit }}
+            </div>
+        </form>
+        
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="/static/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="/static/js/popper.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+    </body>
+</html>

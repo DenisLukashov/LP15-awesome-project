@@ -1,4 +1,15 @@
 import os
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, '<твое название бд>.db')
+
+class Config():
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'awesomeapp.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+        
+    STATIC_FOLDER = 'static'
+    IMAGE_PATH = os.path.join(STATIC_FOLDER, 'images')
+    GLOBAL_IMAGE_PATH = os.path.join(basedir, 'awesomeapp', 'static', 'images')

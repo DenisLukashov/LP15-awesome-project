@@ -1,18 +1,21 @@
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+import os
 
-db = SQLAlchemy()
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from awesomeapp import db
+from config import Config
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(64))
-    second_name = db.Column(db.String(64))
+    first_name = db.Column(db.String(64), default='Я не заполнил имя')
+    second_name = db.Column(db.String(64), default='Я не заполнил фамилию')
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.Text)
-    avatar = db.Column(db.String(128))
+    avatar = db.Column(db.String(128), default=os.path.join(Config.IMAGE_PATH, 'default-avatar.png'))
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -60,7 +63,7 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    story = db.relationship('Story', uselist=False, backref='stats')
+    story = db.relationship('Story', uselist=False, backref='stats', foreign_keys='Story.stats_id')
   
     
 class Story(db.Model):
