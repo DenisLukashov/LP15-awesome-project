@@ -1,8 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-db = SQLAlchemy()
+from awesomeapp import db, login
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -60,7 +63,7 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    story = db.relationship('Story', uselist=False, backref='stats')
+    story = db.relationship('Story', uselist=False, backref='stats', foreign_keys='Story.stats_id')
   
     
 class Story(db.Model):
