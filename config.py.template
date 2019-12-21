@@ -1,4 +1,6 @@
 import os
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -7,7 +9,7 @@ class Config():
     
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'awesomeapp.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
-    IMAGE_PATH = 'static/images'
+        
     STATIC_FOLDER = 'static'
+    IMAGE_PATH = os.path.join(STATIC_FOLDER, 'images')
     GLOBAL_IMAGE_PATH = os.path.join(basedir, 'awesomeapp', 'static', 'images')
