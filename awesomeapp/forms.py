@@ -1,9 +1,36 @@
 from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextField, TextAreaField
+from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, Length
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 
-from awesomeapp.models import User
+from .models import User
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()],
+        render_kw = {
+        'size': 64,
+        'class': 'form-control'
+        }
+    )
+    
+    password = PasswordField('Пароль', validators=[DataRequired()],
+        render_kw = {
+        'class': 'form-control'
+        }
+    )
+    
+    remember_me = BooleanField('Запомнить меня',
+        render_kw = {
+        'class': 'form-check-input'
+        }
+    )
+    
+    submit = SubmitField('Войти',
+        render_kw = {
+        'class': 'btn btn-primary'
+        }                    
+    )
 
 
 class RegistrationForm(FlaskForm):
@@ -46,7 +73,7 @@ class RegistrationForm(FlaskForm):
             'placeholder': 'Обо мне',
             'rows': '3'
         })
-    avatar = FileField('Выбьрать файл', 
+    avatar = FileField('Выбрать файл', 
         validators=[FileAllowed(['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
         render_kw={
             'class': 'form-control-file',
@@ -61,3 +88,4 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Этот адрес электронной почты уже зарегистрирован')
+
