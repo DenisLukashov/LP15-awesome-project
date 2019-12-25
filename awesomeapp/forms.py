@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextF
 from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, Length
 from flask_wtf.file import FileField, FileAllowed
 
-from .models import User
+from awesomeapp.models import User, EquipmentType
 
 
 class LoginForm(FlaskForm):
@@ -109,10 +109,7 @@ class EquipmentForm(FlaskForm):
     
     type = SelectField('Вид спорта',
         validators=[DataRequired()],
-        choices=[('0','Ходьба'), ('1', 'Бег'), ('2', 'Беговая дорожка'),
-                ('3', 'Лыжи'), ('4', 'Лыжероллеры'), ('5', 'Коньки/Ролики'),
-                ('6', 'Велосипед'), ('7', 'Велотренажер')
-            ],
+        choices=[(f'{i.id}',f'{i.type_name}') for i in EquipmentType.query.all()],
         render_kw={
             'class': 'form-control',  
         })

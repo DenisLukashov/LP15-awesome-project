@@ -79,7 +79,7 @@ def equipment():
         equipment = Equipment(
             name=form.name.data,
             user_id=current_user.id,
-            type=int(form.type.data),
+            type_id=int(form.type.data),
             about=form.about.data
         )
         db.session.add(equipment)
