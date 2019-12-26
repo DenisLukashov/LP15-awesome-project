@@ -29,15 +29,34 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
+class EquipmentType(db.Model):
+    __tablename__ = 'equipment_types'
+    id = db.Column(db.Integer, primary_key=True)
+    
+    type_name = db.Column(db.String(32), unique=True)
+
+    
+
+
 class Equipment(db.Model):
     __tablename__ = 'equipment'
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(
+	    db.Integer, 
+	    db.ForeignKey('users.id', ondelete='CASCADE'),
+	    index=True
+    )
     user = db.relationship('User', backref='equipment')
+    
+    type_id = db.Column(
+    	db.Integer,
+    	db.ForeignKey('equipment_types.id', ondelete='CASCADE'),
+    	index=True
+    )
+    type = db.relationship('EquipmentType', backref='equipment')
 
-    name = db.Column(db.String(128), nullable=False)
-    type = db.Column(db.SmallInteger, nullable=False)  
+    name = db.Column(db.String(128), nullable=False) 
     avatar = db.Column(db.String(128))
     about = db.Column(db.Text)
 
@@ -46,7 +65,11 @@ class Stats(db.Model):
     __tablename__ = 'stats'
     id = db.Column(db.Integer, primary_key=True)
 
-    equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'))
+    equipment_id = db.Column(
+		db.Integer,
+		db.ForeignKey('equipment.id', ondelete='CASCADE'),
+		index=True
+    )
     equipment = db.relationship('Equipment', backref='stats')
 
     date = db.Column(db.Date, nullable=False)
@@ -67,7 +90,11 @@ class Stats(db.Model):
     min_altitude = db.Column(db.SmallInteger)
     max_altitude = db.Column(db.SmallInteger)
     
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
+    story_id = db.Column(
+    	db.Integer,
+    	db.ForeignKey('stories.id', ondelete='CASCADE'),
+    	index=True
+    )
     story = db.relationship('Story', uselist=False, backref='stats', foreign_keys='Story.stats_id')
   
     
@@ -76,7 +103,11 @@ class Story(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text)
  
-    stats_id = db.Column(db.Integer, db.ForeignKey('stats.id'))
+    stats_id = db.Column(
+    	db.Integer, 
+    	db.ForeignKey('stats.id', ondelete='CASCADE'), 
+    	index=True
+    )
     
     
 class Image(db.Model):
@@ -84,5 +115,9 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     src = db.Column(db.Text)
     
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
+    story_id = db.Column(
+    	db.Integer,
+		db.ForeignKey('stories.id', ondelete='CASCADE'), 
+		index=True
+    )
     story = db.relationship('Story', backref='images') 
