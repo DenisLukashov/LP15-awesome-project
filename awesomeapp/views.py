@@ -11,7 +11,6 @@ from .forms import RegistrationForm, LoginForm,  EquipmentForm, Statistics
 from .models import User, Equipment, Stats, Story, Image
 
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
