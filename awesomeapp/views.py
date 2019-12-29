@@ -1,15 +1,15 @@
-
 import imghdr
 import os
 
 from flask import render_template, redirect, url_for, send_from_directory, request, flash
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from awesomeapp import app, db, login
 from config import Config
-from .models import User, Stats, Story, Image
-from .forms import RegistrationForm, LoginForm, Statistics
+from .forms import RegistrationForm, LoginForm,  EquipmentForm, Statistics
+from .models import User, Equipment, Stats, Story, Image
+
 
 
 @app.route('/')
@@ -34,7 +34,6 @@ def login():
             return redirect(desired_page)
         flash('Не верный email или пароль')
         return redirect(url_for('login'))
-    
     return render_template('login.html', title='Войти', form=form)
 
 
@@ -125,6 +124,33 @@ def convert_to_meter(value):
     if value is None:
         return None
     return value*1000
+
+@app.route('/equipment', methods=['GET', 'POST'])
+@login_required
+def equipment():
+    form = EquipmentForm()
+    if form.validate_on_submit():
+        equipment = Equipment(
+            name=form.name.data,
+            user_id=current_user.id,
+            type_id=int(form.type.data),
+            about=form.about.data
+        )
+        db.session.add(equipment)
+        db.session.commit()
+        equipment_avatar = form.avatar.data
+        if equipment_avatar:
+            equipment_avatar_type = imghdr.what(equipment_avatar)
+            equipment_avatar_file = f'{equipment.id}.{equipment_avatar_type}'
+            equipment_avatar.save(os.path.join(Config.GLOBAL_ICON_PATH, equipment_avatar_file))
+            equipment_avatar_path = os.path.join(Config.ICON_PATH, equipment_avatar_file)
+        else:
+            equipment_avatar_path = os.path.join(Config.ICON_PATH, Config.STOCK_ICON.get(form.type.data))
+        equipment.avatar = equipment_avatar_path
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('equipment.html', title='Инвентарь', form=form)
+
 
 @app.route('/static/<path>/<filename>')
 def send_static(path, filename):
