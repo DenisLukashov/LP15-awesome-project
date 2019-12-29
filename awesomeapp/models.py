@@ -50,17 +50,21 @@ class Stats(db.Model):
     equipment = db.relationship('Equipment', backref='stats')
 
     date = db.Column(db.Date, nullable=False)
+    
     distance = db.Column(db.BigInteger)
     time = db.Column(db.BigInteger)
     total_time = db.Column(db.BigInteger)
     max_speed = db.Column(db.BigInteger)
     steps = db.Column(db.BigInteger)
+    
     avg_cadence = db.Column(db.SmallInteger)
     max_cadence = db.Column(db.SmallInteger)
     avg_heart_rate = db.Column(db.SmallInteger)
     max_heart_rate = db.Column(db.SmallInteger)
+    
     max_temperature = db.Column(db.Float)
     min_temperature = db.Column(db.Float)
+    
     start_altitude = db.Column(db.SmallInteger)
     total_up_altitude = db.Column(db.SmallInteger)
     total_down_altitude = db.Column(db.SmallInteger)
@@ -82,7 +86,7 @@ class Story(db.Model):
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
-    src = db.Column(db.Text)
+    src = db.Column(db.Text, nullable=False)
     
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     story = db.relationship('Story', backref='images') 
