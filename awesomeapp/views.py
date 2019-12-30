@@ -77,10 +77,10 @@ def equipment():
     form = EquipmentForm()
     if form.validate_on_submit():
         equipment = Equipment(
-            name=form.name.data,
-            user_id=current_user.id,
-            type_id=int(form.type.data),
-            about=form.about.data
+			name=form.name.data,
+			user_id=current_user.id,
+			type_id=int(form.type.data),
+			about=form.about.data
         )
         db.session.add(equipment)
         db.session.commit()
