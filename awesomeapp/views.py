@@ -117,13 +117,14 @@ def convert_to_seconds(time):
     if not time:
         return None
     unit_of_time = [int(x) for x in time.split(':')]
-    if unit_of_time < 3:
+    if len(unit_of_time) < 3:
         unit_of_time.append(0)
-    time = timedelta(hours=time[0], minutes=time[1], seconds=time[2])
-    return time.total_seconds()
+    hours, minutes, seconds = unit_of_time
+    time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+    return int(time.total_seconds())
 
 def convert_to_meter(value):
-    return None if value is None else value*1000
+    return None if value is None else value * 1000
 
 
 @app.route('/equipment', methods=['GET', 'POST'])
