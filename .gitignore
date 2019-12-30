@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 .vscode/
-awesomeapp/static
 
 config.py
 *.db
