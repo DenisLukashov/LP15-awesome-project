@@ -1,9 +1,15 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, \
-    TextField, TextAreaField, FloatField, IntegerField, MultipleFileField, SelectField
+from wtforms import (
+    StringField, PasswordField, BooleanField, SubmitField,
+    TextField, TextAreaField, FloatField, IntegerField, 
+    MultipleFileField, SelectField
+    )
 from wtforms.fields.html5 import DateField
-from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, Length, optional
+from wtforms.validators import (
+    ValidationError, DataRequired, Email, 
+    EqualTo, Length, optional
+    )
 
 from awesomeapp.models import User, EquipmentType
 
@@ -272,7 +278,7 @@ class Statistics(FlaskForm):
         }
     )
 
-    photoes = MultipleFileField('Фотографии',
+    photo = MultipleFileField('Фотографии',
         validators=[FileAllowed(['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
         render_kw={
             'class': 'form-control-file',

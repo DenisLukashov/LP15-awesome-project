@@ -1,3 +1,4 @@
+from datetime import timedelta
 import imghdr
 import os
 
@@ -22,7 +23,7 @@ def login():
         return redirect(url_for('index'))
     
     form = LoginForm()
-    
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
@@ -76,30 +77,30 @@ def set_stats():
             text = form.story.data
         )
         stats = Stats(
-            date = form.date.data,
-            distance = convert_to_meter(form.distance.data),
-            time = convert_to_seconds(form.time.data),
-            total_time = convert_to_seconds(form.total_time.data),
-            max_speed = convert_to_meter(form.max_speed.data),
-            steps = form.steps.data,
-            avg_cadence = form.avg_cadence.data,
-            max_cadence = form.max_cadence.data,
-            avg_heart_rate = form.avg_heart_rate.data,
-            max_heart_rate = form.max_heart_rate.data,
-            max_temperature = form.max_temperature.data,
-            min_temperature = form.min_temperature.data,
-            start_altitude = form.start_altitude.data,
-            total_up_altitude = form.total_up_altitude.data,
-            total_down_altitude = form.total_down_altitude.data,
-            min_altitude = form.min_altitude.data,
-            max_altitude = form.max_altitude.data,
+            date=form.date.data,
+            distance=convert_to_meter(form.distance.data),
+            time=convert_to_seconds(form.time.data),
+            total_time=convert_to_seconds(form.total_time.data),
+            max_speed=convert_to_meter(form.max_speed.data),
+            steps=form.steps.data,
+            avg_cadence=form.avg_cadence.data,
+            max_cadence=form.max_cadence.data,
+            avg_heart_rate=form.avg_heart_rate.data,
+            max_heart_rate=form.max_heart_rate.data,
+            max_temperature=form.max_temperature.data,
+            min_temperature=form.min_temperature.data,
+            start_altitude=form.start_altitude.data,
+            total_up_altitude=form.total_up_altitude.data,
+            total_down_altitude=form.total_down_altitude.data,
+            min_altitude=form.min_altitude.data,
+            max_altitude=form.max_altitude.data,
         )
         db.session.add(story)
         db.session.commit()
         db.session.add(stats)
         db.session.commit()
-        images = form.photoes.data
-        if str(images[0]).find('application/octet-stream') == -1:
+        images = form.photo.data
+        if images[0].mimetype != 'application/octet-stream':
             for image in images:
                 img = Image()
                 db.session.add(img)
@@ -116,13 +117,14 @@ def convert_to_seconds(time):
     if not time:
         return None
     unit_of_time = [int(x) for x in time.split(':')]
-    coefficient = [3600, 60 , 1]
-    return sum(x * y for x, y in zip(unit_of_time, coefficient))
+    if unit_of_time < 3:
+        unit_of_time.append(0)
+    time = timedelta(hours=time[0], minutes=time[1], seconds=time[2])
+    return time.total_seconds()
 
 def convert_to_meter(value):
-    if value is None:
-        return None
-    return value*1000
+    return None if value is None else value*1000
+
 
 @app.route('/equipment', methods=['GET', 'POST'])
 @login_required
