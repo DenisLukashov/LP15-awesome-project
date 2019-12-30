@@ -1,43 +1,45 @@
-
+<!doctype html>
 <html lang="ru">
   <head>
-    <!-- Required meta tags -->
+  <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+  <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     
-    
-    <title>{{ page_title }}</title>
-</head>
-<body>
+    <title>{{ title }}</title>
+  </head>
+  <body class="text-center">
     <div class ='container'>
-        <form action='' method='post' novalidate>
-        {{ form.hidden_tag() }}
-
-        <div class="form-group">
-            {{ form.email.label }}<br>
-            {{ form.email }}<br>
-            {% for error in form.email.errors %}
-              {{ error }}
-            {% endfor %}
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-3">
+          <form action='' method='post' novalidate class="form-signin">
+            {{ form.hidden_tag() }}
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
+            <div class="form-group">
+              <span class="sr-only">{{ form.email.label }}</span>  
+              {{ form.email }}
+              {% for error in form.email.errors %}
+                {{ error }}
+              {% endfor %}
+              <span class="sr-only">{{ form.password.label }}</span> 
+              {{ form.password }}
+              {% for error in form.password.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ form.remember_me }} {{ form.remember_me.label}}
+            </div>
+            <p>{{ form.submit }}</p>
+          </form>
         </div>
-
-        <div class="form-group">
-            {{ form.password.label }}<br>
-            {{ form.password }}<br>
-            {% for error in form.password.errors %}
-              {{ error }}
-            {% endfor %}
-        </div>
-
-        {{ form.remember_me }} {{ form.remember_me.label}}
-
-        <p>{{ form.submit }}</p>
-    </form>
-    <a href="{{ url_for('register') }}">Registration</a>
+        <div class="col"></div>
+      </div>
+      <div class="row"></div>
     </div>
+      
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="/static/js/jquery-3.3.1.slim.min.js"></script>

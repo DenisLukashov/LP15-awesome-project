@@ -11,5 +11,21 @@ class Config():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
         
     STATIC_FOLDER = 'static'
+    GLOBAL_PATH = os.path.join(basedir, 'awesomeapp')
+    
     IMAGE_PATH = os.path.join(STATIC_FOLDER, 'images')
-    GLOBAL_IMAGE_PATH = os.path.join(basedir, 'awesomeapp', 'static', 'images')
+    EQUIPMENT_IMAGE_PATH = os.path.join(IMAGE_PATH, 'equipment')
+    STORY_IMAGE_PATH = os.path.join(IMAGE_PATH, 'story')
+
+    GLOBAL_ICON_PATH = os.path.join(basedir, 'awesomeapp', 'static', 'icons')
+    ICON_PATH = os.path.join(STATIC_FOLDER, 'icons')
+    STOCK_ICON = {
+        '1':'e1.png',
+        '2':'e2.png',
+        '3':'e3.png',
+        '4':'e4.png',
+        '5':'e5.png',
+        '6':'e6.png',
+        '7':'e7.png',
+        '8':'e8.png'
+    }
