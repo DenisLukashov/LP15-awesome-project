@@ -128,8 +128,7 @@ class EquipmentForm(FlaskForm):
     
     type = SelectField('Вид спорта',
         validators=[DataRequired()],
-        # choices=[(f'{equipment_type.id}',f'{equipment_type.type_name}') for equipment_type in EquipmentType.query.all()],
-        choices = [('1', 'stub')]
+        choices=[(f'{equipment_type.id}',f'{equipment_type.type_name}') for equipment_type in EquipmentType.query.all()],
         render_kw={
             'class': 'form-control',  
         }
