@@ -56,7 +56,7 @@ def statistics():
         images = form.photo.data
         if images[0].mimetype != 'application/octet-stream':
             for image in images:
-                img = Image(story_id = story.id)
+                img = Image(story_id=story.id)
                 db.session.add(img)
                 db.session.commit()
                 file_type = imghdr.what(image)
