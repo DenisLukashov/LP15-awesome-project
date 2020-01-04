@@ -15,7 +15,10 @@ blueprint = Blueprint('equipment', __name__)
 @login_required
 def equipment():
     form = EquipmentForm()
-    form.type.choices = [(f'{equipment_type.id}',f'{equipment_type.type_name}') for equipment_type in EquipmentType.query.all()]
+    form.type.choices = [
+        (f'{equipment_type.id}',f'{equipment_type.type_name}') 
+        for equipment_type in EquipmentType.query.all()
+    ]
     if form.validate_on_submit():
         equipment = Equipment(
 			name=form.name.data,
@@ -29,10 +32,20 @@ def equipment():
         if equipment_avatar:
             equipment_avatar_type = imghdr.what(equipment_avatar)
             equipment_avatar_file = f'{equipment.id}.{equipment_avatar_type}'
-            equipment_avatar.save(os.path.join(Config.GLOBAL_ICON_PATH, equipment_avatar_file))
-            equipment_avatar_path = os.path.join(Config.ICON_PATH, equipment_avatar_file)
+            equipment_avatar.save(os.path.join(
+                Config.GLOBAL_PATH,
+                Config.EQUIPMENT_ICON_PATH, 
+                equipment_avatar_file)
+            )
+            equipment_avatar_path = os.path.join(
+                Config.EQUIPMENT_ICON_PATH, 
+                equipment_avatar_file
+            )
         else:
-            equipment_avatar_path = os.path.join(Config.ICON_PATH, Config.STOCK_ICON.get(form.type.data))
+            equipment_avatar_path = os.path.join(
+                Config.EQUIPMENT_ICON_PATH, 
+                Config.STOCK_ICON.get(form.type.data)
+            )
         equipment.avatar = equipment_avatar_path
         db.session.commit()
         return redirect(url_for('dev.index'))
