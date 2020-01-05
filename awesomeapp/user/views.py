@@ -11,7 +11,7 @@ from awesomeapp.user.models import User
 from awesomeapp.user.forms import RegistrationForm, LoginForm
 from awesomeapp.utils import get_redirect_target
 
-blueprint = Blueprint('user', __name__, url_prefix='/users')
+blueprint = Blueprint('user', __name__, url_prefix='/users',template_folder='templates')
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])

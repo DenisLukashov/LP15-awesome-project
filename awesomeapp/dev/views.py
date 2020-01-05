@@ -3,12 +3,12 @@ from flask_login import login_required
 
 from config import Config
 
-blueprint = Blueprint('dev', __name__)
+blueprint = Blueprint('dev', __name__,template_folder='templates')
 
 
 @blueprint.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('dev/index.html')
 
 
 @blueprint.route('/static/<path>/<filename>')

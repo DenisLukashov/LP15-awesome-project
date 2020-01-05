@@ -9,7 +9,7 @@ from config import Config
 from awesomeapp.equipment.forms import EquipmentForm
 from awesomeapp.equipment.models import Equipment, EquipmentType
 
-blueprint = Blueprint('equipment', __name__)
+blueprint = Blueprint('equipment', __name__, template_folder='templates')
 
 @blueprint.route('/equipment', methods=['GET', 'POST'])
 @login_required

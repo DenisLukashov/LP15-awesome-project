@@ -12,7 +12,7 @@ from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import convert_to_meter, convert_to_seconds
 
-blueprint = Blueprint('statistics', __name__)
+blueprint = Blueprint('statistics', __name__, template_folder='templates')
 
 
 @blueprint.route('/stats', methods=['GET', 'POST']) 
