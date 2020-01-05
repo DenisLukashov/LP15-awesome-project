@@ -1,9 +1,8 @@
 import imghdr
 import os
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.urls import url_parse
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import current_user, login_user, logout_user
 
 from awesomeapp.extensions import db
 from config import Config
@@ -17,8 +16,8 @@ blueprint = Blueprint('user', __name__, url_prefix='/users',template_folder='tem
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dev.index'))
-    
+        return redirect(url_for('index.index'))
+
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -40,7 +39,7 @@ def logout():
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('dev.index'))
+        return redirect(url_for('index.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
