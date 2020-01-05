@@ -15,10 +15,9 @@ class Config():
     
     IMAGE_PATH = os.path.join(STATIC_FOLDER, 'images')
     EQUIPMENT_IMAGE_PATH = os.path.join(IMAGE_PATH, 'equipment')
+    EQUIPMENT_ICON_PATH = os.path.join(EQUIPMENT_IMAGE_PATH, 'icons')
     STORY_IMAGE_PATH = os.path.join(IMAGE_PATH, 'story')
 
-    GLOBAL_ICON_PATH = os.path.join(basedir, 'awesomeapp', 'static', 'icons')
-    ICON_PATH = os.path.join(STATIC_FOLDER, 'icons')
     STOCK_ICON = {
         '1':'e1.png',
         '2':'e2.png',

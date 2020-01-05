@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 def convert_to_seconds(time):
     if not time:
         return None

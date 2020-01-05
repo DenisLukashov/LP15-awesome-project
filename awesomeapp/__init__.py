@@ -9,7 +9,6 @@ from awesomeapp.user.views import blueprint as user_blueprint
 from awesomeapp.dev.views import blueprint as dev_blueprint
 
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -30,9 +29,8 @@ def create_app():
     @login.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
-
     
+
     return app
 
 app = create_app()
-

@@ -45,3 +45,4 @@ class EquipmentForm(FlaskForm):
             'class': 'btn btn-lg btn-primary btn-block'
         }
     )
+    

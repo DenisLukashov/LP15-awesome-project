@@ -56,7 +56,7 @@ class Story(db.Model):
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
-    src = db.Column(db.Text, nullable=False)
+    src = db.Column(db.Text)
     
     story_id = db.Column(
     	db.Integer,

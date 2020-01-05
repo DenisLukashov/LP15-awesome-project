@@ -20,9 +20,6 @@ blueprint = Blueprint('statistics', __name__)
 def statistics():
     form = StatisticsForm()
     if form.validate_on_submit():
-        story = Story(
-            text = form.story.data
-        )
         stats = Stats(
             date=form.date.data,
             distance=convert_to_meter(form.distance.data),
@@ -42,14 +39,24 @@ def statistics():
             min_altitude=form.min_altitude.data,
             max_altitude=form.max_altitude.data,
         )
-        db.session.add(story)
-        db.session.commit()
         db.session.add(stats)
         db.session.commit()
+        
+        story = Story(
+            text=form.story.data,
+            stats_id=stats.id
+        )
+        db.session.add(story)
+        db.session.commit()
+        
+        stats.story_id = story.id
+        db.session.add(stats)
+        db.session.commit()
+
         images = form.photo.data
         if images[0].mimetype != 'application/octet-stream':
             for image in images:
-                img = Image()
+                img = Image(story_id=story.id)
                 db.session.add(img)
                 db.session.commit()
                 file_type = imghdr.what(image)
