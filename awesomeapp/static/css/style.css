@@ -1,0 +1,13 @@
+footer {
+    /* Позиционируем footer внизу main */
+    position: absolute;
+    background-color: rgb(23, 163, 126);
+    bottom: 0;
+    width: 100%;
+    /* Высота footer */
+    height: 3%;
+  }
+
+  nav {
+    background-color: rgb(23, 163, 126);
+  }
