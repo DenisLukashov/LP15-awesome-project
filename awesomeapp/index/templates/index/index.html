@@ -16,13 +16,11 @@
 
     {% include('menu.html') %}
     <div class="owl-carousel owl-theme">
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
+        <div> test </div>
+        <div> test </div>
+        <div> test </div>
+        <div> test </div>
+        
     </div>
     <div class ='container'>
       {% block content %}
@@ -38,9 +36,26 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/owl.carousel.min.js"></script>
     <script>
-      $(document).ready(function(){
-        $(".owl-carousel").owlCarousel();
-      });
+        $('.owl-carousel').owlCarousel({
+          loop:true,
+          margin:10,
+          responsiveClass:true,
+          responsive:{
+              0:{
+                  items:1,
+                  nav:true
+              },
+              600:{
+                  items:3,
+                  nav:false
+              },
+              1000:{
+                  items:5,
+                  nav:true,
+                  loop:false
+              }
+          }
+      })
     </script>
   </body>
 </html>
