@@ -1,16 +1,52 @@
-.container-fluid {
-    height: 100%;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-.row-first {
-    height:30%;
-    overflow: hidden;
-    border: 2px solid black;
-  }
-
-.row{
-    margin-left: 0;
-    margin-right: 0;
+html, body {
+  height: 100%;
 }
+
+.container-fluid {
+  height: 91%;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid red;
+}
+
+.user{
+  background-color: rgba(0,0,255,.3);
+  border: 1px solid black;
+  width: 30%;
+  height: 50%;
+
+}
+
+.ava{
+  height:35%;
+  width: 80%;
+}
+
+.equipment-carousel{
+  background-color: rgba(0,0,255,.3);
+  border: 1px solid black;
+  height: 30%;
+  width: 70%;
+  
+  position: absolute; 
+  top: 0%;
+  right:0; 
+}
+
+.sport-zone{
+  background-color: rgba(155,0,255,.3);
+  border: 1px solid black;
+  width: 30%;
+  height: 50%;
+}
+
+.view-zone{
+  background-color: rgba(188,1,255,.3);
+  border: 1px solid gold;
+  height: 85%;
+  width: 70%;
+  position: absolute;
+  top: 30%;
+  right: 0; 
+} 

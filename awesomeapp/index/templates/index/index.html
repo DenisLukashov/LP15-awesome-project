@@ -16,19 +16,40 @@
   <body class="text-center">
 
     {% include('menu.html') %}
-    <div class="container">
-    <div class="owl-carousel owl-theme">
-        <div> test </div>
-        <div> test </div>
-        <div> test </div>
-        <div> test </div>
-        <div> test </div>
-        <div> test </div>    
+    <div class="container-fluid">
+
+
+    <div class="user">
+      <p><img class="ava" src="/{{ current_user.avatar }}" alt=""></p>
+      <p>Имя - {{ current_user.first_name }}, Фамилия - {{ current_user.second_name }}</p>
+      <p>{{ current_user.about_me }}</p>
     </div>
 
-      {% block content %}
-      {% endblock %}
+    <div class='equipment-carousel'>
+
+      <div class="owl-carousel owl-theme">
+        {% for equip in equips %}
+          <!-- <img src="{{ equip.avatar }}" alt=""> -->
+          {{ equip.avatar }}
+        {% endfor %}
     </div>
+
+    </div>
+
+    <div class='sport-zone'>
+      <img src="/static/images/equipment/icons/e3.png" alt="">
+    </div>
+
+    <div class="view-zone">
+      аываываываыва
+    </div>
+
+
+  </div>
+
+    <!-- {% block content %}
+    {% endblock %} -->
+ 
 
     {% include('footer.html') %}
         
