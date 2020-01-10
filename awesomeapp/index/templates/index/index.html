@@ -29,10 +29,10 @@
 
       <div class="owl-carousel owl-theme">
         {% for equip in equips %}
-          <!-- <img src="{{ equip.avatar }}" alt=""> -->
-          {{ equip.avatar }}
+           <a href="url_for(statics., stat_id=equip.id)"><img src="/{{ equip.avatar }}" alt="huy"></a>
+          <!-- {{ equip.avatar }} -->
         {% endfor %}
-    </div>
+      </div>
 
     </div>
 
@@ -41,14 +41,12 @@
     </div>
 
     <div class="view-zone">
-      аываываываыва
+      {% block content %}
+      {% endblock %}
     </div>
 
 
   </div>
-
-    <!-- {% block content %}
-    {% endblock %} -->
  
 
     {% include('footer.html') %}
