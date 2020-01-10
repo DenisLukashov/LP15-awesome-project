@@ -1,5 +1,12 @@
 from urllib.parse import urlparse, urljoin
 from flask import request
+from flask_login import current_user
+
+#from awesomeapp import app
+#from awesomeapp.extensions import db
+
+from awesomeapp.equipment.models import Equipment
+
 
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
@@ -12,3 +19,8 @@ def get_redirect_target():
             continue
         if is_safe_url(target):
             return target
+
+def get_eqips():
+    return Equipment.query.filter(Equipment.user_id == current_user.id).all()
+
+
