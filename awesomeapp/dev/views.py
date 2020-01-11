@@ -19,6 +19,6 @@ def send_static(path, filename):
 @blueprint.route('/')
 def start_page():
     if current_user.is_authenticated:
-        return redirect(url_for('index.index'))
+        return redirect(url_for('equipment.equipment'))
     else:
         return redirect(url_for('user.visit'))
