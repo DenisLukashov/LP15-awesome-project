@@ -39,16 +39,16 @@
           <div class='equipment-carousel'>
             <div class="owl-carousel owl-theme">
               {% for equip in equips %}
-                <a href="url_for(statics., stat_id=equip.id)"><img class="equip_pic" src="/{{ equip.avatar }}" alt="pic"></a>
+                <a href="{{ url_for('statistics.add', id=equip.id) }}"><img class="equip_pic" src="/{{ equip.avatar }}" alt="{{ equip.id }}"></a>
               {% endfor %}
-              <img class="equip_plus" src="/static/images/add.png" alt="">
+              <a href="{{ url_for('equipment.equipment') }}"><img class="equip_plus" src="/static/images/add.png" alt=""></a>
             </div>
           </div>
           <div class="view-zone">
             {% block content %}
             {% endblock %}
           </div>
-        </div> 
+        </div>
       </div>
     </div>
 
