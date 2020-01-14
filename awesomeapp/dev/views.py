@@ -1,14 +1,13 @@
 from flask import (
     Blueprint,
-    redirect, 
-    render_template, 
-    send_from_directory, 
+    redirect,
+    send_from_directory,
     url_for
 )
 from flask_login import current_user
 
-from awesomeapp.utils import get_last_qeuip
 from config import Config
+from awesomeapp.equipment.models import Equipment
 
 blueprint = Blueprint('dev', __name__, template_folder='templates')
 
@@ -21,9 +20,9 @@ def send_static(path, filename):
 @blueprint.route('/')
 def start_page():
     if current_user.is_authenticated:
-        last_qeuip = get_last_qeuip()
-        if last_qeuip:
-           return redirect(url_for('statistics.add', id=last_qeuip.id))
+        last_equipment = Equipment.get_last_equipment()
+        if last_equipment:
+            return redirect(url_for('statistics.add', id=last_equipment.id))
         return redirect(url_for('equipment.equipment'))
     else:
         return redirect(url_for('user.visit'))

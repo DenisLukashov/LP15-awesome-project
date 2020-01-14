@@ -1,9 +1,8 @@
-from datetime import timedelta
 import imghdr
 import os
 
 from flask import Blueprint, render_template, redirect, url_for
-from flask_login import current_user, login_required
+from flask_login import login_required
 
 from awesomeapp.extensions import db
 from config import Config
@@ -11,18 +10,19 @@ from .forms import StatisticsForm
 from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import convert_to_meter, convert_to_seconds
-from awesomeapp.utils import get_equips, get_equip_by_id
-
-blueprint = Blueprint('statistics', __name__, template_folder='templates', url_prefix='/stats')
 
 
-@blueprint.route('/add/<id>', methods=['GET', 'POST'])
+blueprint = Blueprint('statistics', __name__,
+                      template_folder='templates', url_prefix='/stats')
+
+
+@blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
 @login_required
 def add(id):
     form = StatisticsForm()
     if form.validate_on_submit():
         stats = Stats(
-            equipment_id=int(id),
+            equipment_id=id,
             date=form.date.data,
             distance=convert_to_meter(form.distance.data),
             time=convert_to_seconds(form.time.data),
@@ -63,7 +63,8 @@ def add(id):
                 db.session.commit()
                 file_type = imghdr.what(image)
                 filename = f'{img.id}.{file_type}'
-                image.save(os.path.join(Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, filename))
+                image.save(os.path.join(Config.GLOBAL_PATH,
+                                        Config.STORY_IMAGE_PATH, filename))
                 img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
                 db.session.add(img)
                 db.session.commit()
