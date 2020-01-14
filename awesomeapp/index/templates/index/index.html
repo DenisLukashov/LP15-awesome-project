@@ -30,7 +30,7 @@
       <div class="owl-carousel owl-theme">
         <img src="/static/images/add.png" alt="">
         {% for equip in equips %}
-           <a href="url_for(statics., stat_id=equip.id)"><img src="/{{ equip.avatar }}" alt="huy"></a>
+           <a href="{{ url_for('statistics.add', id=equip.id) }}"><img src="/{{ equip.avatar }}" alt="{{ equip.id }}"></a>
           <!-- {{ equip.avatar }} -->
         {% endfor %}
       </div>
@@ -39,12 +39,13 @@
 
     <div class='sport-zone'>
       {% if equip %}
-        {% if not equip.name %}
-          {{ equip }}
-        {% endif %}
         <img src="/{{ equip.avatar }}" alt="">
         {{ equip.name }}
         {{ equip.about }}
+      {% else %}
+        <img src="/{{ last_equip.avatar }}" alt="">
+        {{ last_equip.name }}
+        {{ last_equip.about }}
       {% endif %}
     </div>
 
