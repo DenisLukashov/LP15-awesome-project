@@ -20,9 +20,7 @@ blueprint = Blueprint('statistics', __name__, template_folder='templates', url_p
 @login_required
 def add(id):
     form = StatisticsForm()
-    print('&&&&&&&&&&&&&&&')
     if form.validate_on_submit():
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         stats = Stats(
             equipment_id=int(id),
             date=form.date.data,
@@ -70,5 +68,8 @@ def add(id):
                 db.session.add(img)
                 db.session.commit()
         return redirect(url_for('equipment.equipment'))
-    return render_template('statistics/stats.html', title='Ввод данных',
-        form=form, equips=get_equips(), equip=get_equip_by_id(id))
+    return render_template('statistics/stats.html',
+                           title='Ввод данных',
+                           form=form,
+                           all_equipment=Equipment.get_all_user_equipment(),
+                           equipment_by_id=Equipment.get_equipment_by_id(id))

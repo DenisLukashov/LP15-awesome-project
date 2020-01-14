@@ -38,8 +38,8 @@ class Stats(db.Model):
     	db.ForeignKey('stories.id', ondelete='CASCADE'),
     	index=True
     )
-    story = db.relationship('Story', uselist=False, 
-                        backref='stats', foreign_keys='Story.stats_id')
+    story = db.relationship('Story', uselist=False,
+                            backref='stats', foreign_keys='Story.stats_id')
 
 
 class Story(db.Model):

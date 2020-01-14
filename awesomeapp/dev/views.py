@@ -1,13 +1,14 @@
 from flask import (
-    send_from_directory, 
     Blueprint,
-    render_template, 
     redirect, 
+    render_template, 
+    send_from_directory, 
     url_for
 )
 from flask_login import current_user
-from config import Config
+
 from awesomeapp.utils import get_last_qeuip
+from config import Config
 
 blueprint = Blueprint('dev', __name__, template_folder='templates')
 
@@ -15,7 +16,7 @@ blueprint = Blueprint('dev', __name__, template_folder='templates')
 @blueprint.route('/static/<path>/<filename>')
 def send_static(path, filename):
     return send_from_directory(f'{Config.STATIC_FOLDER}/{path}', filename)
-    # return send_from_directory(f'static/{path}', filename)
+
 
 @blueprint.route('/')
 def start_page():

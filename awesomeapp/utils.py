@@ -1,8 +1,5 @@
 from urllib.parse import urlparse, urljoin
 from flask import request
-from flask_login import current_user
-
-from awesomeapp.equipment.models import Equipment
 
 
 def is_safe_url(target):
@@ -18,12 +15,3 @@ def get_redirect_target():
         if is_safe_url(target):
             return target
 
-
-def get_equips():
-    return Equipment.query.filter(Equipment.user_id == current_user.id).all()
-
-def get_last_qeuip():
-    return Equipment.query.filter(Equipment.user_id == current_user.id).order_by(Equipment.id.desc()).first()
-
-def get_equip_by_id(id):
-    return Equipment.query.get(id)

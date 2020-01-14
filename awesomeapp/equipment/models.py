@@ -1,3 +1,5 @@
+from flask_login import current_user
+
 from awesomeapp.extensions import db
 
 
@@ -29,4 +31,17 @@ class Equipment(db.Model):
     name = db.Column(db.String(128), nullable=False) 
     avatar = db.Column(db.String(128))
     about = db.Column(db.Text)
+    
+    @staticmethod
+    def get_all_user_equipment():
+        return Equipment.query.filter(Equipment.user_id == current_user.id).all()
+        
+    @staticmethod
+    def get_last_equipment():
+        return Equipment.query.filter(Equipment.user_id == current_user.id).order_by(Equipment.id.desc()).first()
+    
+    @staticmethod
+    def get_equipment_by_id(id):
+        return Equipment.query.get(id)
+        
     

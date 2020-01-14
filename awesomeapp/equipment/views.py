@@ -52,5 +52,7 @@ def equipment():
         db.session.commit()
         return redirect(get_redirect_target())
     
-    return render_template('equipment/equipment.html', title='Инвентарь',
-            form=form, equips=get_equips(), last_equip= get_last_qeuip())
+    return render_template('equipment/equipment.html',
+                           title='Инвентарь', form=form,
+                           all_equipment=Equipment.get_all_user_equipment(),
+                           last_equipment=Equipment.get_last_equipment())
