@@ -11,16 +11,20 @@ from .forms import StatisticsForm
 from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import convert_to_meter, convert_to_seconds
+from awesomeapp.utils import get_equips, get_equip_by_id
 
-blueprint = Blueprint('statistics', __name__, template_folder='templates')
+blueprint = Blueprint('statistics', __name__, template_folder='templates', url_prefix='/stats')
 
 
-@blueprint.route('/stats', methods=['GET', 'POST']) 
+@blueprint.route('/add/<id>', methods=['GET', 'POST'])
 @login_required
-def statistics():
+def add(id):
     form = StatisticsForm()
+    print('&&&&&&&&&&&&&&&')
     if form.validate_on_submit():
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         stats = Stats(
+            equipment_id=int(id),
             date=form.date.data,
             distance=convert_to_meter(form.distance.data),
             time=convert_to_seconds(form.time.data),
@@ -41,14 +45,14 @@ def statistics():
         )
         db.session.add(stats)
         db.session.commit()
-        
+
         story = Story(
             text=form.story.data,
             stats_id=stats.id
         )
         db.session.add(story)
         db.session.commit()
-        
+
         stats.story_id = story.id
         db.session.add(stats)
         db.session.commit()
@@ -65,4 +69,6 @@ def statistics():
                 img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
                 db.session.add(img)
                 db.session.commit()
-    return render_template('statistics/stats.html', title='Ввод данных', form=form)
+        return redirect(url_for('equipment.equipment'))
+    return render_template('statistics/stats.html', title='Ввод данных',
+        form=form, equips=get_equips(), equip=get_equip_by_id(id))
