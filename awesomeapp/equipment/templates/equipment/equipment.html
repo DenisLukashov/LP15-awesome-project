@@ -1,37 +1,33 @@
 {% extends "index/index.html" %}
 {% block content %}
-        <form  action="" method="post" novalidate enctype="multipart/form-data">
-            <div class ='container'>
-                <br>
+    <div class="row align-items-center">
+        <div class="col-sm"></div>
+        <div class="col-sm-6">
+            <form  action="" method="post" novalidate enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
-                <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
+                <p class="h3 mb-3 font-weight-normal">{{ title }}
 
                 <div class="form-group">
-                    {{ form.name.label }}<br>
-                    {{ form.name }}<br>
+                    <span class="sr-only">{{ form.name.label }}</span>
+                    {{ form.name }}
                     {% for error in form.name.errors %}
-                    {{ error }}
+                    <span>{{ error }}</span>
                     {% endfor %}
-                </div>
 
-                <div class="form-group">
-                    {{ form.type.label }}
+                    <span class="sr-only">{{ form.type.label }}</span>
                     {{ form.type }}
-                </div>
 
-                
-                <div class="custom-file">
+                    <p>{{ form.avatar.label() }}
                     {{ form.avatar}}
-                    {{ form.avatar.label(class_="custom-file-label") }}
-                </div>
-                <br>
+                    
 
-                <div class="form-group">
-                    {{ form.about.label }}
+                    <span class="sr-only">{{ form.about.label }}</span>
                     {{ form.about }}
-                </div>
                 
-                <p>{{ form.submit }}
-            </div>
-        </form>
-        {% endblock %}
+                    <p>{{ form.submit }}
+                </div>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+{% endblock %}

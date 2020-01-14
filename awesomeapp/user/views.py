@@ -26,7 +26,7 @@ def login():
             return redirect(get_redirect_target())
         flash('Не верный email или пароль')
         return redirect(url_for('.login'))
-    return render_template('user/login.html', title='Войти', form=form)
+    return render_template('user/login.html', title='Вход', form=form)
 
 @blueprint.route('/logout')
 def logout():
