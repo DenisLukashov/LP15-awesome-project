@@ -36,7 +36,7 @@ def equipment():
             equipment_avatar_file = f'{equipment.id}.{equipment_avatar_type}'
             equipment_avatar.save(os.path.join(
                 Config.GLOBAL_PATH,
-                Config.EQUIPMENT_ICON_PATH,
+                Config.EQUIPMENT_IMAGE_PATH,
                 equipment_avatar_file)
             )
             equipment_avatar_path = os.path.join(

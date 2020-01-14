@@ -6,56 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/index_style.css">
     <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
     <title>{{ title }}</title>
   </head>
   <body class="text-center">
 
     {% include('menu.html') %}
-    <div class="container-fluid">
 
-
-    <div class="user">
-      <p><img class="ava" src="/{{ current_user.avatar }}" alt=""></p>
-      <p>Имя - {{ current_user.first_name }}, Фамилия - {{ current_user.second_name }}</p>
-      <p>{{ current_user.about_me }}</p>
-    </div>
-
-    <div class='equipment-carousel'>
-
-      <div class="owl-carousel owl-theme">
-        <img src="/static/images/add.png" alt="">
-        {% for equip in equips %}
-           <a href="url_for(statics., stat_id=equip.id)"><img src="/{{ equip.avatar }}" alt="huy"></a>
-          <!-- {{ equip.avatar }} -->
-        {% endfor %}
+    <div class="container">
+      <div class="row index_content">
+        <div class="col-sm-4">
+          <div class="user">
+            <p><img class="index_avatar" src="/{{ current_user.avatar }}" alt=""></p>
+            <p>{{ current_user.first_name }} {{ current_user.second_name }}</p>
+            <p>{{ current_user.about_me }}</p>
+          </div>
+          <div class='sport-zone'>
+            {% if equip %}
+              {% if not equip.name %}
+                {{ equip }}
+              {% endif %}
+              <img class="index_avatar" src="/{{ equip.avatar }}" alt="">
+              <p>{{ equip.name }}
+              <p>{{ equip.about }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class='equipment-carousel'>
+            <div class="owl-carousel owl-theme">
+              {% for equip in equips %}
+                <a href="url_for(statics., stat_id=equip.id)"><img class="equip_pic" src="/{{ equip.avatar }}" alt="pic"></a>
+              {% endfor %}
+              <img class="equip_plus" src="/static/images/add.png" alt="">
+            </div>
+          </div>
+          <div class="view-zone">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div> 
       </div>
-
     </div>
-
-    <div class='sport-zone'>
-      {% if equip %}
-        {% if not equip.name %}
-          {{ equip }}
-        {% endif %}
-        <img src="/{{ equip.avatar }}" alt="">
-        {{ equip.name }}
-        {{ equip.about }}
-      {% endif %}
-    </div>
-
-    <div class="view-zone">
-      {% block content %}
-      {% endblock %}
-    </div>
-
-
-  </div>
- 
 
     {% include('footer.html') %}
         
@@ -68,8 +63,9 @@
     <script>
         $('.owl-carousel').owlCarousel({
           loop:true,
-          margin:10,
+          margin:3,
           responsiveClass:true,
+          autoWidth:true,
           responsive:{
               0:{
                   items:1,

@@ -1,11 +1,7 @@
+/* base style */
+
 footer {
-  /* Позиционируем footer внизу main */
-  position: absolute;
   background-color: rgb(21, 122, 95);
-  bottom: 0;
-  width: 100%;
-  /* Высота footer */
-  height: 3%;
   color: lightslategray;
 }
 
@@ -22,4 +18,58 @@ nav {
 .btn:hover {
   background-color: rgb(21, 122, 95);
   border-color:  rgb(21, 122, 95);
+}
+
+/* unlog user page */
+.visit_text {
+  height: 60vh;
+}
+
+.visit_pic {
+  height: 29.3vh;
+}
+
+.login_content {
+  height: 89.3vh;
+}
+
+.regist_content {
+  height: 89.3vh;
+}
+
+/*not my style*/
+
+.index_content {
+  height: 89.3vh;
+}
+
+.user{
+  background-color: rgba(43, 255, 0, 0.3);
+}
+
+
+
+.equipment-carousel{
+  background-color: rgba(0,0,255,.3);
+}
+
+.sport-zone{
+  background-color: rgba(155,0,255,.3);
+}
+
+.view-zone{
+  background-color: rgba(255, 208, 1, 0.3);
+}
+
+.index_avatar{
+  height:150px;
+  width: auto;
+}
+
+.equip_pic {
+  height: 10vh;
+  width: 10vw;
+}
+.equip_plus {
+  margin-top: 1em;
 }
