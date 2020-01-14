@@ -22,9 +22,8 @@ def get_redirect_target():
 def get_equips():
     return Equipment.query.filter(Equipment.user_id == current_user.id).all()
 
+def get_last_qeuip():
+    return Equipment.query.filter(Equipment.user_id == current_user.id).order_by(Equipment.id.desc()).first()
 
-def get_equip_for_sport_zone():
-    equip = Equipment.query.filter(Equipment.user_id == current_user.id).first()
-    if equip:
-        return equip
-    return 'У вас пока нет добавленного инвентаря'
+def get_equip_by_id(id):
+    return Equipment.query.get(id)

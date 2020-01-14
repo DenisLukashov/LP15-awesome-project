@@ -8,7 +8,7 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.equipment.forms import EquipmentForm
 from awesomeapp.equipment.models import Equipment, EquipmentType
-from awesomeapp.utils import get_equips, get_equip_for_sport_zone, get_redirect_target
+from awesomeapp.utils import get_equips, get_last_qeuip, get_redirect_target
 
 blueprint = Blueprint('equipment', __name__, template_folder='templates')
 
@@ -53,4 +53,4 @@ def equipment():
         return redirect(get_redirect_target())
     
     return render_template('equipment/equipment.html', title='Инвентарь',
-            form=form, equips=get_equips(), equip=get_equip_for_sport_zone())
+            form=form, equips=get_equips(), last_equip= get_last_qeuip())
