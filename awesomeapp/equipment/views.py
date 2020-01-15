@@ -54,5 +54,5 @@ def equipment():
     
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,
-                           all_equipment=Equipment.get_all_user_equipment(),
-                           last_equipment=Equipment.get_last_equipment())
+                           all_equipment=Equipment.get_all(current_user.id),
+                           last_equipment=Equipment.get_last(current_user.id))

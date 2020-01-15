@@ -2,7 +2,7 @@ import imghdr
 import os
 
 from flask import Blueprint, render_template, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from awesomeapp.extensions import db
 from config import Config
@@ -72,5 +72,5 @@ def add(id):
     return render_template('statistics/stats.html',
                            title='Ввод данных',
                            form=form,
-                           all_equipment=Equipment.get_all_user_equipment(),
-                           equipment_by_id=Equipment.get_equipment_by_id(id))
+                           all_equipment=Equipment.get_all(current_user.id),
+                           equipment_by_id=Equipment.get_by_id(id))

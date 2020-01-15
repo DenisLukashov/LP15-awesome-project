@@ -1,13 +1,14 @@
 from awesomeapp.extensions import db
 
+
 class Stats(db.Model):
     __tablename__ = 'stats'
     id = db.Column(db.Integer, primary_key=True)
 
     equipment_id = db.Column(
-		db.Integer,
-		db.ForeignKey('equipment.id', ondelete='CASCADE'),
-		index=True
+      db.Integer,
+      db.ForeignKey('equipment.id', ondelete='CASCADE'),
+      index=True
     )
     equipment = db.relationship('Equipment', backref='stats')
 
@@ -34,9 +35,9 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
 
     story_id = db.Column(
-    	db.Integer,
-    	db.ForeignKey('stories.id', ondelete='CASCADE'),
-    	index=True
+      db.Integer,
+      db.ForeignKey('stories.id', ondelete='CASCADE'),
+      index=True
     )
     story = db.relationship('Story', uselist=False,
                             backref='stats', foreign_keys='Story.stats_id')
