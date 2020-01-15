@@ -8,6 +8,7 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.equipment.forms import EquipmentForm
 from awesomeapp.equipment.models import Equipment, EquipmentType
+from awesomeapp.utils import get_redirect_target
 
 blueprint = Blueprint('equipment', __name__, template_folder='templates')
 
@@ -35,7 +36,7 @@ def equipment():
             equipment_avatar_file = f'{equipment.id}.{equipment_avatar_type}'
             equipment_avatar.save(os.path.join(
                 Config.GLOBAL_PATH,
-                Config.EQUIPMENT_ICON_PATH,
+                Config.EQUIPMENT_IMAGE_PATH,
                 equipment_avatar_file)
             )
             equipment_avatar_path = os.path.join(
@@ -49,5 +50,9 @@ def equipment():
             )
         equipment.avatar = equipment_avatar_path
         db.session.commit()
-        return redirect(url_for('index.index'))
-    return render_template('equipment/equipment.html', title='Инвентарь', form=form)
+        return redirect(get_redirect_target())
+    
+    return render_template('equipment/equipment.html',
+                           title='Инвентарь', form=form,
+                           all_equipment=Equipment.get_all(current_user.id),
+                           last_equipment=Equipment.get_last(current_user.id))

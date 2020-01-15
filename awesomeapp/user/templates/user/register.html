@@ -1,43 +1,44 @@
 {% extends "user/user_base.html" %}
 {% block content %}
-  <div class="row">
-    <div class="col"></div>
-    <div class="col-3">
+  <div class="row align-items-center regist_content">
+    <div class="col-sm"></div>
+    <div class="col-sm-3">
       <form class="form-signin" action="" method="post" novalidate enctype="multipart/form-data">
-        <br>
         {{ form.hidden_tag() }}
-        <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
+        <p class="h3 mb-3 font-weight-normal">{{ title }}
 
-        <span class="sr-only">{{ form.first_name.label }}</span>
-        {{ form.first_name }}
+        <div class="form-group">
 
-        <span class="sr-only">{{ form.second_name.label }}</span>
-        {{ form.second_name }}
+          <span class="sr-only">{{ form.first_name.label }}</span>
+          {{ form.first_name }}
 
-        <span class="sr-only">{{ form.email.label }}</span>
-        {{ form.email }}
-        {% for error in form.email.errors %}
-        <span>{{ error }}</span>
-        {% endfor %}
+          <span class="sr-only">{{ form.second_name.label }}</span>
+          {{ form.second_name }}
 
-        <span class="sr-only">{{ form.password.label }}</span>
-        {{ form.password }}
-        <span class="sr-only">{{ form.password2.label }}</span>
-        {{ form.password2 }}<br>
-        {% for error in form.password2.errors %}
-        <span>Пароли должны совпадать</span>
-        {% endfor %}
+          <span class="sr-only">{{ form.email.label }}</span>
+          {{ form.email }}
+          {% for error in form.email.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
 
-        <span class="sr-only">{{ form.about_me.label }}</span>
-        {{ form.about_me }}<br>
+          <span class="sr-only">{{ form.password.label }}</span>
+          {{ form.password }}
+          <span class="sr-only">{{ form.password2.label }}</span>
+          {{ form.password2 }}<br>
+          {% for error in form.password2.errors %}
+          <span>Пароли должны совпадать</span>
+          {% endfor %}
 
-        <p>{{ form.avatar.label }}
-        {{ form.avatar}}<br>
-            
-        <p>{{ form.submit }}
-      </form>
+          <span class="sr-only">{{ form.about_me.label }}</span>
+          {{ form.about_me }}<br>
+
+          <p>{{ form.avatar.label }}
+          {{ form.avatar}}<br>
+              
+          <p>{{ form.submit }}
+      </div>
+    </form>
     </div>
-    <div class="col"></div>
-  </div>
+    <div class="col-sm"></div>
   </div>
 {% endblock %}

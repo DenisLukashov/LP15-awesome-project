@@ -16,10 +16,9 @@ blueprint = Blueprint('user', __name__, url_prefix='/users',template_folder='tem
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index.index'))
+        return redirect(url_for('equipment.equipment'))
 
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
@@ -27,19 +26,23 @@ def login():
             return redirect(get_redirect_target())
         flash('Не верный email или пароль')
         return redirect(url_for('.login'))
-    return render_template('user/login.html', title='Войти', form=form)
-
+    return render_template('user/login.html', title='Вход', form=form)
 
 @blueprint.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('.login'))
+    return redirect(url_for('user.visit'))
 
+@blueprint.route('/visit')
+def visit():
+    src = [os.path.join(Config.EQUIPMENT_ICON_PATH, x) 
+        for x in Config.STOCK_ICON.values()]
+    return render_template('user/visit.html', title='Привет, спортсмен!', src=src)
 
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index.index'))
+        return redirect(url_for('equipment.equipment'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(

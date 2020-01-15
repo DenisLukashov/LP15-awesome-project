@@ -1,127 +1,110 @@
-<!doctype html>
-<html lang="en">
-    <head>
-    <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-        <title>{{ title }}</title>
-    </head>
-    <body class="text-center">
-        <form class="form-signin" action="" method="post" novalidate enctype="multipart/form-data">
-            <div class ='container'>
-                <br>
-                {{ form.hidden_tag() }}
-                <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
-                {{ form.date.label }}
-                {{ form.date }}
+{% extends "index.html" %}
+{% block content %}
+    <form class="form-signin" action="" method="post" novalidate enctype="multipart/form-data">
+        <div class ='container'>
+            <br>
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1><br>
+            {{ form.date.label }}
+            {{ form.date }}
 
-                {{ form.distance.label }}
-                {{ form.distance }}
-                {% for error in form.distance.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-                
-                {{ form.time.label }}
-                
-                {{ form.time }}
-                {{ form.total_time.label }}
-                {{ form.total_time }}
+            {{ form.distance.label }}
+            {{ form.distance }}
+            {% for error in form.distance.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+            
+            {{ form.time.label }}
+            
+            {{ form.time }}
+            {{ form.total_time.label }}
+            {{ form.total_time }}
 
-                {{ form.max_speed.label }} 
-                {{ form.max_speed }}
-                {% for error in form.max_speed.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.max_speed.label }} 
+            {{ form.max_speed }}
+            {% for error in form.max_speed.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.steps.label }}
-                {{ form.steps }}
-                {% for error in form.steps.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.steps.label }}
+            {{ form.steps }}
+            {% for error in form.steps.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.avg_cadence.label }}
-                {{ form.avg_cadence }}
-                {% for error in form.avg_cadence.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.avg_cadence.label }}
+            {{ form.avg_cadence }}
+            {% for error in form.avg_cadence.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.max_cadence.label }}
-                {{ form.max_cadence }}
-                {% for error in form.max_cadence.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.max_cadence.label }}
+            {{ form.max_cadence }}
+            {% for error in form.max_cadence.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.avg_heart_rate.label }}
-                {{ form.avg_heart_rate }}
-                {% for error in form.avg_heart_rate.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.avg_heart_rate.label }}
+            {{ form.avg_heart_rate }}
+            {% for error in form.avg_heart_rate.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.max_heart_rate.label }}
-                {{ form.max_heart_rate }}
-                {% for error in form.max_heart_rate.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.max_heart_rate.label }}
+            {{ form.max_heart_rate }}
+            {% for error in form.max_heart_rate.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.max_temperature.label }}
-                {{ form.max_temperature }}
-                {% for error in form.max_temperature.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.max_temperature.label }}
+            {{ form.max_temperature }}
+            {% for error in form.max_temperature.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.min_temperature.label }}
-                {{ form.min_temperature }}
-                {% for error in form.min_temperature.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.min_temperature.label }}
+            {{ form.min_temperature }}
+            {% for error in form.min_temperature.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.start_altitude.label }}
-                {{ form.start_altitude }}
-                {% for error in form.start_altitude.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.start_altitude.label }}
+            {{ form.start_altitude }}
+            {% for error in form.start_altitude.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.total_up_altitude.label }}
-                {{ form.total_up_altitude }}
-                {% for error in form.total_up_altitude.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.total_up_altitude.label }}
+            {{ form.total_up_altitude }}
+            {% for error in form.total_up_altitude.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.total_down_altitude.label }}
-                {{ form.total_down_altitude }}
-                {% for error in form.total_down_altitude.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.total_down_altitude.label }}
+            {{ form.total_down_altitude }}
+            {% for error in form.total_down_altitude.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.min_altitude.label }}
-                {{ form.min_altitude }}
-                {% for error in form.min_altitude.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.min_altitude.label }}
+            {{ form.min_altitude }}
+            {% for error in form.min_altitude.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.max_altitude.label }}
-                {{ form.max_altitude }}
-                {% for error in form.max_altitude.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            {{ form.max_altitude.label }}
+            {{ form.max_altitude }}
+            {% for error in form.max_altitude.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
 
-                {{ form.story.label }}
-                {{ form.story }}
+            {{ form.story.label }}
+            {{ form.story }}
 
-                {{ form.photo.label }}
-                {{ form.photo }}
+            {{ form.photo.label }}
+            {{ form.photo }}
 
-                {{ form.submit }}
-            </div>
-        </form>
-
-    <!-- Optional JavaScript -->
-
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="/static/js/jquery-3.3.1.slim.min.js"></script>
-        <script src="/static/js/popper.min.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
-    </body>
-</html>
+            {{ form.submit }}
+        </div>
+    </form>
+{% endblock %}

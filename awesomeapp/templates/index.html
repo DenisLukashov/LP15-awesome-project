@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <title>{{ title }}</title>
+  </head>
+  <body class="text-center">
+
+    {% include('menu.html') %}
+
+    <div class="container">
+      <div class="row index_content">
+        <div class="col-sm-4">
+
+          <div class="user">
+            <p><img class="index_avatar" src="/{{ current_user.avatar }}" alt=""></p>
+            <p>{{ current_user.first_name }} {{ current_user.second_name }}</p>
+            <p>{{ current_user.about_me }}</p>
+          </div>
+
+          <div class='sport-zone'>
+            {% if last_equipment %}
+              <img class="index_avatar" src="/{{ last_equipment.avatar }}" alt="">
+              <p>{{ last_equipment.name }}</p>
+              <p>{{ last_equipment.about }}</p>
+            {% else %}
+              <img class="index_avatar" src="/{{ equipment_by_id.avatar }}" alt="">
+              <p>{{ equipment_by_id.name }}</p>
+              <p>{{ equipment_by_id.about }}</p>
+            {% endif %}
+          </div>
+
+        </div>
+
+        <div class="col-sm-8">
+
+          <div class='equipment-carousel'>
+            <div class="owl-carousel owl-theme">
+              {% for equipment in all_equipment %}
+                <a href="{{ url_for('statistics.add', id=equipment.id) }}"><img class="equipment_pic" src="/{{ equipment.avatar }}" alt="{{ equipment.id }}"></a>
+              {% endfor %}
+              <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.png" alt=""></a>
+            </div>
+          </div>
+
+          <div class="view-zone">
+            {% block content %}
+            {% endblock %}
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    {% include('footer.html') %}
+        
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/static/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/owl.carousel.min.js"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+          loop:true,
+          margin:3,
+          responsiveClass:true,
+          autoWidth:true,
+          responsive:{
+              0:{
+                  items:1,
+                  nav:true
+              },
+              600:{
+                  items:3,
+                  nav:false
+              },
+              1000:{
+                  items:5,
+                  nav:true,
+                  loop:false
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

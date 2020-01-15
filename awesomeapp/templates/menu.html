@@ -1,30 +1,33 @@
-<div class="pos-f-t"></div>
-  <nav class="navbar navbar-expand-lg navbar-dark ">
-    <a class="navbar-brand" href="/">AwesomeStats</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-      </ul>
-      <ul class="navbar-nav">
-        {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <span class="nav-link">Привет, {{ current_user.username }}!</span>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('user.logout') }}">Выход</a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('user.login') }}">Вход</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('user.register') }}">Регистрация</a>
-          </li>
-        {% endif %}
-      </ul>
-    </div>
-  </nav>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark ">
+  {% if current_user.is_authenticated %}
+    <a class="navbar-brand" href="/index">AwesomeStats</a>
+  {% else %}
+    <a class="navbar-brand" href="{{ url_for('user.visit') }}">AwesomeStats</a>
+  {% endif %}
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <ul class="navbar-nav">
+      {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <span class="nav-link">Привет, {{ current_user.email }}!</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('user.logout') }}">Выход</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('user.login') }}">Вход</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('user.register') }}">Регистрация</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

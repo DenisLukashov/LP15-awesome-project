@@ -13,6 +13,7 @@ class EquipmentForm(FlaskForm):
     name = StringField('Спорт инвентарь', 
         validators=[DataRequired()],
         render_kw={
+            'placeholder': 'Название спорта или модель инвентаря',
             'size': 128,
             'class': 'form-control',  
         }
@@ -22,14 +23,16 @@ class EquipmentForm(FlaskForm):
         validators=[DataRequired()],
         choices = [],
         render_kw={
+            'placeholder': 'Тип спорта',
             'class': 'form-control',  
         }
     )
     
-    avatar = FileField('Изображение вашего инвентаря',
+    avatar = FileField('Изображение',
         validators=[FileAllowed(['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
         render_kw={
-            'class': 'custom-file-input',  
+            'class': 'form-control-file',
+            'type': 'file'
         }
     )
     
