@@ -20,7 +20,7 @@ def send_static(path, filename):
 @blueprint.route('/')
 def start_page():
     if current_user.is_authenticated:
-        last_equipment = Equipment.get_last_equipment()
+        last_equipment = Equipment.get_last(current_user.id)
         if last_equipment:
             return redirect(url_for('statistics.add', id=last_equipment.id))
         return redirect(url_for('equipment.equipment'))
