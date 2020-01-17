@@ -35,7 +35,7 @@ def statistics_field(equipment_type):
             form.avg_heart_rate,
             form.max_heart_rate,
         ],
-        'Параматры окружающей среды': [
+        'Параметры окружающей среды': [
             form.max_temperature, 
             form.min_temperature,
         ],
