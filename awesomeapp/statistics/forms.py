@@ -149,10 +149,10 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    story = TextAreaField('О тренеровке',
+    story = TextAreaField('О тренировке',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'О тренеровке'
+            'placeholder': 'О тренировке'
         }
     )
 

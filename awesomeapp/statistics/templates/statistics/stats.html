@@ -6,16 +6,16 @@
                 {{ form.hidden_tag() }}
                 <p class="h3 mb-3 font-weight-normal">{{ title }}</p>
                 
-                {% for name, field in fields.items() %}
+                {% for name, group_field in fields.items() %}
                     
                     {{ name }}
                     <div class="form-row">
-                    {% for param in field %}
-                        <span class="sr-only">{{ param.label }}</span>
+                    {% for field in group_field %}
+                        <span class="sr-only">{{ field.label }}</span>
                         
-                        <div class="col">{{ param }}</div>
+                        <div class="col">{{ field }}</div>
                         
-                        {% for error in param.errors %}
+                        {% for error in field.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     {% endfor %}

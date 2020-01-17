@@ -79,9 +79,3 @@ def add(id):
                            equipment_by_id=Equipment.get_by_id(id),
                            fields=fields
                            )
-
-@blueprint.route('/delet/<int:id>')
-def delet(id):
-    db.session.delete(Equipment.get_by_id(id))
-    db.session.commit()
-    return redirect(url_for('dev.start_page'))

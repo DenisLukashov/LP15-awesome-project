@@ -76,8 +76,8 @@ def statistics_field(equipment_type):
 
     return fields.get(equipment_type)
 
-def trainer(my_dict):
-    new_dict = my_dict.copy()
-    new_dict.pop('Рельеф местности')
-    new_dict.pop('Параматры окружающей среды')
-    return new_dict
+def trainer(fields):
+    new_fields = fields.copy()
+    new_fields.pop('Рельеф местности')
+    new_fields.pop('Параметры окружающей среды')
+    return new_fields
