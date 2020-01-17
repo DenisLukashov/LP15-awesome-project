@@ -44,7 +44,7 @@
               {% for equipment in all_equipment %}
                 <a href="{{ url_for('statistics.add', id=equipment.id) }}"><img class="equipment_pic" src="/{{ equipment.avatar }}" alt="{{ equipment.id }}"></a>
               {% endfor %}
-              <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.png" alt=""></a>
+              <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.svg" alt=""></a>
             </div>
           </div>
 
