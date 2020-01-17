@@ -9,7 +9,9 @@ from config import Config
 from .forms import StatisticsForm
 from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
-from awesomeapp.statistics.utils import convert_to_meter, convert_to_seconds
+from awesomeapp.statistics.utils import (
+    convert_to_meter, convert_to_seconds, statistics_field
+)
 
 
 blueprint = Blueprint('statistics', __name__,
@@ -69,8 +71,17 @@ def add(id):
                 db.session.add(img)
                 db.session.commit()
         return redirect(url_for('equipment.equipment'))
+    fields = statistics_field(Equipment.get_by_id(id).type_id)
     return render_template('statistics/stats.html',
                            title='Ввод данных',
                            form=form,
                            all_equipment=Equipment.get_all(current_user.id),
-                           equipment_by_id=Equipment.get_by_id(id))
+                           equipment_by_id=Equipment.get_by_id(id),
+                           fields=fields
+                           )
+
+@blueprint.route('/delet/<int:id>')
+def delet(id):
+    db.session.delete(Equipment.get_by_id(id))
+    db.session.commit()
+    return redirect(url_for('dev.start_page'))
