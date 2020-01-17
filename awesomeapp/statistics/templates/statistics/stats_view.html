@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+{% if datefrom == dateto %}:
+    <h3>{{ datefrom }}</h3>
+{% else %}
+    <h3>C {{ datefrom }} по {{ dateto }}:</h1>
+{% endif %}
+
+<p>{{ distance }} - км. вы преодолели</p>
+<p>{{ time }} - время упражнения</p>
+<p>{{ total_time }} - общее время тренировки</p>
+
+{% endblock %}

@@ -1,19 +1,77 @@
 import imghdr
 import os
+from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
 
 from awesomeapp.extensions import db
 from config import Config
-from .forms import StatisticsForm
+from awesomeapp.statistics.forms import StatisticsForm, StatisticsMenuForm
 from awesomeapp.statistics.models import Stats, Story, Image
-from awesomeapp.equipment.models import Equipment
-from awesomeapp.statistics.utils import convert_to_meter, convert_to_seconds
+from awesomeapp.equipment.models import Equipment, EquipmentType
+from awesomeapp.utils import get_redirect_target
+from awesomeapp.statistics.utils import (
+    convert_to_meter,
+    convert_to_seconds,
+    total_parametr_sum,
+    convert_time_to_user_view)
 
 
 blueprint = Blueprint('statistics', __name__,
                       template_folder='templates', url_prefix='/stats')
+
+
+@blueprint.route('/delet/<int:id>')
+def delet(id):
+    db.session.delete(Equipment.get_by_id(id))
+    db.session.commit()
+    return redirect(url_for('dev.start_page'))
+
+
+@blueprint.route('/menu/<int:id>', methods=['GET', 'POST'])
+@login_required
+def menu(id):
+    form = StatisticsMenuForm()
+    return render_template(
+        'statistics/menu.html',
+        form=form,
+        title='Меню инвентаря',
+        equipment_by_id=Equipment.get_by_id(id),
+        all_equipment=Equipment.get_all(current_user.id)
+        )
+
+
+@blueprint.route('/view/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view(id):
+    form = StatisticsMenuForm()
+    if form.validate_on_submit():
+        datefrom = form.datefrom.data
+        dateto = form.dateto.data
+
+        matched_stats = Stats.query.filter(Stats.equipment_id == id).filter(
+            datefrom <= Stats.date).filter(dateto >= Stats.date).all()
+
+        total_distance = total_parametr_sum('distance', matched_stats)/1000
+
+        total_excercise_time = convert_time_to_user_view(
+            total_parametr_sum('time', matched_stats))
+        total_work_time = convert_time_to_user_view(
+            total_parametr_sum('total_time', matched_stats))
+
+    return render_template(
+        'statistics/stats_view.html',
+        datefrom=datefrom,
+        dateto=dateto,
+        distance=total_distance,
+        time=total_excercise_time,
+        total_time=total_work_time,
+        form=form,
+        title='Просмотр статистики',
+        equipment_by_id=Equipment.get_by_id(id),
+        all_equipment=Equipment.get_all(current_user.id)
+        )
 
 
 @blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
@@ -68,7 +126,7 @@ def add(id):
                 img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
                 db.session.add(img)
                 db.session.commit()
-        return redirect(url_for('equipment.equipment'))
+        return redirect(url_for('statistics.menu', id=id))
     return render_template('statistics/stats.html',
                            title='Ввод данных',
                            form=form,

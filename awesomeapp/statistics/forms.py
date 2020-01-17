@@ -12,6 +12,28 @@ from wtforms.validators import (
     )
 
 
+class StatisticsMenuForm(FlaskForm):
+    datefrom = DateField('С',
+    validators=[DataRequired()],
+    render_kw={
+        'class': 'form-control',
+        }
+    )
+    
+    dateto = DateField('По',
+    validators=[DataRequired()],
+    render_kw={
+        'class': 'form-control',
+        }
+    )
+
+    submit = SubmitField('Вывести статистику',
+    render_kw={
+        'class': 'btn btn-lg btn-primary btn-block'
+        }
+    )
+
+
 class StatisticsForm(FlaskForm):
     date = DateField('Дата',
         validators=[DataRequired()],
@@ -83,7 +105,7 @@ class StatisticsForm(FlaskForm):
             'class': 'form-control',
         }
     )
-    
+
     max_temperature = FloatField('Максимальная температура',
         validators=[optional()],
         render_kw={
@@ -99,7 +121,7 @@ class StatisticsForm(FlaskForm):
             'onchange': "this.value = this.value.replace(',', '.')"
         }
     )
-    
+
     start_altitude = IntegerField('Высота начальной точки',
         validators=[optional()],
         render_kw={
@@ -147,7 +169,7 @@ class StatisticsForm(FlaskForm):
             'type': 'file'
         }
     )
-    
+
     submit = SubmitField('Сохранить',
         render_kw={
             'class': 'btn btn-lg btn-primary btn-block'
