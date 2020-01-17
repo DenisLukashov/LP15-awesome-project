@@ -39,6 +39,7 @@ class StatisticsForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Дата'
         }
     )
 
@@ -46,21 +47,22 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'onchange': "this.value = this.value.replace(',', '.')"
+            'onchange': "this.value = this.value.replace(',', '.')",
+            'placeholder': 'Пробег'
         }
     )
 
     time = StringField('Время упражнения',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'чч:мм:сс',
+            'placeholder': 'Время упражнения чч:мм:сс',
         }
     )
 
     total_time = StringField('Общее время тренировки',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'чч:мм:сс'
+            'placeholder': 'Общее время чч:мм:сс'
         }
     )
 
@@ -68,7 +70,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'onchange': "this.value = this.value.replace(',', '.')"
+            'onchange': "this.value = this.value.replace(',', '.')",
+            'placeholder': 'Макс скорость'
         }
     )
 
@@ -76,6 +79,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Шаги'
         }
     )
 
@@ -83,12 +87,14 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Сред каденс'
         }
     )
     max_cadence = IntegerField('Максимальный каденс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Макс каденс'
         }
     )
 
@@ -96,6 +102,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Сред пульс'
         }
     )
 
@@ -103,6 +110,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Макс пульс'
         }
     )
 
@@ -110,7 +118,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'onchange': "this.value = this.value.replace(',', '.')"
+            'onchange': "this.value = this.value.replace(',', '.')",
+            'placeholder': 'Макс температура'
         }
     )
 
@@ -118,7 +127,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'onchange': "this.value = this.value.replace(',', '.')"
+            'onchange': "this.value = this.value.replace(',', '.')",
+            'placeholder': 'Мин температура'
         }
     )
 
@@ -126,6 +136,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Начальный уровень'
         }
     )
 
@@ -133,6 +144,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Суммарный подъём'
         }
     )
 
@@ -140,12 +152,14 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Суммарный спуск'
         }
     )
     min_altitude = IntegerField('Минимальная высота',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Мин высота'
         }
     )
 
@@ -153,12 +167,14 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
+            'placeholder': 'Макс высота'
         }
     )
 
-    story = TextAreaField('О тренеровки',
+    story = TextAreaField('О тренировке',
         render_kw={
             'class': 'form-control',
+            'placeholder': 'О тренировке'
         }
     )
 

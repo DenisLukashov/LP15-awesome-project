@@ -9,6 +9,7 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.statistics.forms import StatisticsForm, StatisticsMenuForm
 from awesomeapp.statistics.models import Stats, Story, Image
+<<<<<<< HEAD
 from awesomeapp.equipment.models import Equipment, EquipmentType
 from awesomeapp.utils import get_redirect_target
 from awesomeapp.statistics.utils import (
@@ -16,6 +17,12 @@ from awesomeapp.statistics.utils import (
     convert_to_seconds,
     total_parametr_sum,
     convert_time_to_user_view)
+=======
+from awesomeapp.equipment.models import Equipment
+from awesomeapp.statistics.utils import (
+    convert_to_meter, convert_to_seconds, statistics_field
+)
+>>>>>>> master
 
 
 blueprint = Blueprint('statistics', __name__,
@@ -127,8 +134,11 @@ def add(id):
                 db.session.add(img)
                 db.session.commit()
         return redirect(url_for('statistics.menu', id=id))
+
     return render_template('statistics/stats.html',
                            title='Ввод данных',
                            form=form,
                            all_equipment=Equipment.get_all(current_user.id),
-                           equipment_by_id=Equipment.get_by_id(id))
+                           equipment_by_id=Equipment.get_by_id(id),
+                           fields=fields
+                           )
