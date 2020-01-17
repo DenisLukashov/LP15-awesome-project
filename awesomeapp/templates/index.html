@@ -18,21 +18,18 @@
 
     <div class="container">
       <div class="row index_content">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
 
           <div class="user">
-            <p><img class="index_avatar" src="/{{ current_user.avatar }}" alt=""></p>
+            <p><img class="index_avatar img-fluid rounded" src="/{{ current_user.avatar }}" alt=""></p>
             <p>{{ current_user.first_name }} {{ current_user.second_name }}</p>
             <p>{{ current_user.about_me }}</p>
           </div>
 
           <div class='sport-zone'>
             {% if last_equipment %}
-              <img class="index_avatar" src="/{{ last_equipment.avatar }}" alt="">
-              <p>{{ last_equipment.name }}</p>
-              <p>{{ last_equipment.about }}</p>
             {% else %}
-              <img class="index_avatar" src="/{{ equipment_by_id.avatar }}" alt="">
+              <img class="index_avatar img-fluid rounded" src="/{{ equipment_by_id.avatar }}" alt="">
               <p>{{ equipment_by_id.name }}</p>
               <p>{{ equipment_by_id.about }}</p>
             {% endif %}
@@ -40,14 +37,14 @@
 
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-9">
 
           <div class='equipment-carousel'>
             <div class="owl-carousel owl-theme">
               {% for equipment in all_equipment %}
                 <a href="{{ url_for('statistics.add', id=equipment.id) }}"><img class="equipment_pic" src="/{{ equipment.avatar }}" alt="{{ equipment.id }}"></a>
               {% endfor %}
-              <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.png" alt=""></a>
+              <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.svg" alt=""></a>
             </div>
           </div>
 

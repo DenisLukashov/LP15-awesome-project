@@ -40,7 +40,7 @@ def equipment():
                 equipment_avatar_file)
             )
             equipment_avatar_path = os.path.join(
-                Config.EQUIPMENT_ICON_PATH,
+                Config.EQUIPMENT_IMAGE_PATH,
                 equipment_avatar_file
             )
         else:

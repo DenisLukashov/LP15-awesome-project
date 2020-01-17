@@ -39,31 +39,40 @@ nav {
 
 /*not my style*/
 
-.index_content {
-  height: 89.3vh;
+.equipmnent_content {
+  height: 67.7vh;
+}
+
+.statistics_content {
+  height: 67.7vh;
 }
 
 .user{
-  background-color: rgba(43, 255, 0, 0.3);
+  height: 42vh;
+  margin-top: 2vh;
+
 }
 
-
-
 .equipment-carousel{
-  background-color: rgba(0,0,255,.3);
+  margin-top: 2vh;
+
 }
 
 .sport-zone{
-  background-color: rgba(155,0,255,.3);
+  margin-top: 2vh;
+  height: 42vh;
+
 }
 
 .view-zone{
-  background-color: rgba(255, 208, 1, 0.3);
+  margin-top: 2vh;
 }
 
 .index_avatar{
-  height:150px;
-  width: auto;
+  height: auto;
+  max-height: 80%;
+  max-width: auto;
+  width: 19vw;
 }
 
 .equipment_pic {
