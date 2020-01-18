@@ -19,9 +19,23 @@ def convert_to_meter(value):
     return None if value is None else value * 1000
 
 
+def total_parameter_sum(parameter, matched):
+    return sum(0 if getattr(stat, parameter) is None else getattr(
+                stat, parameter) for stat in matched)
 
-def total_parametr_sum(parameter, matched):
-    return sum( 0 if getattr(stat, parameter) is None  else getattr(stat, parameter) for stat in matched )
+
+def max_parameter(parameter, matched):
+    return max([0 if getattr(stat, parameter) is None else getattr(
+                stat, parameter) for stat in matched])
+
+
+def avg_parameter(parameter, time_parameter, matched):
+    parameters = [0 if getattr(stat, parameter) is None else getattr(
+                stat, parameter) for stat in matched]
+    time_parameters = [0 if getattr(stat, time_parameter) is None else getattr(
+                stat, time_parameter) for stat in matched]
+    return sum([param * time for param, time in zip(parameters,
+                time_parameters)])//sum(time_parameters)
 
 
 def convert_time_to_user_view(time):
@@ -29,6 +43,7 @@ def convert_time_to_user_view(time):
     minutes = time // 60 % 60
     seconds = time % 60 % 60
     return f'{hours}ч. {minutes}м. {seconds}с.'
+
 
 def statistics_field(equipment_type):
     form = StatisticsForm()

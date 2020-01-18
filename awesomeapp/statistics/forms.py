@@ -18,7 +18,7 @@ class StatisticsMenuForm(FlaskForm):
     render_kw={
         'class': 'form-control',
         }
-    )
+    ) 
     
     dateto = DateField('По',
     validators=[DataRequired()],

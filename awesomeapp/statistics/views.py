@@ -14,9 +14,11 @@ from awesomeapp.utils import get_redirect_target
 from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
-    total_parametr_sum,
+    total_parameter_sum,
     convert_time_to_user_view,
-    statistics_field)
+    statistics_field,
+    max_parameter,
+    avg_parameter)
 
 
 
@@ -51,16 +53,24 @@ def view(id):
     if form.validate_on_submit():
         datefrom = form.datefrom.data
         dateto = form.dateto.data
-
+        print(datefrom, '!!!!!!!!!!!!!!!!!!!!!!')
         matched_stats = Stats.query.filter(Stats.equipment_id == id).filter(
             datefrom <= Stats.date).filter(dateto >= Stats.date).all()
 
-        total_distance = total_parametr_sum('distance', matched_stats)/1000
-
+        total_distance = total_parameter_sum('distance', matched_stats)/1000
         total_excercise_time = convert_time_to_user_view(
-            total_parametr_sum('time', matched_stats))
+            total_parameter_sum('time', matched_stats))
         total_work_time = convert_time_to_user_view(
-            total_parametr_sum('total_time', matched_stats))
+            total_parameter_sum('total_time', matched_stats))
+        total_steps = total_parameter_sum('steps', matched_stats)
+
+        max_speed = max_parameter('max_speed', matched_stats)/1000
+        max_cadence = max_parameter('max_cadence', matched_stats)
+        max_heart_rate = max_parameter('max_heart_rate', matched_stats)
+
+        avg_cadence = avg_parameter('avg_cadence', 'time', matched_stats)
+        avg_heart_rate = avg_parameter('avg_heart_rate', 'time', matched_stats)
+
 
     return render_template(
         'statistics/stats_view.html',
@@ -69,6 +79,12 @@ def view(id):
         distance=total_distance,
         time=total_excercise_time,
         total_time=total_work_time,
+        steps=total_steps,
+        max_speed=max_speed,
+        max_cadence=max_cadence,
+        max_heart_rate=max_heart_rate,
+        avg_cadence=avg_cadence,
+        avg_heart_rate=avg_heart_rate,
         form=form,
         title='Просмотр статистики',
         equipment_by_id=Equipment.get_by_id(id),
