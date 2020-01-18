@@ -2,10 +2,10 @@
 
 {% block content %}
 
-{% if datefrom == dateto %}:
-    <h3>{{ datefrom }}</h3>
+{% if start_date  == dateto %}:
+    <h3>{{ start_date  }}</h3>
 {% else %}
-    <h3>C {{ datefrom }} по {{ dateto }}:</h1>
+    <h3>C {{ start_date  }} по {{ end_date }}:</h1>
 {% endif %}
 
 <p>{{ distance }} - км. вы преодолели</p>

@@ -16,8 +16,7 @@ from awesomeapp.statistics.utils import (
     convert_to_seconds,
     convert_time_to_user_view,
     statistics_field,
-    calculate_parameter,
-    avg_parameter)
+)
 
 
 
@@ -50,44 +49,76 @@ def menu(id):
 def view(id):
     form = StatisticsMenuForm()
     if form.validate_on_submit():
-        datefrom = form.datefrom.data
-        dateto = form.dateto.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
 
-        matched_stats = Stats.query.filter(Stats.equipment_id == id).filter(
-            datefrom <= Stats.date).filter(dateto >= Stats.date).all()
 
-        total_distance = calculate_parameter('distance', matched_stats,
-                                             'sum')/1000
-        total_excercise_time = convert_time_to_user_view(
-            calculate_parameter('time', matched_stats, 'sum'))
-        total_work_time = convert_time_to_user_view(
-            calculate_parameter('total_time', matched_stats, 'sum'))
-        total_steps = calculate_parameter('steps', matched_stats, 'sum')
-        total_up_altitude = calculate_parameter('total_up_altitude',
-                                                matched_stats, 'sum')
-        total_down_altitude = calculate_parameter('total_down_altitude',
-                                                  matched_stats, 'sum')
+        total_distance = db.session.query(db.func.coalesce(db.func.sum(
+            Stats.distance), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()/1000
 
-        max_speed = calculate_parameter('max_speed', matched_stats, 'max')/1000
-        max_cadence = calculate_parameter('max_cadence', matched_stats, 'max')
-        max_heart_rate = calculate_parameter('max_heart_rate', matched_stats,
-                                             'max')
-        max_temperature = calculate_parameter('max_temperature', matched_stats,
-                                              'max')
-        max_altitude = calculate_parameter('max_altitude', matched_stats,
-                                           'max')
+        total_excercise_time = convert_time_to_user_view(db.session.query(db.func.coalesce(db.func.sum(
+            Stats.time), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar())
 
-        avg_cadence = avg_parameter('avg_cadence', 'time', matched_stats)
-        avg_heart_rate = avg_parameter('avg_heart_rate', 'time', matched_stats)
-        
-        min_temperature = calculate_parameter('min_temperature', matched_stats,
-                                              'min')
-        min_altitude = calculate_parameter('min_altitude', matched_stats,
-                                           'min')
+        total_work_time = convert_time_to_user_view(db.session.query(db.func.coalesce(db.func.sum(
+            Stats.total_time), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar())        
+
+        total_steps = db.session.query(db.func.coalesce(db.func.sum(
+            Stats.steps), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        total_up_altitude = db.session.query(db.func.coalesce(db.func.sum(
+            Stats.total_up_altitude), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        total_down_altitude = db.session.query(db.func.coalesce(db.func.sum(
+            Stats.total_down_altitude), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        max_speed = db.session.query(db.func.coalesce(db.func.max(
+            Stats.max_speed), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        max_cadence = db.session.query(db.func.coalesce(db.func.max(
+            Stats.max_cadence), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        max_heart_rate = db.session.query(db.func.coalesce(db.func.max(
+            Stats.max_heart_rate), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        max_temperature = db.session.query(db.func.coalesce(db.func.max(
+            Stats.max_temperature), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        max_altitude = db.session.query(db.func.coalesce(db.func.max(
+            Stats.max_temperature), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        avg_cadence = db.session.query(db.func.coalesce(
+            db.func.sum(Stats.avg_cadence * Stats.time)/db.func.sum(Stats.time),
+            0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        avg_heart_rate = db.session.query(db.func.coalesce(
+            db.func.sum(Stats.avg_heart_rate * Stats.time)/db.func.sum(Stats.time),
+            0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        min_temperature = db.session.query(db.func.coalesce(db.func.min(
+            Stats.min_temperature), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
+        min_altitude = db.session.query(db.func.coalesce(db.func.min(
+            Stats.min_altitude), 0)).filter(Stats.equipment_id == id).filter(
+            start_date <= Stats.date).filter(Stats.date <= end_date).scalar()
+
     return render_template(
         'statistics/stats_view.html',
-        datefrom=datefrom,
-        dateto=dateto,
+        start_date=start_date,
+        end_date=end_date,
         distance=total_distance,
         time=total_excercise_time,
         total_up_altitude=total_up_altitude,

@@ -13,14 +13,14 @@ from wtforms.validators import (
 
 
 class StatisticsMenuForm(FlaskForm):
-    datefrom = DateField('С',
+    start_date = DateField('С',
     validators=[DataRequired()],
     render_kw={
         'class': 'form-control',
         }
     ) 
     
-    dateto = DateField('По',
+    end_date = DateField('По',
     validators=[DataRequired()],
     render_kw={
         'class': 'form-control',
