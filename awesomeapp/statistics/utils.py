@@ -19,14 +19,14 @@ def convert_to_meter(value):
     return None if value is None else value * 1000
 
 
-def total_parameter_sum(parameter, matched):
-    return sum(0 if getattr(stat, parameter) is None else getattr(
-                stat, parameter) for stat in matched)
-
-
-def max_parameter(parameter, matched):
-    return max([0 if getattr(stat, parameter) is None else getattr(
-                stat, parameter) for stat in matched])
+def calculate_parameter(parameter, matched, mode):
+    values = [0 if getattr(stat, parameter) is None else getattr(
+                stat, parameter) for stat in matched]
+    if mode == 'sum':
+        return sum(values)
+    if mode == 'max':
+        return max(values)
+    return min(values)
 
 
 def avg_parameter(parameter, time_parameter, matched):
@@ -34,8 +34,11 @@ def avg_parameter(parameter, time_parameter, matched):
                 stat, parameter) for stat in matched]
     time_parameters = [0 if getattr(stat, time_parameter) is None else getattr(
                 stat, time_parameter) for stat in matched]
-    return sum([param * time for param, time in zip(parameters,
-                time_parameters)])//sum(time_parameters)
+    try:
+        return sum([param * time for param, time in zip(parameters,
+                    time_parameters)])//sum(time_parameters)
+    except ZeroDivisionError:
+        return 0
 
 
 def convert_time_to_user_view(time):

@@ -14,10 +14,9 @@ from awesomeapp.utils import get_redirect_target
 from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
-    total_parameter_sum,
     convert_time_to_user_view,
     statistics_field,
-    max_parameter,
+    calculate_parameter,
     avg_parameter)
 
 
@@ -53,36 +52,55 @@ def view(id):
     if form.validate_on_submit():
         datefrom = form.datefrom.data
         dateto = form.dateto.data
-        print(datefrom, '!!!!!!!!!!!!!!!!!!!!!!')
+
         matched_stats = Stats.query.filter(Stats.equipment_id == id).filter(
             datefrom <= Stats.date).filter(dateto >= Stats.date).all()
 
-        total_distance = total_parameter_sum('distance', matched_stats)/1000
+        total_distance = calculate_parameter('distance', matched_stats,
+                                             'sum')/1000
         total_excercise_time = convert_time_to_user_view(
-            total_parameter_sum('time', matched_stats))
+            calculate_parameter('time', matched_stats, 'sum'))
         total_work_time = convert_time_to_user_view(
-            total_parameter_sum('total_time', matched_stats))
-        total_steps = total_parameter_sum('steps', matched_stats)
+            calculate_parameter('total_time', matched_stats, 'sum'))
+        total_steps = calculate_parameter('steps', matched_stats, 'sum')
+        total_up_altitude = calculate_parameter('total_up_altitude',
+                                                matched_stats, 'sum')
+        total_down_altitude = calculate_parameter('total_down_altitude',
+                                                  matched_stats, 'sum')
 
-        max_speed = max_parameter('max_speed', matched_stats)/1000
-        max_cadence = max_parameter('max_cadence', matched_stats)
-        max_heart_rate = max_parameter('max_heart_rate', matched_stats)
+        max_speed = calculate_parameter('max_speed', matched_stats, 'max')/1000
+        max_cadence = calculate_parameter('max_cadence', matched_stats, 'max')
+        max_heart_rate = calculate_parameter('max_heart_rate', matched_stats,
+                                             'max')
+        max_temperature = calculate_parameter('max_temperature', matched_stats,
+                                              'max')
+        max_altitude = calculate_parameter('max_altitude', matched_stats,
+                                           'max')
 
         avg_cadence = avg_parameter('avg_cadence', 'time', matched_stats)
         avg_heart_rate = avg_parameter('avg_heart_rate', 'time', matched_stats)
-
-
+        
+        min_temperature = calculate_parameter('min_temperature', matched_stats,
+                                              'min')
+        min_altitude = calculate_parameter('min_altitude', matched_stats,
+                                           'min')
     return render_template(
         'statistics/stats_view.html',
         datefrom=datefrom,
         dateto=dateto,
         distance=total_distance,
         time=total_excercise_time,
+        total_up_altitude=total_up_altitude,
         total_time=total_work_time,
+        total_down_altitude=total_down_altitude,
         steps=total_steps,
         max_speed=max_speed,
         max_cadence=max_cadence,
         max_heart_rate=max_heart_rate,
+        max_temperature=max_temperature,
+        max_altitude=max_altitude,
+        min_altitude=min_altitude,
+        min_temperature=min_temperature,
         avg_cadence=avg_cadence,
         avg_heart_rate=avg_heart_rate,
         form=form,
