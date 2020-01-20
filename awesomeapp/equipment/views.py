@@ -1,16 +1,19 @@
 import imghdr
 import os
 
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user, login_required
 
 from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.equipment.forms import EquipmentForm
 from awesomeapp.equipment.models import Equipment, EquipmentType
-from awesomeapp.utils import get_redirect_target
 
-blueprint = Blueprint('equipment', __name__, template_folder='templates')
+blueprint = Blueprint(
+    'equipment',
+    __name__,
+    template_folder='templates'
+    )
 
 
 @blueprint.route('/equipment', methods=['GET', 'POST'])
@@ -50,9 +53,8 @@ def equipment():
             )
         equipment.avatar = equipment_avatar_path
         db.session.commit()
-        return redirect(get_redirect_target())
+        return redirect(url_for('statistics.add', id=equipment.id))
 
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,
-                           all_equipment=Equipment.get_all(current_user.id),
-                           last_equipment=Equipment.get_last(current_user.id))
+                           all_equipment=Equipment.get_all(current_user.id))

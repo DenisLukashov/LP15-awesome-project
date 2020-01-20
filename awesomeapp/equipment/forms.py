@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import (
-    StringField, SubmitField,
-    TextAreaField, SelectField
+    SelectField,
+    StringField,
+    SubmitField,
+    TextAreaField
     )
 from wtforms.validators import DataRequired
-
-from awesomeapp.equipment.models import EquipmentType
 
 
 class EquipmentForm(FlaskForm):

@@ -27,9 +27,9 @@
           </div>
 
           <div class='sport-zone'>
-            {% if last_equipment %}
-            {% else %}
-              <img class="index_avatar img-fluid rounded" src="/{{ equipment_by_id.avatar }}" alt="">
+            {% if equipment_by_id %}
+              <img class="index_avatar" src="/{{ equipment_by_id.avatar }}" alt="">
+
               <p>{{ equipment_by_id.name }}</p>
               <p>{{ equipment_by_id.about }}</p>
             {% endif %}
@@ -42,7 +42,7 @@
           <div class='equipment-carousel'>
             <div class="owl-carousel owl-theme">
               {% for equipment in all_equipment %}
-                <a href="{{ url_for('statistics.add', id=equipment.id) }}"><img class="equipment_pic" src="/{{ equipment.avatar }}" alt="{{ equipment.id }}"></a>
+                <a href="{{ url_for('statistics.menu', id=equipment.id) }}"><img class="equipment_pic" src="/{{ equipment.avatar }}" alt="{{ equipment.id }}"></a>
               {% endfor %}
               <a href="{{ url_for('equipment.equipment') }}"><img class="equipment_plus" src="/static/images/add.svg" alt=""></a>
             </div>

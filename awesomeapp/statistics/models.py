@@ -45,6 +45,19 @@ class Stats(db.Model):
         foreign_keys='Story.stats_id'
     )
 
+    @classmethod
+    def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
+        query = db.session.query(db.func.coalesce(
+            function, 0)
+        ).filter(
+            cls.equipment_id == id
+        ).filter(
+            start_date <= cls.date
+        ).filter(
+            cls.date <= end_date
+        ).scalar()
+        return query
+
 
 class Story(db.Model):
     __tablename__ = 'stories'
@@ -53,8 +66,8 @@ class Story(db.Model):
 
     stats_id = db.Column(
         db.Integer,
-    	  db.ForeignKey('stats.id', ondelete='CASCADE'),
-    	  index=True
+        db.ForeignKey('stats.id', ondelete='CASCADE'),
+        index=True
     )
 
 
@@ -64,9 +77,9 @@ class Image(db.Model):
     src = db.Column(db.Text)
 
     story_id = db.Column(
-    	  db.Integer,
-		    db.ForeignKey('stories.id', ondelete='CASCADE'),
-		    index=True
+        db.Integer,
+        db.ForeignKey('stories.id', ondelete='CASCADE'),
+        index=True
     )
 
     story = db.relationship('Story', backref='images')

@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block content %}
+<a href="{{ url_for('statistics.add', id=equipment_by_id.id) }}">add stat</a>
+<form action="{{ url_for('statistics.view', id=equipment_by_id.id) }}" method="post" novalidate>
+    <div class='container'>
+        <br>
+        {{ form.hidden_tag() }}
+        <p>{{ form.start_date .label }}
+            {{ form.start_date  }}
+        </p>
+        <p>{{ form.end_date.label }}
+            {{ form.end_date }}
+        </p>
+
+        <p>
+            {{ form.submit }}
+        </p>
+    </div>
+</form>
+<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}">Удали меня</a>
+{% endblock %}

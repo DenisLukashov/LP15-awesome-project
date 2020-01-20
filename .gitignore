@@ -134,6 +134,7 @@ config.py
 equipment_type.py
 et.py
 *.db
+code.sh
 Settings.json
 *.jpg
 *.jpeg

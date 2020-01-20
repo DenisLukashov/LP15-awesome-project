@@ -36,9 +36,8 @@ class Equipment(db.Model):
                                 ).all()
 
     @classmethod
-    def get_last(cls, id):
-        return cls.query.filter(cls.user_id == id
-                                ).order_by(cls.id.desc()).first()
+    def get_first(cls, id):
+        return cls.query.filter(cls.user_id == id).order_by(cls.id).first()
 
     @classmethod
     def get_by_id(cls, id):

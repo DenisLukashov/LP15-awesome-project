@@ -18,6 +18,13 @@ def convert_to_meter(value):
     return None if value is None else value * 1000
 
 
+def convert_time_to_user_view(time):
+    hours = time // 60 // 60
+    minutes = time // 60 % 60
+    seconds = time % 60 % 60
+    return f'{hours}ч. {minutes}м. {seconds}с.'
+
+
 def statistics_field(equipment_type):
     form = StatisticsForm()
     step = {
@@ -75,7 +82,17 @@ def statistics_field(equipment_type):
     ) = [eq.id for eq in EquipmentType.query.all()]
 
     fields = {}
-    fields[walking] = fields[run] = fields[skiing] = fields[skirollers] = fields[skates] = step
+    fields[
+        walking
+        ] = fields[
+            run
+            ] = fields[
+                skiing
+                ] = fields[
+                    skirollers
+                    ] = fields[
+                        skates
+                        ] = step
     fields[treadmill] = step_trainer
     fields[bycicle] = bike
     fields[exercise_bike] = bike_trainer
