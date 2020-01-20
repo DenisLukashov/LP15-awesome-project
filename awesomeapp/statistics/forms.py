@@ -1,9 +1,12 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import (
-    StringField, SubmitField,
-    TextAreaField, FloatField, IntegerField,
-    MultipleFileField
+    FloatField,
+    IntegerField,
+    MultipleFileField,
+    StringField,
+    SubmitField,
+    TextAreaField
 )
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
@@ -180,7 +183,8 @@ class StatisticsForm(FlaskForm):
     photo = MultipleFileField(
         'Фотографии',
         validators=[FileAllowed(
-            ['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
+            ['jpg', 'jpeg', 'gif', 'png'],
+            'Только изображения!')],
         render_kw={
             'class': 'form-control-file',
             'type': 'file'}

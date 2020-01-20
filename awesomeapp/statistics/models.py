@@ -35,12 +35,15 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
 
     story_id = db.Column(
-      db.Integer,
-      db.ForeignKey('stories.id', ondelete='CASCADE'),
-      index=True
+        db.Integer,
+        db.ForeignKey('stories.id', ondelete='CASCADE'),
+        index=True
     )
-    story = db.relationship('Story', uselist=False,
-                            backref='stats', foreign_keys='Story.stats_id')
+    story = db.relationship(
+        'Story', uselist=False,
+        backref='stats',
+        foreign_keys='Story.stats_id'
+    )
 
     @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
@@ -67,15 +70,16 @@ class Story(db.Model):
         index=True
     )
 
-    
+
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
     src = db.Column(db.Text)
-    
+
     story_id = db.Column(
-    	db.Integer,
-		db.ForeignKey('stories.id', ondelete='CASCADE'), 
-		index=True
+        db.Integer,
+        db.ForeignKey('stories.id', ondelete='CASCADE'),
+        index=True
     )
-    story = db.relationship('Story', backref='images') 
+
+    story = db.relationship('Story', backref='images')

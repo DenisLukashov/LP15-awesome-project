@@ -10,7 +10,12 @@ from awesomeapp.user.models import User
 from awesomeapp.user.forms import RegistrationForm, LoginForm
 from awesomeapp.utils import get_redirect_target
 
-blueprint = Blueprint('user', __name__, url_prefix='/users',template_folder='templates')
+blueprint = Blueprint(
+    'user',
+    __name__,
+    url_prefix='/users',
+    template_folder='templates'
+    )
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -28,16 +33,24 @@ def login():
         return redirect(url_for('.login'))
     return render_template('user/login.html', title='Вход', form=form)
 
+
 @blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('user.visit'))
 
+
 @blueprint.route('/visit')
 def visit():
-    src = [os.path.join(Config.EQUIPMENT_ICON_PATH, x) 
-        for x in Config.STOCK_ICON.values()]
-    return render_template('user/visit.html', title='Привет, спортсмен!', src=src)
+    src = [
+        os.path.join(Config.EQUIPMENT_ICON_PATH, x)
+        for x in Config.STOCK_ICON.values()
+    ]
+    return render_template(
+        'user/visit.html',
+        title='Привет, спортсмен!',
+        src=src)
+
 
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
@@ -58,9 +71,15 @@ def register():
         if avatar:
             file_type = imghdr.what(avatar)
             filename = f'{user.id}.{file_type}'
-            avatar.save(os.path.join(Config.GLOBAL_PATH, Config.IMAGE_PATH, filename))
+            avatar.save(os.path.join(
+                Config.GLOBAL_PATH,
+                Config.IMAGE_PATH,
+                filename))
             user.avatar = os.path.join(Config.IMAGE_PATH, filename)
             db.session.add(user)
             db.session.commit()
         return redirect(url_for('.login'))
-    return render_template('user/register.html', title='Регистрация', form=form)
+    return render_template(
+        'user/register.html',
+        title='Регистрация',
+        form=form)

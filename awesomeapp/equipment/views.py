@@ -8,9 +8,12 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.equipment.forms import EquipmentForm
 from awesomeapp.equipment.models import Equipment, EquipmentType
-from awesomeapp.utils import get_redirect_target
 
-blueprint = Blueprint('equipment', __name__, template_folder='templates')
+blueprint = Blueprint(
+    'equipment',
+    __name__,
+    template_folder='templates'
+)
 
 
 @blueprint.route('/equipment', methods=['GET', 'POST'])
@@ -51,7 +54,7 @@ def equipment():
         equipment.avatar = equipment_avatar_path
         db.session.commit()
         return redirect(url_for('statistics.add', id=equipment.id))
-    
+
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,
                            all_equipment=Equipment.get_all(current_user.id))

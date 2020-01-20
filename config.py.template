@@ -6,25 +6,31 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config():
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'awesomeapp.db')
+
+    SQLALCHEMY_DATABASE_URI = (
+        f'sqlite:///{os.path.join(basedir, "awesomeapp.db")}'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-        
+
     STATIC_FOLDER = 'static'
     GLOBAL_PATH = os.path.join(basedir, 'awesomeapp')
-    
+
     IMAGE_PATH = os.path.join(STATIC_FOLDER, 'images')
     EQUIPMENT_IMAGE_PATH = os.path.join(IMAGE_PATH, 'equipment')
     EQUIPMENT_ICON_PATH = os.path.join(EQUIPMENT_IMAGE_PATH, 'icons')
     STORY_IMAGE_PATH = os.path.join(IMAGE_PATH, 'story')
 
+    METERS_PER_KILOMETER = 1000
+    MINUTES_PER_HOUR = 60
+    SECONDS_PER_MINUTE = 60
+
     STOCK_ICON = {
-        '1':'e1.png',
-        '2':'e2.png',
-        '3':'e3.png',
-        '4':'e4.png',
-        '5':'e5.png',
-        '6':'e6.png',
-        '7':'e7.png',
-        '8':'e8.png'
+        '1': 'e1.svg',
+        '2': 'e2.svg',
+        '3': 'e3.svg',
+        '4': 'e4.svg',
+        '5': 'e5.svg',
+        '6': 'e6.svg',
+        '7': 'e7.svg',
+        '8': 'e8.svg'
     }

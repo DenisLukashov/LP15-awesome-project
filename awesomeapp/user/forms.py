@@ -1,83 +1,99 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import (
-    StringField, PasswordField, BooleanField,
-    SubmitField,TextAreaField
-    )
+    BooleanField,
+    PasswordField,
+    StringField,
+    SubmitField,
+    TextAreaField
+)
 from wtforms.validators import (
-    ValidationError, DataRequired, Email, 
-    EqualTo, Length
-    )
+    DataRequired,
+    Email,
+    EqualTo,
+    Length,
+    ValidationError
+)
 
 from awesomeapp.user.models import User
 
+
 class LoginForm(FlaskForm):
-    email = StringField('Email', 
+    email = StringField(
+        'Email',
         validators=[DataRequired(), Email()],
-        render_kw = {
-        'size': 64,
-        'class': 'form-control',
-        'placeholder': 'Адрес электронной почты'
+        render_kw={
+            'size': 64,
+            'class': 'form-control',
+            'placeholder': 'Адрес электронной почты'
         }
     )
-    
-    password = PasswordField('Пароль',
+
+    password = PasswordField(
+        'Пароль',
         validators=[DataRequired()],
-        render_kw = {
-        'class': 'form-control',
-        'placeholder': 'Пароль'
+        render_kw={
+            'class': 'form-control',
+            'placeholder': 'Пароль'
         }
     )
-    
-    remember_me = BooleanField('Запомнить меня',
-        render_kw = {
-        'class': 'form-check-input'
+
+    remember_me = BooleanField(
+        'Запомнить меня',
+        render_kw={
+            'class': 'form-check-input'
         }
     )
-    
-    submit = SubmitField('Войти',
-        render_kw = {
-        'class': 'btn btn-lg btn-primary btn-block'
-        }                    
+
+    submit = SubmitField(
+        'Войти',
+        render_kw={
+            'class': 'btn btn-lg btn-primary btn-block'
+        }
     )
 
 
 class RegistrationForm(FlaskForm):
-    first_name = StringField('Имя',
-        validators=[Length(max=64)], 
+    first_name = StringField(
+        'Имя',
+        validators=[Length(max=64)],
         render_kw={
-            'class': 'form-control', 
+            'class': 'form-control',
             'placeholder': 'Имя'
         }
     )
 
-    second_name = StringField('Фамилия', 
+    second_name = StringField(
+        'Фамилия',
         validators=[Length(max=64)],
         render_kw={
-            'class': 'form-control', 
-            'placeholder': 'Фамилия' 
+            'class': 'form-control',
+            'placeholder': 'Фамилия'
         }
     )
 
-    email = StringField('Адрес электронной почты', 
+    email = StringField(
+        'Адрес электронной почты',
         validators=[DataRequired(), Email(), Length(max=64)],
         render_kw={
-            'class': 'form-control', 
-            'placeholder': 'Адрес электронной почты', 
+            'class': 'form-control',
+            'placeholder': 'Адрес электронной почты',
             'type': 'email'
         }
     )
 
-    password = PasswordField('Пароль', 
+    password = PasswordField(
+        'Пароль',
         validators=[DataRequired()],
         render_kw={
-            'class': 'form-control', 
-            'placeholder': 'Пароль', 
+            'class': 'form-control',
+            'placeholder': 'Пароль',
             'type': 'password'
         }
     )
 
-    password2 = PasswordField('Повторить пароль', 
+    password2 = PasswordField(
+        'Повторить пароль',
         validators=[DataRequired(), EqualTo('password')],
         render_kw={
             'class': 'form-control',
@@ -86,23 +102,28 @@ class RegistrationForm(FlaskForm):
         }
     )
 
-    about_me = TextAreaField('Обо мне',
+    about_me = TextAreaField(
+        'Обо мне',
         render_kw={
-            'class': 'form-control', 
+            'class': 'form-control',
             'placeholder': 'Обо мне',
             'rows': '3'
         }
     )
 
-    avatar = FileField('Выбрать файл', 
-        validators=[FileAllowed(['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
+    avatar = FileField(
+        'Выбрать файл',
+        validators=[FileAllowed(
+            ['jpg', 'jpeg', 'gif', 'png'],
+            'Только изображения!')],
         render_kw={
             'class': 'form-control-file',
             'type': 'file'
         }
     )
 
-    submit = SubmitField('Зарегистрироваться',
+    submit = SubmitField(
+        'Зарегистрироваться',
         render_kw={
             'class': 'btn btn-lg btn-primary btn-block '
         }
@@ -111,4 +132,6 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Этот адрес электронной почты уже зарегистрирован')
+            raise ValidationError(
+                'Этот адрес электронной почты уже зарегистрирован'
+            )
