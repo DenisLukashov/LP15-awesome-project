@@ -22,7 +22,7 @@ blueprint = Blueprint(
     __name__,
     template_folder='templates',
     url_prefix='/stats'
-    )
+)
 
 
 @blueprint.route('/delet/<int:id>')
@@ -42,7 +42,7 @@ def menu(id):
         title='Меню инвентаря',
         equipment_by_id=Equipment.get_by_id(id),
         all_equipment=Equipment.get_all(current_user.id)
-        )
+    )
 
 
 @blueprint.route('/view/<int:id>', methods=['GET', 'POST'])
@@ -158,7 +158,7 @@ def view(id):
         title='Просмотр статистики',
         equipment_by_id=Equipment.get_by_id(id),
         all_equipment=Equipment.get_all(current_user.id)
-        )
+    )
 
 
 @blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
@@ -222,4 +222,4 @@ def add(id):
         all_equipment=Equipment.get_all(current_user.id),
         equipment_by_id=Equipment.get_by_id(id),
         fields=fields
-        )
+    )
