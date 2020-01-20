@@ -20,9 +20,9 @@ def convert_to_meter(value):
 
 
 def convert_time_to_user_view(time):
-    hours = time // Config.CONVERT_TIME // Config.CONVERT_TIME
-    minutes = time // Config.CONVERT_TIME % Config.CONVERT_TIME
-    seconds = time % Config.CONVERT_TIME % Config.CONVERT_TIME
+    hours = time // Config.MINUTES_PER_HOUR // Config.SECONDS_PER_MINUTE
+    minutes = time // Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
+    seconds = time % Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
     return f'{hours}ч. {minutes}м. {seconds}с.'
 
 
