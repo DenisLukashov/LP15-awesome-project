@@ -1,19 +1,23 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileAllowed
 from wtforms import (
-    StringField, SubmitField,
-    TextAreaField, FloatField, IntegerField, 
-    MultipleFileField
+    FloatField,
+    IntegerField,
+    MultipleFileField,
+    StringField,
+    SubmitField,
+    TextAreaField
     )
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
-    ValidationError, DataRequired, 
-    EqualTo, optional
+    DataRequired,
+    optional
     )
 
 
 class StatisticsForm(FlaskForm):
-    date = DateField('Дата',
+    date = DateField(
+        'Дата',
         validators=[DataRequired()],
         render_kw={
             'class': 'form-control',
@@ -21,7 +25,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    distance = FloatField('Пройденное расстояние',
+    distance = FloatField(
+        'Пройденное расстояние',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -30,21 +35,24 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    time = StringField('Время упражнения',
+    time = StringField(
+        'Время упражнения',
         render_kw={
             'class': 'form-control',
             'placeholder': 'Время упражнения чч:мм:сс',
         }
     )
 
-    total_time = StringField('Общее время тренировки',
+    total_time = StringField(
+        'Общее время тренировки',
         render_kw={
             'class': 'form-control',
             'placeholder': 'Общее время чч:мм:сс'
         }
     )
 
-    max_speed = FloatField('Максимальная скорость',
+    max_speed = FloatField(
+        'Максимальная скорость',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -53,7 +61,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    steps = IntegerField('Количество шагов',
+    steps = IntegerField(
+        'Количество шагов',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -61,14 +70,16 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    avg_cadence = IntegerField('Средний каденс',
+    avg_cadence = IntegerField(
+        'Средний каденс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
             'placeholder': 'Сред каденс'
         }
     )
-    max_cadence = IntegerField('Максимальный каденс',
+    max_cadence = IntegerField(
+        'Максимальный каденс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -76,7 +87,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    avg_heart_rate = IntegerField('Средний пульс',
+    avg_heart_rate = IntegerField(
+        'Средний пульс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -84,15 +96,17 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    max_heart_rate = IntegerField('Максимальный пульс',
+    max_heart_rate = IntegerField(
+        'Максимальный пульс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
             'placeholder': 'Макс пульс'
         }
     )
-    
-    max_temperature = FloatField('Максимальная температура',
+
+    max_temperature = FloatField(
+        'Максимальная температура',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -101,7 +115,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    min_temperature = FloatField('Минимальная температура',
+    min_temperature = FloatField(
+        'Минимальная температура',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -109,8 +124,9 @@ class StatisticsForm(FlaskForm):
             'placeholder': 'Мин температура'
         }
     )
-    
-    start_altitude = IntegerField('Высота начальной точки',
+
+    start_altitude = IntegerField(
+        'Высота начальной точки',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -118,7 +134,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    total_up_altitude = IntegerField('Суммарный подъём',
+    total_up_altitude = IntegerField(
+        'Суммарный подъём',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -126,14 +143,16 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    total_down_altitude = IntegerField('Суммарный спуск',
+    total_down_altitude = IntegerField(
+        'Суммарный спуск',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
             'placeholder': 'Суммарный спуск'
         }
     )
-    min_altitude = IntegerField('Минимальная высота',
+    min_altitude = IntegerField(
+        'Минимальная высота',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -141,7 +160,8 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    max_altitude = IntegerField('Максимальная высота',
+    max_altitude = IntegerField(
+        'Максимальная высота',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
@@ -149,22 +169,27 @@ class StatisticsForm(FlaskForm):
         }
     )
 
-    story = TextAreaField('О тренировке',
+    story = TextAreaField(
+        'О тренировке',
         render_kw={
             'class': 'form-control',
             'placeholder': 'О тренировке'
         }
     )
 
-    photo = MultipleFileField('Фотографии',
-        validators=[FileAllowed(['jpg', 'jpeg', 'gif', 'png'], 'Только изображения!')],
+    photo = MultipleFileField(
+        'Фотографии',
+        validators=[FileAllowed(
+            ['jpg', 'jpeg', 'gif', 'png'],
+            'Только изображения!')],
         render_kw={
             'class': 'form-control-file',
             'type': 'file'
         }
     )
-    
-    submit = SubmitField('Сохранить',
+
+    submit = SubmitField(
+        'Сохранить',
         render_kw={
             'class': 'btn btn-lg btn-primary btn-block'
         }

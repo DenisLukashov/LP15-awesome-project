@@ -10,12 +10,18 @@ from .forms import StatisticsForm
 from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import (
-    convert_to_meter, convert_to_seconds, statistics_field
+    convert_to_meter,
+    convert_to_seconds,
+    statistics_field
 )
 
 
-blueprint = Blueprint('statistics', __name__,
-                      template_folder='templates', url_prefix='/stats')
+blueprint = Blueprint(
+    'statistics',
+    __name__,
+    template_folder='templates',
+    url_prefix='/stats'
+    )
 
 
 @blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
@@ -72,10 +78,11 @@ def add(id):
                 db.session.commit()
         return redirect(url_for('equipment.equipment'))
     fields = statistics_field(Equipment.get_by_id(id).type_id)
-    return render_template('statistics/stats.html',
-                           title='Ввод данных',
-                           form=form,
-                           all_equipment=Equipment.get_all(current_user.id),
-                           equipment_by_id=Equipment.get_by_id(id),
-                           fields=fields
-                           )
+    return render_template(
+        'statistics/stats.html',
+        title='Ввод данных',
+        form=form,
+        all_equipment=Equipment.get_all(current_user.id),
+        equipment_by_id=Equipment.get_by_id(id),
+        fields=fields
+        )

@@ -1,7 +1,7 @@
 import imghdr
 import os
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect
 from flask_login import current_user, login_required
 
 from awesomeapp.extensions import db
@@ -51,7 +51,7 @@ def equipment():
         equipment.avatar = equipment_avatar_path
         db.session.commit()
         return redirect(get_redirect_target())
-    
+
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,
                            all_equipment=Equipment.get_all(current_user.id),
