@@ -83,17 +83,8 @@ def statistics_field(equipment_type):
     ) = [eq.id for eq in EquipmentType.query.all()]
 
     fields = {}
-    fields[
-        walking
-        ] = fields[
-            run
-            ] = fields[
-                skiing
-                ] = fields[
-                    skirollers
-                    ] = fields[
-                        skates
-                        ] = step
+    fields[walking] = fields[run] = fields[skiing] = step
+    fields[skirollers] = fields[skates] = step
     fields[treadmill] = step_trainer
     fields[bycicle] = bike
     fields[exercise_bike] = bike_trainer
