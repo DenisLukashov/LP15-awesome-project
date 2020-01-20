@@ -7,7 +7,7 @@ from wtforms import (
     StringField,
     SubmitField,
     TextAreaField
-    )
+)
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,

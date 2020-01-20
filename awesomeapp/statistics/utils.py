@@ -1,6 +1,7 @@
 from datetime import timedelta
 from awesomeapp.statistics.forms import StatisticsForm
 from awesomeapp.equipment.models import EquipmentType
+from config import Config
 
 
 def convert_to_seconds(time):
@@ -15,13 +16,13 @@ def convert_to_seconds(time):
 
 
 def convert_to_meter(value):
-    return None if value is None else value * 1000
+    return None if value is None else value * Config.METERS_PER_KILOMETER
 
 
 def convert_time_to_user_view(time):
-    hours = time // 60 // 60
-    minutes = time // 60 % 60
-    seconds = time % 60 % 60
+    hours = time // Config.CONVERT_TIME // Config.CONVERT_TIME
+    minutes = time // Config.CONVERT_TIME % Config.CONVERT_TIME
+    seconds = time % Config.CONVERT_TIME % Config.CONVERT_TIME
     return f'{hours}ч. {minutes}м. {seconds}с.'
 
 

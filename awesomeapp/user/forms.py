@@ -6,14 +6,14 @@ from wtforms import (
     StringField,
     SubmitField,
     TextAreaField
-    )
+)
 from wtforms.validators import (
     DataRequired,
     Email,
     EqualTo,
     Length,
     ValidationError
-    )
+)
 
 from awesomeapp.user.models import User
 

@@ -13,7 +13,7 @@ blueprint = Blueprint(
     'equipment',
     __name__,
     template_folder='templates'
-    )
+)
 
 
 @blueprint.route('/equipment', methods=['GET', 'POST'])
