@@ -3,6 +3,7 @@ from awesomeapp.statistics.forms import StatisticsForm
 from awesomeapp.equipment.models import EquipmentType
 
 
+
 def convert_to_seconds(time):
     if not time:
         return None
@@ -13,8 +14,17 @@ def convert_to_seconds(time):
     time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
     return int(time.total_seconds())
 
+
 def convert_to_meter(value):
     return None if value is None else value * 1000
+
+
+def convert_time_to_user_view(time):
+    hours = time // 60 // 60
+    minutes = time // 60 % 60
+    seconds = time % 60 % 60
+    return f'{hours}ч. {minutes}м. {seconds}с.'
+
 
 def statistics_field(equipment_type):
     form = StatisticsForm()
@@ -81,3 +91,4 @@ def trainer(fields):
     new_fields.pop('Рельеф местности')
     new_fields.pop('Параметры окружающей среды')
     return new_fields
+

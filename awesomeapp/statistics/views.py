@@ -6,16 +6,155 @@ from flask_login import login_required, current_user
 
 from awesomeapp.extensions import db
 from config import Config
-from .forms import StatisticsForm
+from awesomeapp.statistics.forms import StatisticsForm, StatisticsMenuForm
 from awesomeapp.statistics.models import Stats, Story, Image
 from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import (
-    convert_to_meter, convert_to_seconds, statistics_field
+    convert_to_meter,
+    convert_to_seconds,
+    convert_time_to_user_view,
+    statistics_field,
 )
 
 
 blueprint = Blueprint('statistics', __name__,
                       template_folder='templates', url_prefix='/stats')
+
+
+@blueprint.route('/delet/<int:id>')
+def delete(id):
+    db.session.delete(Equipment.get_by_id(id))
+    db.session.commit()
+    return redirect(url_for('dev.start_page'))
+
+
+@blueprint.route('/menu/<int:id>', methods=['GET', 'POST'])
+@login_required
+def menu(id):
+    form = StatisticsMenuForm()
+    return render_template(
+        'statistics/menu.html',
+        form=form,
+        title='Меню инвентаря',
+        equipment_by_id=Equipment.get_by_id(id),
+        all_equipment=Equipment.get_all(current_user.id)
+        )
+
+
+@blueprint.route('/view/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view(id):
+    form = StatisticsMenuForm()
+    if form.validate_on_submit():
+
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+
+        total_distance = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.distance), id, start_date, end_date
+            ) / Config.METERS_PER_KILOMETER
+
+        total_excercise_time = convert_time_to_user_view(
+            Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.time), id, start_date, end_date
+            )
+        )
+
+        total_work_time = convert_time_to_user_view(
+            Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.total_time), id, start_date, end_date
+            )
+        )
+
+        total_steps = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.steps), id, start_date, end_date
+            )
+
+        total_up_altitude = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.total_up_altitude), id, start_date, end_date
+            )
+
+        total_down_altitude = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.total_down_altitude), id, start_date, end_date
+            )
+
+        max_speed = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_speed), id, start_date, end_date
+            )
+
+        max_cadence = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_cadence), id, start_date, end_date
+            )
+
+        max_heart_rate = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_heart_rate), id, start_date, end_date
+            )
+
+        max_temperature = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_temperature), id, start_date, end_date
+            )
+
+        max_altitude = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_altitude), id, start_date, end_date
+            )
+
+        avg_cadence = Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.avg_cadence * Stats.time) / db.func.sum(
+                        Stats.time), id, start_date, end_date
+        )
+
+        avg_heart_rate = Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.avg_heart_rate * Stats.time) / db.func.sum(
+                        Stats.time), id, start_date, end_date
+        )
+
+        min_temperature = Stats.filter_by_date_and_equipment(
+            db.func.min(
+                Stats.min_temperature), id, start_date, end_date
+            )
+
+        min_altitude = Stats.filter_by_date_and_equipment(
+            db.func.min(
+                Stats.min_altitude), id, start_date, end_date
+            )
+
+    return render_template(
+        'statistics/stats_view.html',
+        start_date=start_date,
+        end_date=end_date,
+        distance=total_distance,
+        time=total_excercise_time,
+        total_up_altitude=total_up_altitude,
+        total_time=total_work_time,
+        total_down_altitude=total_down_altitude,
+        steps=total_steps,
+        max_speed=max_speed,
+        max_cadence=max_cadence,
+        max_heart_rate=max_heart_rate,
+        max_temperature=max_temperature,
+        max_altitude=max_altitude,
+        min_altitude=min_altitude,
+        min_temperature=min_temperature,
+        avg_cadence=avg_cadence,
+        avg_heart_rate=avg_heart_rate,
+        form=form,
+        title='Просмотр статистики',
+        equipment_by_id=Equipment.get_by_id(id),
+        all_equipment=Equipment.get_all(current_user.id)
+        )
 
 
 @blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
@@ -70,7 +209,7 @@ def add(id):
                 img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
                 db.session.add(img)
                 db.session.commit()
-        return redirect(url_for('equipment.equipment'))
+        return redirect(url_for('statistics.menu', id=id))
     fields = statistics_field(Equipment.get_by_id(id).type_id)
     return render_template('statistics/stats.html',
                            title='Ввод данных',

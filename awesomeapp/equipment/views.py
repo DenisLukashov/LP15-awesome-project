@@ -50,9 +50,8 @@ def equipment():
             )
         equipment.avatar = equipment_avatar_path
         db.session.commit()
-        return redirect(get_redirect_target())
+        return redirect(url_for('statistics.add', id=equipment.id))
     
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,
-                           all_equipment=Equipment.get_all(current_user.id),
-                           last_equipment=Equipment.get_last(current_user.id))
+                           all_equipment=Equipment.get_all(current_user.id))
