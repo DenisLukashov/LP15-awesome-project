@@ -22,7 +22,7 @@ blueprint = Blueprint('statistics', __name__,
 
 
 @blueprint.route('/delet/<int:id>')
-def delet(id):
+def delete(id):
     db.session.delete(Equipment.get_by_id(id))
     db.session.commit()
     return redirect(url_for('dev.start_page'))
@@ -50,160 +50,86 @@ def view(id):
         start_date = form.start_date.data
         end_date = form.end_date.data
 
-        total_distance = db.session.query(
-            db.func.coalesce(
-                db.func.sum(Stats.distance), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()/1000
+        total_distance = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.distance), id, start_date, end_date
+            ) / Config.METERS_PER_KILOMETER
 
         total_excercise_time = convert_time_to_user_view(
-            db.session.query(
-                db.func.coalesce(
-                    db.func.sum(Stats.time), 0)
-            ).filter(
-                Stats.equipment_id == id
-            ).filter(
-                start_date <= Stats.date
-            ).filter(
-                Stats.date <= end_date).scalar()
+            Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.time), id, start_date, end_date
+            )
         )
 
         total_work_time = convert_time_to_user_view(
-            db.session.query(
-                db.func.coalesce(
-                    db.func.sum(Stats.total_time), 0)
-            ).filter(
-                Stats.equipment_id == id
-            ).filter(
-                start_date <= Stats.date
-            ).filter(
-                Stats.date <= end_date).scalar()
+            Stats.filter_by_date_and_equipment(
+                db.func.sum(
+                    Stats.total_time), id, start_date, end_date
+            )
         )
 
-        total_steps = db.session.query(
-            db.func.coalesce(
-                db.func.sum(Stats.steps), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        total_steps = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.steps), id, start_date, end_date
+            )
 
-        total_up_altitude = db.session.query(
-            db.func.coalesce(
-                db.func.sum(Stats.total_up_altitude), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        total_up_altitude = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.total_up_altitude), id, start_date, end_date
+            )
 
-        total_down_altitude = db.session.query(
-            db.func.coalesce(
-                db.func.sum(Stats.total_down_altitude), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        total_down_altitude = Stats.filter_by_date_and_equipment(
+            db.func.sum(
+                Stats.total_down_altitude), id, start_date, end_date
+            )
 
-        max_speed = db.session.query(
-            db.func.coalesce(
-                db.func.max(Stats.max_speed), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        max_speed = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_speed), id, start_date, end_date
+            )
 
-        max_cadence = db.session.query(
-            db.func.coalesce(
-                db.func.max(Stats.max_cadence), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        max_cadence = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_cadence), id, start_date, end_date
+            )
 
-        max_heart_rate = db.session.query(
-            db.func.coalesce(
-                db.func.max(Stats.max_heart_rate), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(Stats.date <= end_date).scalar()
+        max_heart_rate = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_heart_rate), id, start_date, end_date
+            )
 
-        max_temperature = db.session.query(
-            db.func.coalesce(
-                db.func.max(Stats.max_temperature), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        max_temperature = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_temperature), id, start_date, end_date
+            )
 
-        max_altitude = db.session.query(
-            db.func.coalesce(
-                db.func.max(Stats.max_temperature), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(Stats.date <= end_date).scalar()
+        max_altitude = Stats.filter_by_date_and_equipment(
+            db.func.max(
+                Stats.max_altitude), id, start_date, end_date
+            )
 
-        avg_cadence = db.session.query(
-            db.func.coalesce(
+        avg_cadence = Stats.filter_by_date_and_equipment(
                 db.func.sum(
-                    Stats.avg_cadence * Stats.time)/db.func.sum(Stats.time), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+                    Stats.avg_cadence * Stats.time) / db.func.sum(
+                        Stats.time), id, start_date, end_date
+        )
 
-        avg_heart_rate = db.session.query(
-            db.func.coalesce(
+        avg_heart_rate = Stats.filter_by_date_and_equipment(
                 db.func.sum(
-                    Stats.avg_heart_rate * Stats.time)/db.func.sum(
-                        Stats.time), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+                    Stats.avg_heart_rate * Stats.time) / db.func.sum(
+                        Stats.time), id, start_date, end_date
+        )
 
-        min_temperature = db.session.query(
-            db.func.coalesce(
-                db.func.min(Stats.min_temperature), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        min_temperature = Stats.filter_by_date_and_equipment(
+            db.func.min(
+                Stats.min_temperature), id, start_date, end_date
+            )
 
-        min_altitude = db.session.query(
-            db.func.coalesce(
-                db.func.min(Stats.min_altitude), 0)
-        ).filter(
-            Stats.equipment_id == id
-        ).filter(
-            start_date <= Stats.date
-        ).filter(
-            Stats.date <= end_date).scalar()
+        min_altitude = Stats.filter_by_date_and_equipment(
+            db.func.min(
+                Stats.min_altitude), id, start_date, end_date
+            )
 
     return render_template(
         'statistics/stats_view.html',

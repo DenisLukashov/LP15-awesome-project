@@ -4,12 +4,12 @@ from wtforms import (
     StringField, SubmitField,
     TextAreaField, FloatField, IntegerField,
     MultipleFileField
-    )
+)
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
     optional
-    )
+)
 
 
 class StatisticsMenuForm(FlaskForm):
@@ -158,8 +158,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Мин высота'
-        }
+            'placeholder': 'Мин высота'}
     )
 
     max_altitude = IntegerField(
