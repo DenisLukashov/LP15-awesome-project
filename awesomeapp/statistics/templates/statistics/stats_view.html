@@ -8,20 +8,8 @@
     <h3>C {{ start_date  }} по {{ end_date }}:</h1>
 {% endif %}
 
-<p>{{ distance }} - км. вы преодолели</p>
-<p>{{ time }} - время упражнения</p>
-<p>{{ total_time }} - общее время тренировки</p>
-<p>{{ steps }} - шагов вы протоптали</p>
-<p>{{ max_speed }} - максимальная скорость</p>
-<p>{{ max_cadence }} - максимальный каденс</p>
-<p>{{ max_heart_rate }} - максимальный пульс</p>
-<p>{{ avg_cadence }} - средний каденс</p>
-<p>{{ avg_heart_rate }} - средний пульс</p>
-<p>{{ max_temperature }} - максимальная температура</p>
-<p>{{ max_altitude }} -  максимальная высота</p>
-<p>{{ min_altitude }} - минимальная высота</p>
-<p>{{ min_temperature }} - минимальная температура</p>
-<p>{{ total_up_altitude }} - суммарный подъем</p>
-<p>{{ total_down_altitude }} - суммарный спуск</p>
+{% for label, value in statistics.items() %}
+    <p>{{ label }} - {{ value }}</p>
+{% endfor %}
 
 {% endblock %}
