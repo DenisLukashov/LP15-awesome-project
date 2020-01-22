@@ -60,13 +60,13 @@ class Stats(db.Model):
     def get_statistics(cls, id, start_date, end_date):
         statistics = {
 
-            'Тренировок': len(cls.query.filter(
+            'Тренировок': cls.query.filter(
                 cls.equipment_id == id
             ).filter(
                 start_date <= cls.date
             ).filter(
                 cls.date <= end_date
-            ).all()),
+            ).count(),
 
             'Дистанция': cls.filter_by_date_and_equipment(
                 db.func.sum(
@@ -141,12 +141,10 @@ class Stats(db.Model):
 
             'Средняя скорость': cls.filter_by_date_and_equipment(
                 (db.func.sum(
-                    cls.distance
-                    ) / Config.METERS_PER_KILOMETER
-                 ) / (db.func.sum(
-                     cls.time
-                     ) / Config.SECONDS_PER_MINUTE / Config.MINUTES_PER_HOUR
-                      ), id, start_date, end_date
+                    cls.distance) / Config.METERS_PER_KILOMETER) / (
+                        db.func.sum(
+                            cls.time) / Config.SECONDS_PER_MINUTE /
+                        Config.MINUTES_PER_HOUR), id, start_date, end_date
             ),
 
             'Мин. температура': cls.filter_by_date_and_equipment(

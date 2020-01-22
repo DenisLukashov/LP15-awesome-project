@@ -9,7 +9,9 @@
 {% endif %}
 
 {% for label, value in statistics.items() %}
+    {% if value != 0 %}
     <p>{{ label }} - {{ value }}</p>
+    {% endif %}
 {% endfor %}
 
 {% endblock %}
