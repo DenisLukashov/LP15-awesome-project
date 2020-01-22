@@ -13,7 +13,7 @@ from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
     convert_time_to_user_view,
-    statistics_field,
+    get_statistics_fields,
 )
 
 
@@ -120,7 +120,7 @@ def add(id):
                 db.session.add(img)
                 db.session.commit()
         return redirect(url_for('statistics.menu', id=id))
-    fields = statistics_field(Equipment.get_by_id(id).type_id, form)
+    fields = get_statistics_fields(Equipment.get_by_id(id).type_id, form)
     return render_template(
         'statistics/stats.html',
         title='Ввод данных',
