@@ -41,7 +41,9 @@ nav {
 .regist_content {
   height: 89.3vh;
 }
-
+.stats_view_content {
+  height: 75.3vh;
+}
 /*not my style*/
 
 .equipmnent_content {
