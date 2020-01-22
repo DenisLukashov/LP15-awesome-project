@@ -13,6 +13,7 @@ from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
     convert_time_to_user_view,
+    histogram_data,
     statistics_field,
 )
 
@@ -157,7 +158,8 @@ def view(id):
         form=form,
         title='Просмотр статистики',
         equipment_by_id=Equipment.get_by_id(id),
-        all_equipment=Equipment.get_all(current_user.id)
+        all_equipment=Equipment.get_all(current_user.id),
+        histogram=histogram_data(start_date, end_date, id)
     )
 
 

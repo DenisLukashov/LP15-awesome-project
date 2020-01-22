@@ -1,6 +1,9 @@
-from datetime import timedelta
+from datetime import date, datetime, timedelta
+import json
+
 from awesomeapp.statistics.forms import StatisticsForm
 from awesomeapp.equipment.models import EquipmentType
+from awesomeapp.statistics.models import Stats
 from config import Config
 
 
@@ -97,3 +100,28 @@ def trainer(fields):
     new_fields.pop('Рельеф местности')
     new_fields.pop('Параметры окружающей среды')
     return new_fields
+
+
+def histogram_data(start_date, end_date, equipmeint_id):
+    date = start_date
+    date_list = [date]
+    while date != end_date:
+        date += timedelta(days=1)
+        date_list.append(date)
+
+    historam_data = {}
+
+    for date in date_list:
+        historam_data[date] = {'date': date.strftime('%Y.%m.%d'), 'dist': 0}
+
+    for data in Stats.stats_filter_by_date(
+        equipmeint_id,
+        start_date, end_date
+    ):
+        historam_data[data.date] = {
+            'date': data.date.strftime('%Y.%m.%d'),
+            'dist': data.distance, 'time': data.time
+        }
+
+    histogram_data = [x for x in historam_data.values()]
+    return histogram_data

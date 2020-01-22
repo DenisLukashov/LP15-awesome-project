@@ -58,6 +58,18 @@ class Stats(db.Model):
         ).scalar()
         return query
 
+    @classmethod
+    def stats_filter_by_date(cls, id, start_date, end_date):
+        query = cls.query.filter(
+            cls.equipment_id == id
+        ).filter(
+            start_date <= cls.date
+        ).filter(
+            cls.date <= end_date
+        ).order_by(
+            cls.date
+        ).all()
+        return query
 
 class Story(db.Model):
     __tablename__ = 'stories'
