@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from awesomeapp.extensions import db
 
 from config import Config
@@ -69,6 +71,7 @@ class Stats(db.Model):
         ).all()
         return query
 
+    @classmethod
     def get_statistics(cls, id, start_date, end_date):
         statistics = {
 
@@ -170,6 +173,34 @@ class Stats(db.Model):
             ),
         }
         return statistics
+
+    @classmethod
+    def histogram_data(cls, start_date, end_date, equipmeint_id):
+        date = start_date
+        date_list = [date]
+        while date != end_date:
+            date += timedelta(days=1)
+            date_list.append(date)
+
+        historam_data = {}
+
+        for date in date_list:
+            historam_data[date] = {
+                'date': date.strftime('%Y.%m.%d'),
+                'dist': 0
+            }
+
+        for data in Stats.stats_filter_by_date(
+            equipmeint_id,
+            start_date, end_date
+        ):
+            historam_data[data.date] = {
+                'date': data.date.strftime('%Y.%m.%d'),
+                'dist': data.distance, 'time': data.time
+            }
+
+        histogram_data = [x for x in historam_data.values()]
+        return histogram_data
 
 
 class Story(db.Model):

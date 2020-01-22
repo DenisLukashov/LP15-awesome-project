@@ -1,9 +1,7 @@
-from datetime import date, datetime, timedelta
-import json
+from datetime import timedelta
 
-from awesomeapp.statistics.forms import StatisticsForm
 from awesomeapp.equipment.models import EquipmentType
-from awesomeapp.statistics.models import Stats
+from awesomeapp.statistics.forms import StatisticsForm
 from config import Config
 
 
@@ -20,15 +18,6 @@ def convert_to_seconds(time):
 
 def convert_to_meter(value):
     return None if value is None else value * Config.METERS_PER_KILOMETER
-
-
-def convert_time_to_user_view(time):
-    if time == 0:
-        return time
-    hours = time // Config.MINUTES_PER_HOUR // Config.SECONDS_PER_MINUTE
-    minutes = time // Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
-    seconds = time % Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
-    return f'{hours}ч. {minutes}м. {seconds}с.'
 
 
 def statistics_field(equipment_type):
@@ -104,26 +93,10 @@ def trainer(fields):
     return new_fields
 
 
-def histogram_data(start_date, end_date, equipmeint_id):
-    date = start_date
-    date_list = [date]
-    while date != end_date:
-        date += timedelta(days=1)
-        date_list.append(date)
-
-    historam_data = {}
-
-    for date in date_list:
-        historam_data[date] = {'date': date.strftime('%Y.%m.%d'), 'dist': 0}
-
-    for data in Stats.stats_filter_by_date(
-        equipmeint_id,
-        start_date, end_date
-    ):
-        historam_data[data.date] = {
-            'date': data.date.strftime('%Y.%m.%d'),
-            'dist': data.distance, 'time': data.time
-        }
-
-    histogram_data = [x for x in historam_data.values()]
-    return histogram_data
+def convert_time_to_user_view(time):
+    if time == 0:
+        return time
+    hours = time // Config.MINUTES_PER_HOUR // Config.SECONDS_PER_MINUTE
+    minutes = time // Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
+    seconds = time % Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
+    return f'{hours}ч. {minutes}м. {seconds}с.'
