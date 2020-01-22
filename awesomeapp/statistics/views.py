@@ -71,6 +71,7 @@ def view(id):
 @login_required
 def add(id):
     form = StatisticsForm()
+    print(form.errors)
     if form.validate_on_submit():
         stats = Stats(
             equipment_id=id,
@@ -119,8 +120,9 @@ def add(id):
                 img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
                 db.session.add(img)
                 db.session.commit()
+        print('dfdf')
         return redirect(url_for('statistics.menu', id=id))
-    fields = statistics_field(Equipment.get_by_id(id).type_id)
+    fields = statistics_field(Equipment.get_by_id(id).type_id, form)
     return render_template(
         'statistics/stats.html',
         title='Ввод данных',

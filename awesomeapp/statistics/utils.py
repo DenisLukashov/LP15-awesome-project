@@ -28,8 +28,7 @@ def convert_time_to_user_view(time):
     return f'{hours}ч. {minutes}м. {seconds}с.'
 
 
-def statistics_field(equipment_type):
-    form = StatisticsForm()
+def statistics_field(equipment_type, form):
     step = {
         'Основные параметры': [
             form.date,

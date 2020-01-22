@@ -15,9 +15,11 @@
                         
                         <div class="col">{{ field }}</div>
                         
-                        {% for error in field.errors %}
-                            <span>{{ error }}</span>
+                        {% for error in field.errors  %}
+                            {{ error }}
                         {% endfor %}
+            
+                 
                     {% endfor %}
                     </div>
                 {% endfor %}
