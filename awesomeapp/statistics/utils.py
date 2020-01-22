@@ -23,6 +23,8 @@ def convert_to_meter(value):
 
 
 def convert_time_to_user_view(time):
+    if time == 0:
+        return time
     hours = time // Config.MINUTES_PER_HOUR // Config.SECONDS_PER_MINUTE
     minutes = time // Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
     seconds = time % Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE

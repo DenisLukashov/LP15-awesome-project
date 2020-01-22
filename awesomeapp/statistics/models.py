@@ -1,5 +1,8 @@
 from awesomeapp.extensions import db
 
+from config import Config
+from awesomeapp.statistics.utils import convert_time_to_user_view
+
 
 class Stats(db.Model):
     __tablename__ = 'stats'
@@ -35,14 +38,9 @@ class Stats(db.Model):
     max_altitude = db.Column(db.SmallInteger)
 
     story_id = db.Column(
-        db.Integer,
-        db.ForeignKey('stories.id', ondelete='CASCADE'),
-        index=True
-    )
-    story = db.relationship(
-        'Story', uselist=False,
-        backref='stats',
-        foreign_keys='Story.stats_id'
+      db.Integer,
+      db.ForeignKey('stories.id', ondelete='CASCADE'),
+      index=True
     )
 
     @classmethod
@@ -71,6 +69,109 @@ class Stats(db.Model):
         ).all()
         return query
 
+    def get_statistics(cls, id, start_date, end_date):
+        statistics = {
+
+            'Тренировок': cls.query.filter(
+                cls.equipment_id == id
+            ).filter(
+                start_date <= cls.date
+            ).filter(
+                cls.date <= end_date
+            ).count(),
+
+            'Дистанция': cls.filter_by_date_and_equipment(
+                db.func.sum(
+                    cls.distance), id, start_date, end_date
+                ) / Config.METERS_PER_KILOMETER,
+
+            'Время упражнения': convert_time_to_user_view(
+                cls.filter_by_date_and_equipment(
+                    db.func.sum(
+                        cls.time), id, start_date, end_date
+                )
+            ),
+
+            'Общее время тренировки': convert_time_to_user_view(
+                cls.filter_by_date_and_equipment(
+                    db.func.sum(
+                        cls.total_time), id, start_date, end_date
+                )
+            ),
+
+            'Всего шагов': cls.filter_by_date_and_equipment(
+                db.func.sum(
+                    cls.steps), id, start_date, end_date
+            ),
+
+            'Подъем':  cls.filter_by_date_and_equipment(
+                db.func.sum(
+                    cls.total_up_altitude), id, start_date, end_date
+            ),
+
+            'Спуск': cls.filter_by_date_and_equipment(
+                db.func.sum(
+                    cls.total_down_altitude), id, start_date, end_date
+            ),
+
+            'Макс. скорость': cls.filter_by_date_and_equipment(
+                db.func.max(
+                    cls.max_speed), id, start_date, end_date
+            ) / Config.METERS_PER_KILOMETER,
+
+            'Макс. каденс': cls.filter_by_date_and_equipment(
+                db.func.max(
+                    cls.max_cadence), id, start_date, end_date
+            ),
+
+            'Макс. сердцебеение': cls.filter_by_date_and_equipment(
+                db.func.max(
+                    cls.max_heart_rate), id, start_date, end_date
+            ),
+
+            'Макс. температура': cls.filter_by_date_and_equipment(
+                db.func.max(
+                    cls.max_temperature), id, start_date, end_date
+            ),
+
+            'Макс. высота': cls.filter_by_date_and_equipment(
+                db.func.max(
+                    cls.max_altitude), id, start_date, end_date
+            ),
+
+            'Средний каденс': cls.filter_by_date_and_equipment(
+                    db.func.sum(
+                        cls.avg_cadence * cls.time) / db.func.sum(
+                            cls.time), id, start_date, end_date
+            ),
+
+            'Среднее сердцебеение': cls.filter_by_date_and_equipment(
+                    db.func.sum(
+                        cls.avg_heart_rate * cls.time) / db.func.sum(
+                            cls.time), id, start_date, end_date
+            ),
+
+            'Средняя скорость': cls.filter_by_date_and_equipment(
+                (db.func.sum(
+                    cls.distance) / Config.METERS_PER_KILOMETER) / (
+                        db.func.sum(
+                            cls.time) / Config.SECONDS_PER_MINUTE /
+                        Config.MINUTES_PER_HOUR), id, start_date, end_date
+            ),
+
+            'Мин. температура': cls.filter_by_date_and_equipment(
+                db.func.min(
+                    cls.min_temperature), id, start_date, end_date
+            ),
+
+            'Мин. высота': cls.filter_by_date_and_equipment(
+                db.func.min(
+                    cls.min_altitude), id, start_date, end_date
+            ),
+        }
+        return statistics
+
+
 class Story(db.Model):
     __tablename__ = 'stories'
     id = db.Column(db.Integer, primary_key=True)
@@ -93,5 +194,4 @@ class Image(db.Model):
         db.ForeignKey('stories.id', ondelete='CASCADE'),
         index=True
     )
-
     story = db.relationship('Story', backref='images')
