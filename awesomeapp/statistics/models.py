@@ -196,7 +196,8 @@ class Stats(db.Model):
         ):
             historam_data[data.date] = {
                 'date': data.date.strftime('%Y.%m.%d'),
-                'dist': data.distance, 'time': data.time
+                'dist': data.distance / Config.METERS_PER_KILOMETER,
+                'time': data.time
             }
 
         histogram_data = [x for x in historam_data.values()]
