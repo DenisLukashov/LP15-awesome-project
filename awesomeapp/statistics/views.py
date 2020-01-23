@@ -12,7 +12,6 @@ from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
-    convert_time_to_user_view,
     get_statistics_fields,
 )
 
@@ -28,16 +27,20 @@ blueprint = Blueprint(
 @blueprint.route('/delet/<int:id>')
 def delete(id):
     equipment = Equipment.get_by_id(id)
-    images_of_equpment = []
+    images_of_equipment = []
 
-    for statistics in equipment.stats:
-        for images in statistics.story.images:
-            file = images.src.split('/')[-1]
-            file_path = os.path.join(
-                Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
-            images_of_equpment.append(file_path)
+    statistics = [statistics for statistics in equipment.stats]
+    stories = [stat.story for stat in statistics]
+    images = []
+    for story in stories:
+        images.extend(story.images)
+    for image in images:
+        file = image.src.split('/')[-1]
+        file_path = os.path.join(
+            Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
+        images_of_equipment.append(file_path)
 
-    for src in images_of_equpment:
+    for src in images_of_equipment:
         os.remove(src)
 
     db.session.delete(equipment)

@@ -14,7 +14,8 @@ class Stats(db.Model):
       db.ForeignKey('equipment.id'),
       index=True
     )
-    equipment = db.relationship('Equipment', backref=backref('stats', cascade='all,delete'))
+    equipment = db.relationship('Equipment',
+                                backref=backref('stats', cascade='all,delete'))
 
     date = db.Column(db.Date, nullable=False)
 
@@ -44,7 +45,8 @@ class Stats(db.Model):
       index=True
     )
 
-    story = db.relationship('Story', uselist=False, cascade='all,delete', backref='stats', foreign_keys='Story.stats_id')
+    story = db.relationship('Story', uselist=False, cascade='all,delete',
+                            backref='stats', foreign_keys='Story.stats_id')
 
     @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
@@ -186,4 +188,5 @@ class Image(db.Model):
         db.ForeignKey('stories.id', ondelete='CASCADE'),
         index=True
     )
-    story = db.relationship('Story', backref=backref('images', cascade='all,delete'))
+    story = db.relationship('Story', backref=backref(
+        'images', cascade='all,delete'))
