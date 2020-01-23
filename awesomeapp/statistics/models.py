@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import timedelta
 
 from awesomeapp.extensions import db
@@ -184,8 +185,8 @@ class Stats(db.Model):
 
         histogram_data = {
             date: {
-                'date': date.strftime('%Y.%m.%d'),
-                'distance': 0
+                'Дата': date.strftime('%Y.%m.%d'),
+                'Дистанция': 0
             }
             for date in date_range
         }
@@ -196,9 +197,13 @@ class Stats(db.Model):
             end_date
         ):
             histogram_data[data.date] = {
-                'date': data.date.strftime('%Y.%m.%d'),
-                'distance': data.distance / Config.METERS_PER_KILOMETER,
-                'time': convert_time_to_user_view(data.time)
+                'Дата': data.date.strftime('%Y.%m.%d'),
+                'Дистанция': data.distance / Config.METERS_PER_KILOMETER,
+                'Время': convert_time_to_user_view(data.time),
+                'Сред скорость': round(
+                    data.distance / data.time / Config.METERS_PER_KILOMETER *
+                    Config.SECONDS_PER_MINUTE * Config.MINUTES_PER_HOUR, 2
+                )
             }
 
         histogram_data = list(histogram_data.values())
