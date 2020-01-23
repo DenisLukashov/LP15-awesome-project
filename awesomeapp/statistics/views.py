@@ -27,7 +27,20 @@ blueprint = Blueprint(
 
 @blueprint.route('/delet/<int:id>')
 def delete(id):
-    db.session.delete(Equipment.get_by_id(id))
+    equipment = Equipment.get_by_id(id)
+    images_of_equpment = []
+
+    for statistics in equipment.stats:
+        for images in statistics.story.images:
+            file = images.src.split('/')[-1]
+            file_path = os.path.join(
+                Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
+            images_of_equpment.append(file_path)
+
+    for src in images_of_equpment:
+        os.remove(src)
+
+    db.session.delete(equipment)
     db.session.commit()
     return redirect(url_for('dev.start_page'))
 
