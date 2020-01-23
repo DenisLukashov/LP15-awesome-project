@@ -20,8 +20,16 @@ def convert_to_meter(value):
     return None if value is None else value * Config.METERS_PER_KILOMETER
 
 
-def statistics_field(equipment_type):
-    form = StatisticsForm()
+def convert_time_to_user_view(time):
+    if time == 0:
+        return time
+    hours = time // Config.MINUTES_PER_HOUR // Config.SECONDS_PER_MINUTE
+    minutes = time // Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
+    seconds = time % Config.MINUTES_PER_HOUR % Config.SECONDS_PER_MINUTE
+    return f'{hours}ч. {minutes}м. {seconds}с.'
+
+
+def get_statistics_fields(equipment_type, form):
     step = {
         'Основные параметры': [
             form.date,

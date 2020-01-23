@@ -18,5 +18,5 @@
         </p>
     </div>
 </form>
-<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}">Удали меня</a>
+<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}" onclick="return confirm('Ты уверен?')">Удали меня!</a>
 {% endblock %}
