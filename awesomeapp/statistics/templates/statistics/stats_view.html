@@ -2,29 +2,31 @@
 
 {% block content %}
 
-
-
 <!-- Load d3.js -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
-  <div class="row align-items-center stats_view_content">
+<div class="row align-items-center">
+    <div class="col-sm">
+        {% if start_date  == end_date %}:
+            <p class="text-center h5 font-weight-normal">{{ start_date  }}
+        {% else %}
+            <p class="text-center h5 font-weight-normal">C {{ start_date  }} по {{ end_date }}:
+        {% endif %}
+    </div>
+</div>
+<div class="row align-items-center stats_view_content">
     <div class="col-sm-10" >
         <div id="my_histogram"></div>
     </div>
     <div class="col-sm-2">
-        {% if start_date  == end_date %}:
-            <h5>{{ start_date  }}</h5>
-        {% else %}
-            <h5>C {{ start_date  }} по {{ end_date }}:</h5>
-        {% endif %}
         {% for label, value in statistics.items() %}
             {% if value != 0 %}
                 <p>{{ label }} - {{ value }}</p>
             {% endif %}
         {% endfor %}
     </div>
-  </div>
+</div>
 
 <script>
 
@@ -55,11 +57,11 @@ var yAxis = d3.svg.axis()
     .tickFormat(format);
 
 var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .offset([-10, 0])
-  .html(function(d) {
-    return "<p>Distance: " + d.dist + "<p>Date: " + d.date + "<p>Time: " + d.time;
-  })
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+    return "<p>Distance: " + d.distance + "<p>Date: " + d.date + "<p>Time: " + d.time;
+})
 
 var svg = d3.select("#my_histogram")
     .append("svg")
@@ -70,10 +72,8 @@ var svg = d3.select("#my_histogram")
 
 svg.call(tip);
 
-
-
 x.domain(data.map(function(d) { return d.date; }));
-y.domain([0, d3.max(data, function(d) { return d.dist; })]);
+y.domain([0, d3.max(data, function(d) { return d.distance; })]);
 
 svg.append("g")
     .attr("class", "x axis")
@@ -83,7 +83,7 @@ svg.append("g")
 svg.append("g")
     .attr("class", "y axis")
     .call(yAxis)
-.append("text")
+    .append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 6)
     .attr("dy", ".71em")
@@ -92,23 +92,20 @@ svg.append("g")
 
 svg.selectAll(".bar")
     .data(data)
-.enter().append("rect")
+    .enter()
+    .append("rect")
     .attr("class", "bar")
     .attr("x", function(d) { return x(d.date); })
     .attr("width", x.rangeBand())
-    .attr("y", function(d) { return y(d.dist); })
-    .attr("height", function(d) { return height - y(d.dist); })
+    .attr("y", function(d) { return y(d.distance); })
+    .attr("height", function(d) { return height - y(d.distance); })
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide)
 
 
 function type(d) {
-  d.dist = +d.dist;
-  return d;
+    d.distance = +d.distance;
+    return d;
 }
-
 </script>
-{% for date in histogram.date %}
-    <p>{{ date }}
-{% endfor%}
 {% endblock %}

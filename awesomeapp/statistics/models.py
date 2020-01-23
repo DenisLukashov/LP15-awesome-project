@@ -56,10 +56,11 @@ class Stats(db.Model):
         ).filter(
             cls.date <= end_date
         ).scalar()
+
         return query
 
     @classmethod
-    def stats_filter_by_date(cls, id, start_date, end_date):
+    def filter_by_date(cls, id, start_date, end_date):
         query = cls.query.filter(
             cls.equipment_id == id
         ).filter(
@@ -69,6 +70,7 @@ class Stats(db.Model):
         ).order_by(
             cls.date
         ).all()
+
         return query
 
     @classmethod
@@ -176,31 +178,30 @@ class Stats(db.Model):
 
     @classmethod
     def histogram_data(cls, start_date, end_date, equipmeint_id):
-        date = start_date
-        date_list = [date]
-        while date != end_date:
-            date += timedelta(days=1)
-            date_list.append(date)
 
-        historam_data = {}
+        delta = end_date - start_date
+        date_range = [start_date + timedelta(x) for x in range(delta.days + 1)]
 
-        for date in date_list:
-            historam_data[date] = {
+        histogram_data = {
+            date: {
                 'date': date.strftime('%Y.%m.%d'),
-                'dist': 0
+                'distance': 0
             }
+            for date in date_range
+        }
 
-        for data in Stats.stats_filter_by_date(
+        for data in Stats.filter_by_date(
             equipmeint_id,
-            start_date, end_date
+            start_date,
+            end_date
         ):
-            historam_data[data.date] = {
+            histogram_data[data.date] = {
                 'date': data.date.strftime('%Y.%m.%d'),
-                'dist': data.distance / Config.METERS_PER_KILOMETER,
-                'time': data.time
+                'distance': data.distance / Config.METERS_PER_KILOMETER,
+                'time': convert_time_to_user_view(data.time)
             }
 
-        histogram_data = [x for x in historam_data.values()]
+        histogram_data = list(histogram_data.values())
         return histogram_data
 
 
