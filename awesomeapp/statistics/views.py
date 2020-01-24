@@ -12,7 +12,6 @@ from awesomeapp.equipment.models import Equipment
 from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
-    convert_time_to_user_view,
     get_statistics_fields,
 )
 from awesomeapp.utils import get_redirect_target
@@ -70,7 +69,8 @@ def view(id):
         form=form,
         title='Меню инвентаря',
         equipment_by_id=Equipment.get_by_id(id),
-        all_equipment=Equipment.get_all(current_user.id)
+        all_equipment=Equipment.get_all(current_user.id),
+        histogram=Stats.histogram_data(start_date, end_date, id)
     )
 
 

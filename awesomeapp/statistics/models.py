@@ -1,3 +1,6 @@
+from collections import OrderedDict
+from datetime import timedelta
+
 from awesomeapp.extensions import db
 
 from config import Config
@@ -54,6 +57,21 @@ class Stats(db.Model):
         ).filter(
             cls.date <= end_date
         ).scalar()
+
+        return query
+
+    @classmethod
+    def filter_by_date(cls, id, start_date, end_date):
+        query = cls.query.filter(
+            cls.equipment_id == id
+        ).filter(
+            start_date <= cls.date
+        ).filter(
+            cls.date <= end_date
+        ).order_by(
+            cls.date
+        ).all()
+
         return query
 
     @classmethod
@@ -157,8 +175,39 @@ class Stats(db.Model):
                     cls.min_altitude), id, start_date, end_date
             ),
         }
-
         return statistics
+
+    @classmethod
+    def histogram_data(cls, start_date, end_date, equipmeint_id):
+
+        delta = end_date - start_date
+        date_range = [start_date + timedelta(x) for x in range(delta.days + 1)]
+
+        histogram_data = {
+            date: {
+                'Дата': date.strftime('%Y.%m.%d'),
+                'Дистанция': 0
+            }
+            for date in date_range
+        }
+
+        for data in Stats.filter_by_date(
+            equipmeint_id,
+            start_date,
+            end_date
+        ):
+            histogram_data[data.date] = {
+                'Дата': data.date.strftime('%Y.%m.%d'),
+                'Дистанция': data.distance / Config.METERS_PER_KILOMETER,
+                'Время': convert_time_to_user_view(data.time),
+                'Сред скорость': round(
+                    data.distance / data.time / Config.METERS_PER_KILOMETER *
+                    Config.SECONDS_PER_MINUTE * Config.MINUTES_PER_HOUR, 2
+                )
+            }
+
+        histogram_data = list(histogram_data.values())
+        return histogram_data
 
 
 class Story(db.Model):
