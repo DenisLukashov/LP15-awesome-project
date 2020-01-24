@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import (
@@ -11,7 +13,8 @@ from wtforms import (
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
-    optional
+    optional,
+    ValidationError
 )
 
 
@@ -25,14 +28,16 @@ class StatisticsMenuForm(FlaskForm):
 
     end_date = DateField(
         'По',
-        validators=[DataRequired()],
-        render_kw={'class': 'form-control'}
+        render_kw={'class': 'form-control'},
+        validators=[optional()],
     )
 
     submit = SubmitField(
         'Вывести статистику',
         render_kw={'class': 'btn btn-lg btn-primary btn-block'}
     )
+
+
 
 
 class StatisticsForm(FlaskForm):

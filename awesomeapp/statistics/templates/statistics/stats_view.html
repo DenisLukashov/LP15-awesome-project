@@ -2,8 +2,12 @@
 
 {% block content %}
 
-{% if start_date  == end_date %}:
+{% if start_date  == end_date %}
     <h3>{{ start_date  }}</h3>
+    <p>История - {{ story_and_images['История'] }}</p>
+    {% for image in story_and_images['Картинки']%}
+        <p><img src="/{{ image }}" alt="dfdf"></p>
+    {% endfor %}
 {% else %}
     <h3>C {{ start_date  }} по {{ end_date }}:</h1>
 {% endif %}
