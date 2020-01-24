@@ -46,6 +46,9 @@ class Stats(db.Model):
       index=True
     )
 
+    story = db.relationship('Story', uselist=False, cascade='all,delete',
+                            backref='stats', foreign_keys='Story.stats_id')
+
     @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
         query = db.session.query(db.func.coalesce(
@@ -73,6 +76,29 @@ class Stats(db.Model):
         ).all()
 
         return query
+
+    @classmethod
+    def get_story_and_images(cls, id, start_date, end_date):
+        if start_date != end_date:
+            return None
+
+        story_and_images = {
+            'story': cls.query.filter(
+                cls.equipment_id == id
+            ).filter(
+                cls.date == start_date
+            ).one().story.text,
+        }
+
+        images = cls.query.filter(
+                cls.equipment_id == id
+            ).filter(
+                cls.date == start_date
+            ).one().story.images
+
+        story_and_images['images'] = [image.src for image in images]
+
+        return story_and_images
 
     @classmethod
     def get_statistics(cls, id, start_date, end_date):

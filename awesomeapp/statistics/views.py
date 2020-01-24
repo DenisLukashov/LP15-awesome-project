@@ -14,7 +14,6 @@ from awesomeapp.statistics.utils import (
     convert_to_seconds,
     get_statistics_fields,
 )
-from awesomeapp.utils import get_redirect_target
 
 
 blueprint = Blueprint(
@@ -53,10 +52,16 @@ def view(id):
     if form.validate_on_submit():
         start_date = form.start_date.data
         end_date = form.end_date.data
+
+        if end_date is None:
+            end_date = start_date
+
         return render_template(
             'statistics/stats_view.html',
             start_date=start_date,
             end_date=end_date,
+            story_and_images=Stats.get_story_and_images(
+                id, start_date, end_date),
             statistics=Stats.get_statistics(id, start_date, end_date),
             form=form,
             title='Просмотр статистики',

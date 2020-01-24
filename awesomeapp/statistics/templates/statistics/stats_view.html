@@ -2,6 +2,22 @@
 
 {% block content %}
 
+{% if start_date  == end_date %}
+    <h3>{{ start_date  }}</h3>
+    <p>История - {{ story_and_images.story }}</p>
+    {% for image in story_and_images.images %}
+        <p><img src="/{{ image }}" alt="Фото с тренировки"></p>
+    {% endfor %}
+{% else %}
+    <h3>C {{ start_date  }} по {{ end_date }}:</h1>
+{% endif %}
+
+{% for label, value in statistics.items() %}
+    {% if value != 0 %}
+    <p>{{ label }} - {{ value }}</p>
+    {% endif %}
+{% endfor %}
+
 <!-- Load d3.js -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
