@@ -29,12 +29,12 @@ def delete(id):
     equipment = Equipment.get_by_id(id)
     images_of_equipment = []
 
-    statistics = [statistics for statistics in equipment.stats]
-    stories = [stat.story for stat in statistics]
-    images = []
-    for story in stories:
-        images.extend(story.images)
-    for image in images:
+    stories = [statistics.story for statistics in equipment.stats]
+    nested_images = [story.images for story in stories]
+    flat_images = [image for set_images in nested_images for
+                   image in set_images]
+
+    for image in flat_images:
         file = image.src.split('/')[-1]
         file_path = os.path.join(
             Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
