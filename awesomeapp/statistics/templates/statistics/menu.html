@@ -6,11 +6,17 @@
     <div class='container'>
         <br>
         {{ form.hidden_tag() }}
-        <p>{{ form.start_date .label }}
+        <p>{{ form.start_date.label }}
             {{ form.start_date  }}
+            {% for error in form.start_date.errors %}
+                {{ error }}
+            {% endfor %}
         </p>
         <p>{{ form.end_date.label }}
             {{ form.end_date }}
+            {% for error in form.end_date.errors %}
+                {{ error }}
+            {% endfor %}
         </p>
 
         <p>
@@ -18,5 +24,5 @@
         </p>
     </div>
 </form>
-<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}">Удали меня</a>
+<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}" onclick="return confirm('Ты уверен?')">Удали меня!</a>
 {% endblock %}
