@@ -61,25 +61,26 @@ class Stats(db.Model):
 
     @classmethod
     def get_story_and_images(cls, id, start_date, end_date):
-        if start_date == end_date:
+        if start_date != end_date:
+            return None
 
-            story_and_images = {
-                'История': cls.query.filter(
-                    cls.equipment_id == id
-                ).filter(
-                    cls.date == start_date
-                ).one().story.text,
-            }
+        story_and_images = {
+            'story': cls.query.filter(
+                cls.equipment_id == id
+            ).filter(
+                cls.date == start_date
+            ).one().story.text,
+        }
 
-            images = cls.query.filter(
-                    cls.equipment_id == id
-                ).filter(
-                    cls.date == start_date
-                ).one().story.images
+        images = cls.query.filter(
+                cls.equipment_id == id
+            ).filter(
+                cls.date == start_date
+            ).one().story.images
 
-            story_and_images['Картинки'] = [image.src for image in images]
+        story_and_images['images'] = [image.src for image in images]
 
-            return story_and_images
+        return story_and_images
 
     @classmethod
     def get_statistics(cls, id, start_date, end_date):
