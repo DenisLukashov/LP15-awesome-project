@@ -1,8 +1,9 @@
 from collections import OrderedDict
 from datetime import timedelta
 
-from awesomeapp.extensions import db
+from sqlalchemy.orm import backref
 
+from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.statistics.utils import convert_time_to_user_view
 
@@ -13,10 +14,11 @@ class Stats(db.Model):
 
     equipment_id = db.Column(
       db.Integer,
-      db.ForeignKey('equipment.id', ondelete='CASCADE'),
+      db.ForeignKey('equipment.id'),
       index=True
     )
-    equipment = db.relationship('Equipment', backref='stats')
+    equipment = db.relationship('Equipment',
+                                backref=backref('stats', cascade='all,delete'))
 
     date = db.Column(db.Date, nullable=False)
 
@@ -42,7 +44,7 @@ class Stats(db.Model):
 
     story_id = db.Column(
       db.Integer,
-      db.ForeignKey('stories.id', ondelete='CASCADE'),
+      db.ForeignKey('stories.id'),
       index=True
     )
 
@@ -243,7 +245,7 @@ class Story(db.Model):
 
     stats_id = db.Column(
         db.Integer,
-        db.ForeignKey('stats.id', ondelete='CASCADE'),
+        db.ForeignKey('stats.id'),
         index=True
     )
 
@@ -258,4 +260,5 @@ class Image(db.Model):
         db.ForeignKey('stories.id', ondelete='CASCADE'),
         index=True
     )
-    story = db.relationship('Story', backref='images')
+    story = db.relationship('Story', backref=backref(
+        'images', cascade='all,delete'))
