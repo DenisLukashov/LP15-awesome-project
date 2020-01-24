@@ -29,8 +29,7 @@ def delete(id):
     equipment = Equipment.get_by_id(id)
     images_of_equipment = []
 
-    stories = [statistics.story for statistics in equipment.stats]
-    nested_images = [story.images for story in stories]
+    nested_images = [statistics.story.images for statistics in equipment.stats]
     flat_images = [image for set_images in nested_images for
                    image in set_images]
 
