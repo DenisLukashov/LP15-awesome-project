@@ -1,5 +1,5 @@
 from datetime import timedelta
-from awesomeapp.statistics.forms import StatisticsForm
+
 from awesomeapp.equipment.models import EquipmentType
 from config import Config
 
