@@ -6,11 +6,17 @@
     <div class='container'>
         <br>
         {{ form.hidden_tag() }}
-        <p>{{ form.start_date .label }}
+        <p>{{ form.start_date.label }}
             {{ form.start_date  }}
+            {% for error in form.start_date.errors %}
+                {{ error }}
+            {% endfor %}
         </p>
         <p>{{ form.end_date.label }}
             {{ form.end_date }}
+            {% for error in form.end_date.errors %}
+                {{ error }}
+            {% endfor %}
         </p>
 
         <p>
