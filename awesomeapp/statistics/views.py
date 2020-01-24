@@ -15,6 +15,7 @@ from awesomeapp.statistics.utils import (
     convert_time_to_user_view,
     get_statistics_fields,
 )
+from awesomeapp.utils import get_redirect_target
 
 
 blueprint = Blueprint(
@@ -51,17 +52,23 @@ def view(id):
     form = StatisticsMenuForm()
 
     if form.validate_on_submit():
-
         start_date = form.start_date.data
         end_date = form.end_date.data
+        return render_template(
+            'statistics/stats_view.html',
+            start_date=start_date,
+            end_date=end_date,
+            statistics=Stats.get_statistics(id, start_date, end_date),
+            form=form,
+            title='Просмотр статистики',
+            equipment_by_id=Equipment.get_by_id(id),
+            all_equipment=Equipment.get_all(current_user.id)
+        )
 
     return render_template(
-        'statistics/stats_view.html',
-        start_date=start_date,
-        end_date=end_date,
-        statistics=Stats.get_statistics(id, start_date, end_date),
+        'statistics/menu.html',
         form=form,
-        title='Просмотр статистики',
+        title='Меню инвентаря',
         equipment_by_id=Equipment.get_by_id(id),
         all_equipment=Equipment.get_all(current_user.id)
     )
