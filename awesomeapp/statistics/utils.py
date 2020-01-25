@@ -66,7 +66,7 @@ def get_statistics_fields(equipment_type, form):
         value
         for value in step.get('Дополнительные параметры')
         if value in bike_param
-        ]
+    ]
     bike['Дополнительные параметры'] = bike_param
 
     step_trainer = trainer(step)
