@@ -82,7 +82,8 @@ def view(id):
             form=form,
             title='Просмотр статистики',
             equipment_by_id=Equipment.get_by_id(id),
-            all_equipment=Equipment.get_all(current_user.id)
+            all_equipment=Equipment.get_all(current_user.id),
+            histogram=Stats.histogram_data(start_date, end_date, id)
         )
 
     return render_template(
@@ -91,7 +92,6 @@ def view(id):
         title='Меню инвентаря',
         equipment_by_id=Equipment.get_by_id(id),
         all_equipment=Equipment.get_all(current_user.id),
-        histogram=Stats.histogram_data(start_date, end_date, id)
     )
 
 

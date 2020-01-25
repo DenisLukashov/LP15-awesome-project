@@ -1,5 +1,3 @@
-from datetime import date
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import (
@@ -13,8 +11,7 @@ from wtforms import (
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
-    optional,
-    ValidationError
+    optional
 )
 
 
@@ -38,9 +35,8 @@ class StatisticsMenuForm(FlaskForm):
     )
 
 
-
-
 class StatisticsForm(FlaskForm):
+
     date = DateField(
         'Дата',
         validators=[DataRequired()],

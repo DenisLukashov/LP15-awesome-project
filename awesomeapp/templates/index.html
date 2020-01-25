@@ -21,17 +21,18 @@
         <div class="col-sm-3">
 
           <div class="user">
-            <p><img class="index_avatar img-fluid rounded" src="/{{ current_user.avatar }}" alt=""></p>
-            <p>{{ current_user.first_name }} {{ current_user.second_name }}</p>
-            <p>{{ current_user.about_me }}</p>
+            <p>{{ current_user.first_name }} {{ current_user.second_name }}
+            <p><img class="index_avatar img-fluid rounded" src="/{{ current_user.avatar }}" alt="">
+            <p class="small_text">О себе:
+            <p>{{ current_user.about_me }}
           </div>
 
           <div class='sport-zone'>
             {% if equipment_by_id %}
-              <img class="index_avatar" src="/{{ equipment_by_id.avatar }}" alt="">
-
-              <p>{{ equipment_by_id.name }}</p>
-              <p>{{ equipment_by_id.about }}</p>
+              <p>{{ equipment_by_id.name }}
+              <img class="index_avatar img-fluid rounded" src="/{{ equipment_by_id.avatar }}" alt="">
+              <p class="small_text">Об инвентаре:          
+              <p>{{ equipment_by_id.about }}
             {% endif %}
           </div>
 

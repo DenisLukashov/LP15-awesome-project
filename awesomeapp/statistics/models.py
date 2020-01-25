@@ -1,11 +1,13 @@
-from collections import OrderedDict
 from datetime import timedelta
 
 from sqlalchemy.orm import backref
 
 from awesomeapp.extensions import db
 from config import Config
-from awesomeapp.statistics.utils import convert_time_to_user_view
+from awesomeapp.statistics.utils import (
+    convert_time_to_user_view,
+    is_null
+)
 
 
 class Stats(db.Model):
@@ -17,8 +19,10 @@ class Stats(db.Model):
       db.ForeignKey('equipment.id'),
       index=True
     )
-    equipment = db.relationship('Equipment',
-                                backref=backref('stats', cascade='all,delete'))
+    equipment = db.relationship(
+        'Equipment',
+        backref=backref('stats', cascade='all,delete')
+    )
 
     date = db.Column(db.Date, nullable=False)
 
@@ -48,8 +52,13 @@ class Stats(db.Model):
       index=True
     )
 
-    story = db.relationship('Story', uselist=False, cascade='all,delete',
-                            backref='stats', foreign_keys='Story.stats_id')
+    story = db.relationship(
+        'Story',
+        uselist=False,
+        cascade='all,delete',
+        backref='stats',
+        foreign_keys='Story.stats_id'
+    )
 
     @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
@@ -69,13 +78,13 @@ class Stats(db.Model):
     def filter_by_date(cls, id, start_date, end_date):
         query = cls.query.filter(
             cls.equipment_id == id
-        ).filter(
-            start_date <= cls.date
-        ).filter(
-            cls.date <= end_date
-        ).order_by(
-            cls.date
-        ).all()
+            ).filter(
+                start_date <= cls.date
+            ).filter(
+                cls.date <= end_date
+            ).order_by(
+                cls.date
+            ).all()
 
         return query
 
@@ -224,14 +233,23 @@ class Stats(db.Model):
             start_date,
             end_date
         ):
-            histogram_data[data.date] = {
-                'Дата': data.date.strftime('%Y.%m.%d'),
-                'Дистанция': data.distance / Config.METERS_PER_KILOMETER,
-                'Время': convert_time_to_user_view(data.time),
-                'Сред скорость': round(
-                    data.distance / data.time / Config.METERS_PER_KILOMETER *
-                    Config.SECONDS_PER_MINUTE * Config.MINUTES_PER_HOUR, 2
+            date = data.date.strftime('%Y.%m.%d')
+            distance = is_null(data.distance) / Config.METERS_PER_KILOMETER
+            time = is_null(data.time)
+            try:
+                speed = round(
+                    distance / time *
+                    Config.SECONDS_PER_MINUTE *
+                    Config.MINUTES_PER_HOUR, 2
                 )
+            except ZeroDivisionError:
+                speed = 0
+
+            histogram_data[data.date] = {
+                'Дата': date,
+                'Дистанция': distance,
+                'Время': convert_time_to_user_view(time),
+                'Скорость': speed
             }
 
         histogram_data = list(histogram_data.values())

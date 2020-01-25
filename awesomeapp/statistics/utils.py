@@ -98,3 +98,9 @@ def trainer(fields):
     new_fields.pop('Рельеф местности')
     new_fields.pop('Параметры окружающей среды')
     return new_fields
+
+
+def is_null(data):
+    if data is None:
+        return 0
+    return data

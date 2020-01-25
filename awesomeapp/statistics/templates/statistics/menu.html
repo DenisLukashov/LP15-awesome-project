@@ -1,28 +1,55 @@
 {% extends "index.html" %}
 
 {% block content %}
-<a href="{{ url_for('statistics.add', id=equipment_by_id.id) }}">add stat</a>
-<form action="{{ url_for('statistics.view', id=equipment_by_id.id) }}" method="post" novalidate>
-    <div class='container'>
-        <br>
-        {{ form.hidden_tag() }}
-        <p>{{ form.start_date.label }}
-            {{ form.start_date  }}
-            {% for error in form.start_date.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        <p>{{ form.end_date.label }}
-            {{ form.end_date }}
-            {% for error in form.end_date.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
+    <div class="row align-items-center menu_content">
+        <div class="col-sm"></div>
+        <div class="col-sm-6">
 
-        <p>
-            {{ form.submit }}
-        </p>
+            <form action="{{ url_for('statistics.view', id=equipment_by_id.id) }}" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="form-row">
+                    <p class="h6">Выберите промежуток времени для общей статистики или дату для детальной статистики по заданному дню
+                    <div class="form-group col-md-6">
+                         <span class="sr-only">{{ form.start_date.label }}</span>
+                        {{ form.start_date  }}</p>
+                        {% for error in form.start_date.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    <div class="form-group col-md-6">
+                         <span class="sr-only">{{ form.end_date.label }}</span>
+                        {{ form.end_date }}</p>
+                        {% for error in form.end_date.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <p>{{ form.submit }}</p>
+            </form>
+
+        </div>
+        <div class="col-sm"></div>
     </div>
-</form>
-<a href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}" onclick="return confirm('Ты уверен?')">Удали меня!</a>
+    <div class="row align-items-center menu_button">
+        <div class="col-sm"></div>
+        <div class="col-sm-3">
+            <a 
+                href="{{ url_for('statistics.add', id=equipment_by_id.id) }}"
+                class="btn btn-lg btn-primary btn-block"
+                role="button">
+                    Добавить данные
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a 
+                href="{{ url_for('statistics.delete', id=equipment_by_id.id) }}" 
+                onclick="return confirm('Ты уверен?')" 
+                class="btn btn-lg btn-primary btn-block" 
+                role="button">
+                    Удалить инвентарь
+            </a>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+
 {% endblock %}
