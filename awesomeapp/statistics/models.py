@@ -200,11 +200,11 @@ class Stats(db.Model):
             ),
 
             'Средняя скорость': cls.filter_by_date_and_equipment(
-                (db.func.sum(
+                db.func.round((db.func.sum(
                     cls.distance) / Config.METERS_PER_KILOMETER) / (
                         db.func.sum(
                             cls.time) / Config.SECONDS_PER_MINUTE /
-                        Config.MINUTES_PER_HOUR), id, start_date, end_date
+                        Config.MINUTES_PER_HOUR), 2), id, start_date, end_date
             ),
 
             'Мин. температура': cls.filter_by_date_and_equipment(
