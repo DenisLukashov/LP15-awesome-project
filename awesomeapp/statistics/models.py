@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from sqlalchemy.orm import backref
+from sqlalchemy import case
 
 from awesomeapp.extensions import db
 from config import Config
@@ -123,7 +124,7 @@ class Stats(db.Model):
         return story_and_images
 
     @classmethod
-    def get_statistics(cls, id, start_date, end_date):
+    def get_statistics(cls, id, start_date, end_date, ):
         statistics = {
 
             'Тренировок': cls.query.filter(
@@ -196,8 +197,15 @@ class Stats(db.Model):
             'Средний каденс': cls.filter_by_date_and_equipment(
                     db.func.sum(
                         cls.avg_cadence * cls.time) / db.func.sum(
-                            cls.time), id, start_date, end_date
-            ),
+                            case(
+                                [
+                                    (cls.avg_cadence.isnot(None), Stats.time),
+                                    (cls.avg_cadence.is_(None), 0)
+                                ]
+                            )
+                        ),
+                    id, start_date, end_date
+                ),
 
             'Среднее сердцебеение': cls.filter_by_date_and_equipment(
                     db.func.sum(
