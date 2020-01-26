@@ -3,6 +3,7 @@ import os
 
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
+from sqlalchemy.orm.exc import NoResultFound
 
 from awesomeapp.extensions import db
 from config import Config
@@ -72,12 +73,21 @@ def view(id):
         if end_date is None:
             end_date = start_date
 
+        try:
+            story_and_images = Stats.get_story_and_images(
+                    id, start_date, end_date)
+        except NoResultFound:
+            return render_template(
+                'statistics/no_statistcs.html',
+                all_equipment=Equipment.get_all(current_user.id),
+                equipment_by_id=Equipment.get_by_id(id),
+            )
+
         return render_template(
             'statistics/stats_view.html',
             start_date=start_date,
             end_date=end_date,
-            story_and_images=Stats.get_story_and_images(
-                id, start_date, end_date),
+            story_and_images=story_and_images,
             statistics=Stats.get_statistics(id, start_date, end_date),
             form=form,
             title='Просмотр статистики',
