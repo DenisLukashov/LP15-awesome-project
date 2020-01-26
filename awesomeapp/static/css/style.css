@@ -90,7 +90,7 @@ nav {
 
 .index_avatar{
   height: auto;
-  max-height: 80%;
+  max-height: 30vh;
   max-width: auto;
   width: 19vw;
 }
