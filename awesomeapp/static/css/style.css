@@ -132,9 +132,12 @@ nav {
   fill: orangered ;
 }
 
+.axis .x text {
+  font: 75% Verdana;
+}
+
 .x.axis path {
   display: none;
-  color: white;
 }
 
 .d3-tip {

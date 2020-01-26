@@ -100,7 +100,5 @@ def trainer(fields):
     return new_fields
 
 
-def is_null(data):
-    if data is None:
-        return 0
-    return data
+def convert_null_to_int(data):
+    return 0 if data is None else data

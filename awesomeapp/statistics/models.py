@@ -7,7 +7,7 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.statistics.utils import (
     convert_time_to_user_view,
-    is_null
+    convert_null_to_int
 )
 
 
@@ -253,8 +253,11 @@ class Stats(db.Model):
             end_date
         ):
             date = data.date.strftime('%Y.%m.%d')
-            distance = is_null(data.distance) / Config.METERS_PER_KILOMETER
-            time = is_null(data.time)
+            distance = (
+                convert_null_to_int(data.distance) /
+                Config.METERS_PER_KILOMETER
+            )
+            time = convert_null_to_int(data.time)
             try:
                 speed = round(
                     distance / time *

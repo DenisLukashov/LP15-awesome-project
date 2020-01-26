@@ -6,7 +6,7 @@
 
     var histogram_div = document.getElementById("my_histogram"); 
 
-    var margin = {top: 40, right: 20, bottom: 20, left: 40},
+    var margin = {top: 40, right: 20, bottom: 90, left: 40},
         width = histogram_div.clientWidth - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -40,10 +40,13 @@
 
     var svg = d3.select("#my_histogram")
         .append("svg")
+        .attr("class", "axis")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          
 
     svg.call(tip);
 
@@ -51,10 +54,16 @@
     y.domain([0, d3.max(data, function(d) { return d.Дистанция; })]);
 
     svg.append("g")
-        .style("opacity", 0)
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 8)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
+        
 
     svg.append("g")
         .attr("class", "y axis")
