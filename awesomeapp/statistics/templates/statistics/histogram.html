@@ -51,6 +51,7 @@
     y.domain([0, d3.max(data, function(d) { return d.Дистанция; })]);
 
     svg.append("g")
+        .style("opacity", 0)
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
