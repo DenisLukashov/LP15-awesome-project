@@ -37,10 +37,18 @@ class StatisticsMenuForm(FlaskForm):
         render_kw={'class': 'btn btn-lg btn-primary btn-block'}
     )
 
-    def validate_start_date_end_date(self, start_date, end_date):
-        statistics = Stats.query.filter(Stats.date == start_date.data).all()
-        if not statistics and end_date is None:
-            raise ValidationError('В этот день вы не добавляли статистику')
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
+            return False
+        statistics = Stats.query.filter(
+            Stats.date == self.start_date.data).all()
+
+        if not statistics and self.end_date.data is None:
+            self.start_date.errors.append(
+                'В этот день вы не добавляли статистику')
+            return False
+        return True
 
 
 class StatisticsForm(FlaskForm):
