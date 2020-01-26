@@ -88,11 +88,14 @@ nav {
   margin-top: 2vh;
 }
 
-.index_avatar{
+.index_avatar { 
+  margin: auto;
+  display: inline-block;
   height: auto;
+  max-width: 100%;
   max-height: 30vh;
-  max-width: auto;
-  width: 19vw;
+  width: auto;
+
 }
 
 .equipment_pic {
@@ -131,6 +134,7 @@ nav {
 
 .x.axis path {
   display: none;
+  color: white;
 }
 
 .d3-tip {
