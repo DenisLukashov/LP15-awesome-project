@@ -107,7 +107,9 @@ class Stats(db.Model):
                 cls.date == start_date
             ).one().story.images
 
-        story_and_images['images'] = [image.src for image in images]
+        main_image, *rest_images = [image.src for image in images]
+        story_and_images['main_image'] = main_image
+        story_and_images['rest_images'] = rest_images
 
         return story_and_images
 

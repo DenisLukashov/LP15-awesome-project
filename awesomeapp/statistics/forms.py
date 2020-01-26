@@ -11,8 +11,11 @@ from wtforms import (
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
-    optional
+    optional,
+    ValidationError
 )
+
+from awesomeapp.statistics.models import Stats
 
 
 class StatisticsMenuForm(FlaskForm):
@@ -33,6 +36,11 @@ class StatisticsMenuForm(FlaskForm):
         'Вывести статистику',
         render_kw={'class': 'btn btn-lg btn-primary btn-block'}
     )
+
+    def validate_start_date(self, start_date):
+        statistics = Stats.query.filter(Stats.date == start_date.data).all()
+        if not statistics:
+            raise ValidationError('В этот день вы не добавляли статистику')
 
 
 class StatisticsForm(FlaskForm):

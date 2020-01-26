@@ -2,11 +2,11 @@
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img 
-                src="/{{ story_and_images.images[0] }}" 
+                src="/{{ story_and_images.main_image }}" 
                 alt="Фото с тренировки" 
                 class="d-block w-auto img-fluid rounded carousel_image "></p>
         </div>
-        {% for image in story_and_images.images %}
+        {% for image in story_and_images.rest_images %}
             <div class="carousel-item">
                 <img 
                     src="/{{ image }}" 
