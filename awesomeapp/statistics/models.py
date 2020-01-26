@@ -106,10 +106,12 @@ class Stats(db.Model):
             ).filter(
                 cls.date == start_date
             ).one().story.images
-
-        main_image, *rest_images = [image.src for image in images]
-        story_and_images['main_image'] = main_image
-        story_and_images['rest_images'] = rest_images
+        try:
+            main_image, *rest_images = [image.src for image in images]
+            story_and_images['main_image'] = main_image
+            story_and_images['rest_images'] = rest_images
+        except ValueError:
+            pass
 
         return story_and_images
 
