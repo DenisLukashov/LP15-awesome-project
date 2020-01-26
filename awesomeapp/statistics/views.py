@@ -73,15 +73,8 @@ def view(id):
         if end_date is None:
             end_date = start_date
 
-        # try:
-        #     story_and_images = Stats.get_story_and_images(
-        #             id, start_date, end_date)
-        # except NoResultFound:
-        #     return render_template(
-        #         'statistics/no_statistcs.html',
-        #         all_equipment=Equipment.get_all(current_user.id),
-        #         equipment_by_id=Equipment.get_by_id(id),
-        #     )
+        if start_date > end_date:
+            start_date, end_date = end_date, start_date
 
         return render_template(
             'statistics/stats_view.html',

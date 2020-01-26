@@ -132,9 +132,13 @@ dmypy.json
 
 config.py
 equipment_type.py
-et.py
+add_kona_stats.py
+add_merida_stats.py
+*csv
 *.db
 code.sh
 Settings.json
 *.jpg
 *.jpeg
+8.png
+
