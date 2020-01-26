@@ -93,25 +93,31 @@ class Stats(db.Model):
         if start_date != end_date:
             return None
 
-        story_and_images = {
-            'story': cls.query.filter(
-                cls.equipment_id == id
-            ).filter(
-                cls.date == start_date
-            ).one().story.text,
-        }
+        try:
+            story_and_images = {
+                'story': cls.query.filter(
+                    cls.equipment_id == id
+                ).filter(
+                    cls.date == start_date
+                ).one().story.text
+            }
+        except AttributeError:
+            story_and_images = {'story': 'нет данных'}
 
-        images = cls.query.filter(
-                cls.equipment_id == id
-            ).filter(
-                cls.date == start_date
-            ).one().story.images
+        try:
+            images = cls.query.filter(
+                    cls.equipment_id == id
+                ).filter(
+                    cls.date == start_date
+                ).one().story.images
+        except AttributeError:
+            images = None
 
         try:
             main_image, *rest_images = [image.src for image in images]
             story_and_images['main_image'] = main_image
             story_and_images['rest_images'] = rest_images
-        except ValueError:
+        except (ValueError, TypeError):
             pass
 
         return story_and_images
