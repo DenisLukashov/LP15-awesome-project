@@ -3,14 +3,14 @@
         <div class="carousel-item active">
             <img 
                 src="/{{ story_and_images.main_image }}" 
-                alt="Фото с тренировки" 
+                alt="Фотографий нет" 
                 class="d-block w-auto img-fluid rounded carousel_image "></p>
         </div>
         {% for image in story_and_images.rest_images %}
             <div class="carousel-item">
                 <img 
                     src="/{{ image }}" 
-                    alt="Фото с тренировки" 
+                    alt="Фотографий нет" 
                     class="d-block w-auto img-fluid rounded carousel_image"></p>
             </div>
         {% endfor %}
