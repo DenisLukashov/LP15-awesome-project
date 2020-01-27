@@ -118,11 +118,14 @@ class Stats(db.Model):
 
     @classmethod
     def get_statistics(cls, id, start_date, end_date, ):
-        total_distance = cls.filter_by_date_and_equipment(db.func.sum(
-                    cls.distance), id, start_date, end_date)
 
-        total_time = cls.filter_by_date_and_equipment(db.func.sum(
-                            cls.time), id, start_date, end_date)
+        total_distance = cls.filter_by_date_and_equipment(
+            db.func.sum(cls.distance), id, start_date, end_date
+        )
+
+        total_time = cls.filter_by_date_and_equipment(
+            db.func.sum(cls.time), id, start_date, end_date
+        )
         statistics = {
 
             'Тренировок': cls.query.filter(
@@ -133,17 +136,9 @@ class Stats(db.Model):
                 cls.date <= end_date
             ).count(),
 
-            'Дистанция': cls.filter_by_date_and_equipment(
-                db.func.sum(
-                    cls.distance), id, start_date, end_date
-                ) / Config.METERS_PER_KILOMETER,
+            'Дистанция': total_distance / Config.METERS_PER_KILOMETER,
 
-            'Время упражнения': convert_time_to_user_view(
-                cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.time), id, start_date, end_date
-                )
-            ),
+            'Время упражнения': convert_time_to_user_view(total_time),
 
             'Общее время тренировки': convert_time_to_user_view(
                 cls.filter_by_date_and_equipment(
@@ -193,32 +188,33 @@ class Stats(db.Model):
             ),
 
             'Средний каденс': cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.avg_cadence * cls.time) / db.func.sum(
-                            case(
-                                [
-                                    (cls.avg_cadence.isnot(None), Stats.time),
-                                    (cls.avg_cadence.is_(None), 0)
-                                ]
-                            )
-                        ),
-                    id, start_date, end_date
-                ),
-
-            'Среднее сердцебеение': cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.avg_heart_rate * cls.time) / db.func.sum(
-                            cls.time), id, start_date, end_date
+                db.func.sum(cls.avg_cadence * cls.time) / db.func.sum(
+                    case(
+                        [
+                            (cls.avg_cadence.isnot(None), Stats.time),
+                            (cls.avg_cadence.is_(None), 0)
+                        ]
+                    )
+                ), id, start_date, end_date
             ),
 
-            'Средняя скорость': cls.filter_by_date_and_equipment(
-                db.func.round(
-                    (total_distance / Config.METERS_PER_KILOMETER) /
-                    (
-                        total_time / Config.SECONDS_PER_MINUTE /
-                        Config.MINUTES_PER_HOUR
-                    ), 2
+            'Среднее сердцебеение': cls.filter_by_date_and_equipment(
+                db.func.sum(cls.avg_heart_rate * cls.time) / db.func.sum(
+                    case(
+                        [
+                            (cls.avg_heart_rate.isnot(None), Stats.time),
+                            (cls.avg_heart_rate.is_(None), 0)
+                        ]
+                    )
                 ), id, start_date, end_date
+            ),
+
+            'Средняя скорость': round(
+                total_distance /
+                Config.METERS_PER_KILOMETER /
+                total_time *
+                Config.SECONDS_PER_MINUTE *
+                Config.MINUTES_PER_HOUR, 2
             ),
 
             'Мин. температура': cls.filter_by_date_and_equipment(
