@@ -11,7 +11,7 @@
                     <span class="sr-only">{{ form.name.label }}</span>
                     {{ form.name }}
                     {% for error in form.name.errors %}
-                    <span>{{ error }}</span>
+                        <span class="error">{{ error }}</span>
                     {% endfor %}
 
                     <span class="sr-only">{{ form.type.label }}</span>

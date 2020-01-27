@@ -116,6 +116,11 @@ nav {
   text-align: left;
 }
 
+.error {
+  color: red;
+  font: 90% Verdana;
+}
+
 /*WTF*/
 .axis path,
 .axis line {

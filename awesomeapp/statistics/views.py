@@ -51,7 +51,6 @@ def delete(id):
 @login_required
 def menu(id):
     form = StatisticsMenuForm()
-
     return render_template(
         'statistics/menu.html',
         form=form,
