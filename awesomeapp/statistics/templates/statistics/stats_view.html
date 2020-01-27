@@ -31,8 +31,10 @@
 <div class="row align-items-center stats_view_story">
     <div class="col-sm">
         {% if start_date  == end_date %}
-            <p class="small_text">О тренеровке:
-            <p>{{ story_and_images.story }}
+            {% if story_and_images.story != None %}
+                <p class="small_text">О тренеровке:
+                <p>{{ story_and_images.story }}
+            {% endif %}
         {% endif %}
     </div>
 </div>
