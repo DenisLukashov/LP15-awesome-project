@@ -118,6 +118,11 @@ class Stats(db.Model):
 
     @classmethod
     def get_statistics(cls, id, start_date, end_date, ):
+        total_distance = cls.filter_by_date_and_equipment(db.func.sum(
+                    cls.distance), id, start_date, end_date)
+
+        total_time = cls.filter_by_date_and_equipment(db.func.sum(
+                            cls.time), id, start_date, end_date)
         statistics = {
 
             'Тренировок': cls.query.filter(
@@ -207,11 +212,13 @@ class Stats(db.Model):
             ),
 
             'Средняя скорость': cls.filter_by_date_and_equipment(
-                db.func.round((db.func.sum(
-                    cls.distance) / Config.METERS_PER_KILOMETER) / (
-                        db.func.sum(
-                            cls.time) / Config.SECONDS_PER_MINUTE /
-                        Config.MINUTES_PER_HOUR), 2), id, start_date, end_date
+                db.func.round(
+                    (total_distance / Config.METERS_PER_KILOMETER) /
+                    (
+                        total_time / Config.SECONDS_PER_MINUTE /
+                        Config.MINUTES_PER_HOUR
+                    ), 2
+                ), id, start_date, end_date
             ),
 
             'Мин. температура': cls.filter_by_date_and_equipment(
@@ -224,6 +231,8 @@ class Stats(db.Model):
                     cls.min_altitude), id, start_date, end_date
             ),
         }
+        print(db.session.query(db.func.sum(
+                    cls.distance)).scalar() / 1000)
         return statistics
 
     @classmethod
