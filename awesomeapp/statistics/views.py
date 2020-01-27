@@ -3,7 +3,6 @@ import os
 
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
-from sqlalchemy.orm.exc import NoResultFound
 
 from awesomeapp.extensions import db
 from config import Config
@@ -52,6 +51,7 @@ def delete(id):
 @login_required
 def menu(id):
     form = StatisticsMenuForm()
+
     return render_template(
         'statistics/menu.html',
         form=form,
@@ -65,7 +65,7 @@ def menu(id):
 @login_required
 def view(id):
     form = StatisticsMenuForm()
-
+    form.id.data = id
     if form.validate_on_submit():
         start_date = form.start_date.data
         end_date = form.end_date.data

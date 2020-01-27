@@ -3,6 +3,7 @@ from flask_wtf.file import FileAllowed
 from wtforms import (
     FloatField,
     IntegerField,
+    HiddenField,
     MultipleFileField,
     StringField,
     SubmitField,
@@ -35,13 +36,17 @@ class StatisticsMenuForm(FlaskForm):
         'Вывести статистику',
         render_kw={'class': 'btn btn-lg btn-primary btn-block'}
     )
+    id = HiddenField()
 
     def validate(self):
         rv = FlaskForm.validate(self)
         if not rv:
             return False
         statistics = Stats.query.filter(
-            Stats.date == self.start_date.data).all()
+            Stats.date == self.start_date.data
+        ).filter(
+            Stats.equipment_id == self.id.data
+        ).all()
 
         if not statistics and self.end_date.data is None:
             self.start_date.errors.append(
