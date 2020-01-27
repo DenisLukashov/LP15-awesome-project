@@ -11,8 +11,7 @@ from wtforms import (
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
-    optional,
-    ValidationError
+    optional
 )
 
 from awesomeapp.statistics.models import Stats
@@ -46,8 +45,19 @@ class StatisticsMenuForm(FlaskForm):
 
         if not statistics and self.end_date.data is None:
             self.start_date.errors.append(
-                'В этот день вы не добавляли статистику')
+                'В этот день Вы не добавляли статистику'
+            )
             return False
+
+        if (
+            self.end_date.data is not None and
+            self.start_date.data > self.end_date.data
+        ):
+            self.start_date.errors.append(
+                'Начальная дата не может быть позднее конечной'
+            )
+            return False
+
         return True
 
 

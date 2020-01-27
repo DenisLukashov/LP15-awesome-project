@@ -1,17 +1,17 @@
-{% if story_and_images.main_image != None %}
+{% if story_and_images.main_image is not none %}
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img 
                     src="/{{ story_and_images.main_image }}" 
-                    alt="фотографии тренеровки" 
+                    alt="фотографии тренировки" 
                     class="d-block w-auto img-fluid rounded carousel_image "></p>
             </div>
             {% for image in story_and_images.rest_images %}
                 <div class="carousel-item">
                     <img 
                         src="/{{ image }}" 
-                        alt="фото с тренеровки" 
+                        alt="фото с тренировки" 
                         class="d-block w-auto img-fluid rounded carousel_image"></p>
                 </div>
             {% endfor %}

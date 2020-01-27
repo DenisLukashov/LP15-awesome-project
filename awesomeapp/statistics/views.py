@@ -73,9 +73,6 @@ def view(id):
         if end_date is None:
             end_date = start_date
 
-        if start_date > end_date:
-            start_date, end_date = end_date, start_date
-
         return render_template(
             'statistics/stats_view.html',
             start_date=start_date,

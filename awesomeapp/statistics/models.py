@@ -7,7 +7,7 @@ from awesomeapp.extensions import db
 from config import Config
 from awesomeapp.statistics.utils import (
     convert_time_to_user_view,
-    convert_null_to_int
+    convert_none_to_int
 )
 
 
@@ -94,26 +94,23 @@ class Stats(db.Model):
         if start_date != end_date:
             return None
 
-        story = cls.query.filter(
+        query = cls.query.filter(
                 cls.equipment_id == id
             ).filter(
                 cls.date == start_date
             ).first().story
-        if story is None:
-            story_and_images = {'story': None}
-        else:
-            story_and_images = {'story': story.text}
 
-        images = cls.query.filter(
-            cls.equipment_id == id
-            ).filter(
-                cls.date == start_date
-            ).first().story
+        if query is None:
+            return {'story': None, 'main_image': None}
 
-        if images is None:
+        story_and_images = {'story': None if query.text == '' else query.text}
+
+        if query.images == []:
             story_and_images['main_image'] = None
         else:
-            main_image, *rest_images = [image.src for image in images.images]
+            main_image, *rest_images = [
+                image.src for image in query.images
+            ]
             story_and_images['main_image'] = main_image
             story_and_images['rest_images'] = rest_images
 
@@ -250,10 +247,10 @@ class Stats(db.Model):
         ):
             date = data.date.strftime('%Y.%m.%d')
             distance = (
-                convert_null_to_int(data.distance) /
+                convert_none_to_int(data.distance) /
                 Config.METERS_PER_KILOMETER
             )
-            time = convert_null_to_int(data.time)
+            time = convert_none_to_int(data.time)
             try:
                 speed = round(
                     distance / time *
