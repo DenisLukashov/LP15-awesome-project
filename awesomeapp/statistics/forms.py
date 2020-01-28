@@ -1,10 +1,9 @@
-from datetime import date
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import (
     FloatField,
     IntegerField,
+    HiddenField,
     MultipleFileField,
     StringField,
     SubmitField,
@@ -13,9 +12,10 @@ from wtforms import (
 from wtforms.fields.html5 import DateField
 from wtforms.validators import (
     DataRequired,
-    optional,
-    ValidationError
+    optional
 )
+
+from awesomeapp.statistics.models import Stats
 
 
 class StatisticsMenuForm(FlaskForm):
@@ -36,11 +36,38 @@ class StatisticsMenuForm(FlaskForm):
         'Вывести статистику',
         render_kw={'class': 'btn btn-lg btn-primary btn-block'}
     )
+    id = HiddenField()
 
+    def validate(self):
+        valid = super().validate()
+        if not valid:
+            return False
+        statistics = Stats.query.filter(
+            Stats.date == self.start_date.data
+        ).filter(
+            Stats.equipment_id == self.id.data
+        ).all()
 
+        if not statistics and self.end_date.data is None:
+            self.start_date.errors.append(
+                'В этот день Вы не добавляли статистику'
+            )
+            return False
+
+        if (
+            self.end_date.data is not None and
+            self.start_date.data > self.end_date.data
+        ):
+            self.start_date.errors.append(
+                'Начальная дата не может быть позднее конечной'
+            )
+            return False
+
+        return True
 
 
 class StatisticsForm(FlaskForm):
+
     date = DateField(
         'Дата',
         validators=[DataRequired()],

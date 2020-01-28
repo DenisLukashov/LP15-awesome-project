@@ -1,11 +1,14 @@
-from collections import OrderedDict
 from datetime import timedelta
 
 from sqlalchemy.orm import backref
+from sqlalchemy import case
 
 from awesomeapp.extensions import db
 from config import Config
-from awesomeapp.statistics.utils import convert_time_to_user_view
+from awesomeapp.statistics.utils import (
+    convert_time_to_user_view,
+    convert_none_to_int
+)
 
 
 class Stats(db.Model):
@@ -17,8 +20,10 @@ class Stats(db.Model):
       db.ForeignKey('equipment.id'),
       index=True
     )
-    equipment = db.relationship('Equipment',
-                                backref=backref('stats', cascade='all,delete'))
+    equipment = db.relationship(
+        'Equipment',
+        backref=backref('stats', cascade='all,delete')
+    )
 
     date = db.Column(db.Date, nullable=False)
 
@@ -48,8 +53,13 @@ class Stats(db.Model):
       index=True
     )
 
-    story = db.relationship('Story', uselist=False, cascade='all,delete',
-                            backref='stats', foreign_keys='Story.stats_id')
+    story = db.relationship(
+        'Story',
+        uselist=False,
+        cascade='all,delete',
+        backref='stats',
+        foreign_keys='Story.stats_id'
+    )
 
     @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
@@ -69,13 +79,13 @@ class Stats(db.Model):
     def filter_by_date(cls, id, start_date, end_date):
         query = cls.query.filter(
             cls.equipment_id == id
-        ).filter(
-            start_date <= cls.date
-        ).filter(
-            cls.date <= end_date
-        ).order_by(
-            cls.date
-        ).all()
+            ).filter(
+                start_date <= cls.date
+            ).filter(
+                cls.date <= end_date
+            ).order_by(
+                cls.date
+            ).all()
 
         return query
 
@@ -84,26 +94,38 @@ class Stats(db.Model):
         if start_date != end_date:
             return None
 
-        story_and_images = {
-            'story': cls.query.filter(
+        query = cls.query.filter(
                 cls.equipment_id == id
             ).filter(
                 cls.date == start_date
-            ).one().story.text,
-        }
+            ).first().story
 
-        images = cls.query.filter(
-                cls.equipment_id == id
-            ).filter(
-                cls.date == start_date
-            ).one().story.images
+        if query is None:
+            return {'story': None, 'main_image': None}
 
-        story_and_images['images'] = [image.src for image in images]
+        story_and_images = {'story': None if query.text == '' else query.text}
+
+        if query.images == []:
+            story_and_images['main_image'] = None
+        else:
+            main_image, *rest_images = [
+                image.src for image in query.images
+            ]
+            story_and_images['main_image'] = main_image
+            story_and_images['rest_images'] = rest_images
 
         return story_and_images
 
     @classmethod
-    def get_statistics(cls, id, start_date, end_date):
+    def get_statistics(cls, id, start_date, end_date, ):
+
+        total_distance = cls.filter_by_date_and_equipment(
+            db.func.sum(cls.distance), id, start_date, end_date
+        )
+
+        total_time = cls.filter_by_date_and_equipment(
+            db.func.sum(cls.time), id, start_date, end_date
+        )
         statistics = {
 
             'Тренировок': cls.query.filter(
@@ -114,17 +136,9 @@ class Stats(db.Model):
                 cls.date <= end_date
             ).count(),
 
-            'Дистанция': cls.filter_by_date_and_equipment(
-                db.func.sum(
-                    cls.distance), id, start_date, end_date
-                ) / Config.METERS_PER_KILOMETER,
+            'Дистанция': total_distance / Config.METERS_PER_KILOMETER,
 
-            'Время упражнения': convert_time_to_user_view(
-                cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.time), id, start_date, end_date
-                )
-            ),
+            'Время упражнения': convert_time_to_user_view(total_time),
 
             'Общее время тренировки': convert_time_to_user_view(
                 cls.filter_by_date_and_equipment(
@@ -174,24 +188,34 @@ class Stats(db.Model):
             ),
 
             'Средний каденс': cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.avg_cadence * cls.time) / db.func.sum(
-                            cls.time), id, start_date, end_date
+                db.func.sum(cls.avg_cadence * cls.time) / db.func.sum(
+                    case(
+                        [
+                            (cls.avg_cadence.isnot(None), Stats.time),
+                            (cls.avg_cadence.is_(None), 0)
+                        ]
+                    )
+                ), id, start_date, end_date
             ),
 
             'Среднее сердцебеение': cls.filter_by_date_and_equipment(
-                    db.func.sum(
-                        cls.avg_heart_rate * cls.time) / db.func.sum(
-                            cls.time), id, start_date, end_date
+                db.func.sum(cls.avg_heart_rate * cls.time) / db.func.sum(
+                    case(
+                        [
+                            (cls.avg_heart_rate.isnot(None), Stats.time),
+                            (cls.avg_heart_rate.is_(None), 0)
+                        ]
+                    )
+                ), id, start_date, end_date
             ),
 
-            'Средняя скорость': cls.filter_by_date_and_equipment(
-                (db.func.sum(
-                    cls.distance) / Config.METERS_PER_KILOMETER) / (
-                        db.func.sum(
-                            cls.time) / Config.SECONDS_PER_MINUTE /
-                        Config.MINUTES_PER_HOUR), id, start_date, end_date
-            ),
+            'Средняя скорость': round(
+                total_distance /
+                Config.METERS_PER_KILOMETER /
+                total_time *
+                Config.SECONDS_PER_MINUTE *
+                Config.MINUTES_PER_HOUR, 2
+            ) if total_time != 0 else 0,
 
             'Мин. температура': cls.filter_by_date_and_equipment(
                 db.func.min(
@@ -203,6 +227,8 @@ class Stats(db.Model):
                     cls.min_altitude), id, start_date, end_date
             ),
         }
+        print(db.session.query(db.func.sum(
+                    cls.distance)).scalar() / 1000)
         return statistics
 
     @classmethod
@@ -224,14 +250,23 @@ class Stats(db.Model):
             start_date,
             end_date
         ):
+            date = data.date.strftime('%Y.%m.%d')
+            distance = (
+                convert_none_to_int(data.distance) /
+                Config.METERS_PER_KILOMETER
+            )
+            time = convert_none_to_int(data.time)
+            speed = round(
+                distance / time *
+                Config.SECONDS_PER_MINUTE *
+                Config.MINUTES_PER_HOUR, 2
+            ) if time != 0 else 0
+
             histogram_data[data.date] = {
-                'Дата': data.date.strftime('%Y.%m.%d'),
-                'Дистанция': data.distance / Config.METERS_PER_KILOMETER,
-                'Время': convert_time_to_user_view(data.time),
-                'Сред скорость': round(
-                    data.distance / data.time / Config.METERS_PER_KILOMETER *
-                    Config.SECONDS_PER_MINUTE * Config.MINUTES_PER_HOUR, 2
-                )
+                'Дата': date,
+                'Дистанция': distance,
+                'Время': convert_time_to_user_view(time),
+                'Скорость': speed
             }
 
         histogram_data = list(histogram_data.values())

@@ -41,45 +41,61 @@ nav {
 .regist_content {
   height: 89.3vh;
 }
-.stats_view_content {
-  height: 71.3vh;
-}
-/*not my style*/
 
 .equipmnent_content {
-  height: 67.7vh;
+  height: 75.3vh;
 }
 
 .statistics_content {
-  height: 67.7vh;
+  height: 75.3vh;
+}
+
+.menu_content {
+  height: 40vh;
+}
+
+.menu_button {
+  height: 35.3vh;
+}
+
+.stats_view_date {
+  height: 5vh;
+}
+
+.stats_view_story {
+  height: 9.6vh;
+}
+
+.stats_view_content {
+  height: 60.7vh;
 }
 
 .user{
   height: 42vh;
   margin-top: 2vh;
-
 }
 
 .equipment-carousel{
   margin-top: 2vh;
-
 }
 
 .sport-zone{
   margin-top: 2vh;
   height: 42vh;
-
 }
 
 .view-zone{
   margin-top: 2vh;
 }
 
-.index_avatar{
+.index_avatar { 
+  margin: auto;
+  display: inline-block;
   height: auto;
-  max-height: 80%;
-  max-width: auto;
-  width: 19vw;
+  max-width: 100%;
+  max-height: 30vh;
+  width: auto;
+
 }
 
 .equipment_pic {
@@ -88,6 +104,21 @@ nav {
 }
 .equipment_plus {
   margin-top: 1em;
+}
+
+.carousel_image {
+  height: 45vh;
+  margin: auto;
+}
+
+.small_text {
+  color: gray;
+  text-align: left;
+}
+
+.error {
+  color: red;
+  font: 90% Verdana;
 }
 
 /*WTF*/
@@ -104,6 +135,10 @@ nav {
 
 .bar:hover {
   fill: orangered ;
+}
+
+.axis .x text {
+  font: 75% Verdana;
 }
 
 .x.axis path {

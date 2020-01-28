@@ -25,7 +25,7 @@ class LoginForm(FlaskForm):
         render_kw={
             'size': 64,
             'class': 'form-control',
-            'placeholder': 'Адрес электронной почты'
+            'placeholder': 'Адрес электронной почты',
         }
     )
 

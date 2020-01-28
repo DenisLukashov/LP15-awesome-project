@@ -3,7 +3,7 @@
   <div class="row align-items-center login_content">
     <div class="col-sm"></div>
     <div class="col-sm-3">
-      <form action='' method='post' novalidate class="form-signin">
+      <form action='' method='post' class="form-signin" novalidate>
         {{ form.hidden_tag() }}
         <p class="h3 mb-3 font-weight-normal">{{ title }}
 
@@ -11,14 +11,16 @@
           <span class="sr-only">{{ form.email.label }}</span>  
           {{ form.email }}
           {% for error in form.email.errors %}
-            {{ error }}
+            <span class="error">{{ error }}</span>
           {% endfor %}
           <span class="sr-only">{{ form.password.label }}</span> 
           {{ form.password }}
           {% for error in form.password.errors %}
-            {{ error }}
+            <span class="error">{{ error }}</span>
           {% endfor %}
-          {{ form.remember_me }} {{ form.remember_me.label}}
+          <div>
+            {{ form.remember_me }} {{ form.remember_me.label}}
+          </div>
         </div>
         <p>{{ form.submit }}</p>
       </form>

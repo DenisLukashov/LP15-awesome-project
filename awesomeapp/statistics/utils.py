@@ -66,7 +66,7 @@ def get_statistics_fields(equipment_type, form):
         value
         for value in step.get('Дополнительные параметры')
         if value in bike_param
-        ]
+    ]
     bike['Дополнительные параметры'] = bike_param
 
     step_trainer = trainer(step)
@@ -98,3 +98,7 @@ def trainer(fields):
     new_fields.pop('Рельеф местности')
     new_fields.pop('Параметры окружающей среды')
     return new_fields
+
+
+def convert_none_to_int(data):
+    return 0 if data is None else data

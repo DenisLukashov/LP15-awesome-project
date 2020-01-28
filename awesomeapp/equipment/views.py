@@ -53,7 +53,7 @@ def equipment():
             )
         equipment.avatar = equipment_avatar_path
         db.session.commit()
-        return redirect(url_for('statistics.add', id=equipment.id))
+        return redirect(url_for('statistics.menu', id=equipment.id))
 
     return render_template('equipment/equipment.html',
                            title='Инвентарь', form=form,

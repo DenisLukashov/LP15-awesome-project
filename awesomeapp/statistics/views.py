@@ -64,7 +64,7 @@ def menu(id):
 @login_required
 def view(id):
     form = StatisticsMenuForm()
-
+    form.id.data = id
     if form.validate_on_submit():
         start_date = form.start_date.data
         end_date = form.end_date.data
@@ -77,12 +77,13 @@ def view(id):
             start_date=start_date,
             end_date=end_date,
             story_and_images=Stats.get_story_and_images(
-                id, start_date, end_date),
+                    id, start_date, end_date),
             statistics=Stats.get_statistics(id, start_date, end_date),
             form=form,
             title='Просмотр статистики',
             equipment_by_id=Equipment.get_by_id(id),
-            all_equipment=Equipment.get_all(current_user.id)
+            all_equipment=Equipment.get_all(current_user.id),
+            histogram=Stats.histogram_data(start_date, end_date, id)
         )
 
     return render_template(
@@ -91,7 +92,6 @@ def view(id):
         title='Меню инвентаря',
         equipment_by_id=Equipment.get_by_id(id),
         all_equipment=Equipment.get_all(current_user.id),
-        histogram=Stats.histogram_data(start_date, end_date, id)
     )
 
 
