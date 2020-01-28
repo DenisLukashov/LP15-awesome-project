@@ -25,12 +25,13 @@ blueprint = Blueprint(
 )
 
 
-@blueprint.route('/delete_statistics/<int:id>/<int:equipment_id>')
-def delete_statistics(id, equipment_id):
-    statistics = Stats.get_statistics_by_id(id)
+@blueprint.route('/delete_statistics/<int:statistics_id>/<int:equipment_id>')
+def delete_statistics(statistics_id, equipment_id):
+    statistics = Stats.get_statistics_by_id(statistics_id)
     images = statistics.story.images
 
-    delete_images_from_disk(images)
+    if images:
+        delete_images_from_disk(images)
 
     db.session.delete(statistics)
     db.session.commit()
@@ -45,7 +46,8 @@ def delete_equipment(id):
     flat_images = [image for set_images in nested_images for
                    image in set_images]
 
-    delete_images_from_disk(flat_images)
+    if flat_images:
+        delete_images_from_disk(flat_images)
 
     db.session.delete(equipment)
     db.session.commit()
