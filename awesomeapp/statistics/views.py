@@ -27,7 +27,7 @@ blueprint = Blueprint(
 
 @blueprint.route('/delete_statistics/<int:statistics_id>/<int:equipment_id>')
 def delete_statistics(statistics_id, equipment_id):
-    statistics = Stats.get_statistics_by_id(statistics_id)
+    statistics = Stats.get_by_id(statistics_id)
     story = statistics.story
 
     if story:

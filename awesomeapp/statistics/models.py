@@ -62,7 +62,7 @@ class Stats(db.Model):
     )
 
     @classmethod
-    def get_statistics_by_id(cls, id):
+    def get_by_id(cls, id):
         return cls.query.get(id)
 
     @classmethod
@@ -107,8 +107,7 @@ class Stats(db.Model):
         if query is None:
             return {'story': None, 'main_image': None}
 
-        story_and_images = {'story': None
-                            if query.story.text == '' else query.story.text}
+        story_and_images = {'story': query.story.text or None}
 
         if query.story.images == []:
             story_and_images['main_image'] = None
