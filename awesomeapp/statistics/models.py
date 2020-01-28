@@ -134,8 +134,6 @@ class Stats(db.Model):
         )
         statistics = {
 
-            'equipment_id': id,
-
             'Тренировок': cls.query.filter(
                 cls.equipment_id == id
             ).filter(
