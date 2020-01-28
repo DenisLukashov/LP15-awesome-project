@@ -39,8 +39,8 @@ class StatisticsMenuForm(FlaskForm):
     id = HiddenField()
 
     def validate(self):
-        rv = FlaskForm.validate(self)
-        if not rv:
+        valid = super().validate()
+        if not valid:
             return False
         statistics = Stats.query.filter(
             Stats.date == self.start_date.data
