@@ -38,7 +38,7 @@
         </div>
         <div class="col-sm-3">
             <a 
-                href="{{ url_for('statistics.delete_statistics', id=story_and_images.id, equipment_id=statistics.equipment_id) }}" 
+                href="{{ url_for('statistics.delete_statistics', statistics_id=story_and_images.id, equipment_id=equipment_by_id.id) }}" 
                 onclick="return confirm('Вы уверены?')" 
                 class="btn btn-primary" 
                 role="button">
