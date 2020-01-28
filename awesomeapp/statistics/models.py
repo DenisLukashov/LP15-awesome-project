@@ -117,7 +117,7 @@ class Stats(db.Model):
             ]
             story_and_images['main_image'] = main_image
             story_and_images['rest_images'] = rest_images
-        story_and_images['id'] = query.story.id
+        story_and_images['id'] = query.id
 
         return story_and_images
 
