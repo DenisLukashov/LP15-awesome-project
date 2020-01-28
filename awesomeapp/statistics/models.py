@@ -62,6 +62,10 @@ class Stats(db.Model):
     )
 
     @classmethod
+    def get_statistics_by_id(cls, id):
+        return cls.query.get(id)
+
+    @classmethod
     def filter_by_date_and_equipment(cls, function, id, start_date, end_date):
         query = db.session.query(db.func.coalesce(
             function, 0)
@@ -98,21 +102,23 @@ class Stats(db.Model):
                 cls.equipment_id == id
             ).filter(
                 cls.date == start_date
-            ).first().story
+            ).first()
 
         if query is None:
             return {'story': None, 'main_image': None}
 
-        story_and_images = {'story': None if query.text == '' else query.text}
+        story_and_images = {'story': None
+                            if query.story.text == '' else query.story.text}
 
-        if query.images == []:
+        if query.story.images == []:
             story_and_images['main_image'] = None
         else:
             main_image, *rest_images = [
-                image.src for image in query.images
+                image.src for image in query.story.images
             ]
             story_and_images['main_image'] = main_image
             story_and_images['rest_images'] = rest_images
+        story_and_images['id'] = query.story.id
 
         return story_and_images
 
@@ -127,6 +133,8 @@ class Stats(db.Model):
             db.func.sum(cls.time), id, start_date, end_date
         )
         statistics = {
+
+            'equipment_id': id,
 
             'Тренировок': cls.query.filter(
                 cls.equipment_id == id
@@ -227,8 +235,7 @@ class Stats(db.Model):
                     cls.min_altitude), id, start_date, end_date
             ),
         }
-        print(db.session.query(db.func.sum(
-                    cls.distance)).scalar() / 1000)
+
         return statistics
 
     @classmethod

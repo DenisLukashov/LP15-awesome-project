@@ -1,4 +1,5 @@
 from datetime import timedelta
+import os
 
 from awesomeapp.equipment.models import EquipmentType
 from config import Config
@@ -17,6 +18,19 @@ def convert_to_seconds(time):
 
 def convert_to_meter(value):
     return None if value is None else value * Config.METERS_PER_KILOMETER
+
+
+def delete_images_from_disk(images):
+    images_of_equipment = []
+    
+    for image in images:
+        file = image.src.split('/')[-1]
+        file_path = os.path.join(
+            Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
+        images_of_equipment.append(file_path)
+
+    for src in images_of_equipment:
+        os.remove(src)
 
 
 def convert_time_to_user_view(time):
