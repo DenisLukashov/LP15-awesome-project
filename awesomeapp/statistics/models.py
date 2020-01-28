@@ -215,7 +215,7 @@ class Stats(db.Model):
                 total_time *
                 Config.SECONDS_PER_MINUTE *
                 Config.MINUTES_PER_HOUR, 2
-            ),
+            ) if total_time != 0 else 0,
 
             'Мин. температура': cls.filter_by_date_and_equipment(
                 db.func.min(
@@ -256,14 +256,11 @@ class Stats(db.Model):
                 Config.METERS_PER_KILOMETER
             )
             time = convert_none_to_int(data.time)
-            try:
-                speed = round(
-                    distance / time *
-                    Config.SECONDS_PER_MINUTE *
-                    Config.MINUTES_PER_HOUR, 2
-                )
-            except ZeroDivisionError:
-                speed = 0
+            speed = round(
+                distance / time *
+                Config.SECONDS_PER_MINUTE *
+                Config.MINUTES_PER_HOUR, 2
+            ) if time != 0 else 0
 
             histogram_data[data.date] = {
                 'Дата': date,
