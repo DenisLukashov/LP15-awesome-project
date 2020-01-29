@@ -13,8 +13,8 @@ from awesomeapp.extensions import db
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(64), default='Я не заполнил имя')
-    second_name = db.Column(db.String(64), default='Я не заполнил фамилию')
+    first_name = db.Column(db.String(64), default='Имя')
+    second_name = db.Column(db.String(64), default='Фамилия')
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.Text)

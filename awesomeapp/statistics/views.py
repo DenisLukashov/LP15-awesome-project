@@ -43,9 +43,12 @@ def delete_statistics(statistics_id, equipment_id):
 def delete_equipment(id):
     equipment = Equipment.get_by_id(id)
 
-    nested_images = [statistics.story.images for statistics in equipment.stats]
-    flat_images = [image for set_images in nested_images for
-                   image in set_images]
+    nested_images = [
+        statistics.story.images for statistics in equipment.stats
+    ]
+    flat_images = [
+        image for set_images in nested_images for image in set_images
+    ]
 
     if flat_images:
         delete_images_from_disk(flat_images)

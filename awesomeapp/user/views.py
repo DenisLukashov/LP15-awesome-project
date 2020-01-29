@@ -15,7 +15,7 @@ blueprint = Blueprint(
     __name__,
     url_prefix='/users',
     template_folder='templates'
-    )
+)
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -82,4 +82,5 @@ def register():
     return render_template(
         'user/register.html',
         title='Регистрация',
-        form=form)
+        form=form
+    )

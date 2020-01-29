@@ -147,7 +147,7 @@ class Stats(db.Model):
 
             'Дистанция': total_distance / Config.METERS_PER_KILOMETER,
 
-            'Время упражнения': convert_time_to_user_view(total_time),
+            'Время тренировки': convert_time_to_user_view(total_time),
 
             'Общее время тренировки': convert_time_to_user_view(
                 cls.filter_by_date_and_equipment(
@@ -161,12 +161,12 @@ class Stats(db.Model):
                     cls.steps), id, start_date, end_date
             ),
 
-            'Подъем':  cls.filter_by_date_and_equipment(
+            'Общий подъем':  cls.filter_by_date_and_equipment(
                 db.func.sum(
                     cls.total_up_altitude), id, start_date, end_date
             ),
 
-            'Спуск': cls.filter_by_date_and_equipment(
+            'Общий спуск': cls.filter_by_date_and_equipment(
                 db.func.sum(
                     cls.total_down_altitude), id, start_date, end_date
             ),
@@ -181,7 +181,7 @@ class Stats(db.Model):
                     cls.max_cadence), id, start_date, end_date
             ),
 
-            'Макс. сердцебеение': cls.filter_by_date_and_equipment(
+            'Макс. пульс': cls.filter_by_date_and_equipment(
                 db.func.max(
                     cls.max_heart_rate), id, start_date, end_date
             ),
@@ -196,7 +196,7 @@ class Stats(db.Model):
                     cls.max_altitude), id, start_date, end_date
             ),
 
-            'Средний каденс': cls.filter_by_date_and_equipment(
+            'Каденс': cls.filter_by_date_and_equipment(
                 db.func.sum(cls.avg_cadence * cls.time) / db.func.sum(
                     case(
                         [
@@ -207,7 +207,7 @@ class Stats(db.Model):
                 ), id, start_date, end_date
             ),
 
-            'Среднее сердцебеение': cls.filter_by_date_and_equipment(
+            'Средний пульс': cls.filter_by_date_and_equipment(
                 db.func.sum(cls.avg_heart_rate * cls.time) / db.func.sum(
                     case(
                         [
@@ -218,7 +218,7 @@ class Stats(db.Model):
                 ), id, start_date, end_date
             ),
 
-            'Средняя скорость': round(
+            'Скорость': round(
                 total_distance /
                 Config.METERS_PER_KILOMETER /
                 total_time *
@@ -303,5 +303,10 @@ class Image(db.Model):
         db.ForeignKey('stories.id', ondelete='CASCADE'),
         index=True
     )
-    story = db.relationship('Story', backref=backref(
-        'images', cascade='all,delete'))
+    story = db.relationship(
+        'Story',
+        backref=backref(
+            'images',
+            cascade='all,delete'
+        )
+    )
