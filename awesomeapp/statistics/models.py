@@ -109,7 +109,7 @@ class Stats(db.Model):
 
         story_and_images = {'story': query.story.text or None}
 
-        if query.story.images == []:
+        if not query.story.images:
             story_and_images['main_image'] = None
         else:
             main_image, *rest_images = [
