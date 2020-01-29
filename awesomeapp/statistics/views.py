@@ -85,7 +85,7 @@ def view(id):
             start_date=start_date,
             end_date=end_date,
             story_and_images=Stats.get_story_and_images(
-                    id, start_date, end_date),
+                id, start_date, end_date),
             statistics=Stats.get_statistics(id, start_date, end_date),
             form=form,
             title='Просмотр статистики',
@@ -107,7 +107,6 @@ def view(id):
 @login_required
 def add(id):
     form = StatisticsForm()
-    print(type(form.time.data))
     if form.validate_on_submit():
         stats = Stats(
             equipment_id=id,

@@ -106,20 +106,24 @@ class Stats(db.Model):
 
         if query is None:
             return {'story': None, 'main_image': None}
-
-        story_and_images = {'story': query.story.text or None}
-
+        if query.story is None:
+            return {'story': None, 'main_image': None, 'id': query.id}
         if not query.story.images:
-            story_and_images['main_image'] = None
-        else:
-            main_image, *rest_images = [
-                image.src for image in query.story.images
-            ]
-            story_and_images['main_image'] = main_image
-            story_and_images['rest_images'] = rest_images
-        story_and_images['id'] = query.id
+            return {
+                'story': query.story.text,
+                'main_image': None,
+                'id': query.id
+            }
 
-        return story_and_images
+        main_image, *rest_images = [
+            image.src for image in query.story.images
+        ]
+        return {
+            'story': query.story.text if query.story.text != '' else None,
+            'main_image': main_image,
+            'rest_images': rest_images,
+            'id': query.id
+        }
 
     @classmethod
     def get_statistics(cls, id, start_date, end_date, ):

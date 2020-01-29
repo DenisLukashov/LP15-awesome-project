@@ -84,17 +84,21 @@ class StatisticsForm(FlaskForm):
     )
 
     time = StringField(
-        'Время упражнения',
+        'Время тренировки',
         render_kw={
             'class': 'form-control',
-            'id': 'time'}
+            'id': 'time',
+            'placeholder': 'Время тренировки'
+        }
     )
 
     total_time = StringField(
         'Общее время тренировки',
         render_kw={
             'class': 'form-control',
-            'id': 'time2'}
+            'id': 'time2',
+            'placeholder': 'Общее время тренировки'
+        }
     )
 
     max_speed = FloatField(
