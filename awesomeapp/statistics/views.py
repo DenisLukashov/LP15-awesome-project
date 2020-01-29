@@ -107,6 +107,7 @@ def view(id):
 @login_required
 def add(id):
     form = StatisticsForm()
+    print(type(form.time.data))
     if form.validate_on_submit():
         stats = Stats(
             equipment_id=id,

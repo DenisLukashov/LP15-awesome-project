@@ -67,6 +67,16 @@
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/owl.carousel.min.js"></script>
+    <script src="/static/js/jquery.maskedinput.min.js"></script>
+
+    <script>
+    $(function() {
+      
+      $("#time").mask("99:99:99", {placeholder: "чч:мм:сс" });
+      $("#time2").mask("99:99:99", {placeholder: "чч:мм:сс" });
+    });
+    </script>
+
     <script>
         $('.owl-carousel').owlCarousel({
           loop:true,
