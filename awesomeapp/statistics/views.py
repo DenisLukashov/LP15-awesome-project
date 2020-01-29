@@ -13,6 +13,7 @@ from awesomeapp.statistics.utils import (
     convert_to_meter,
     convert_to_seconds,
     get_statistics_fields,
+    delete_images_from_disk,
 )
 
 
@@ -24,23 +25,30 @@ blueprint = Blueprint(
 )
 
 
-@blueprint.route('/delet/<int:id>')
-def delete(id):
+@blueprint.route('/delete_statistics/<int:statistics_id>/<int:equipment_id>')
+def delete_statistics(statistics_id, equipment_id):
+    statistics = Stats.get_by_id(statistics_id)
+    story = statistics.story
+
+    if story:
+        images = story.images
+        delete_images_from_disk(images)
+
+    db.session.delete(statistics)
+    db.session.commit()
+    return redirect(url_for('statistics.menu', id=equipment_id))
+
+
+@blueprint.route('/delete_equipment/<int:id>')
+def delete_equipment(id):
     equipment = Equipment.get_by_id(id)
-    images_of_equipment = []
 
     nested_images = [statistics.story.images for statistics in equipment.stats]
     flat_images = [image for set_images in nested_images for
                    image in set_images]
 
-    for image in flat_images:
-        file = image.src.split('/')[-1]
-        file_path = os.path.join(
-            Config.GLOBAL_PATH, Config.STORY_IMAGE_PATH, file)
-        images_of_equipment.append(file_path)
-
-    for src in images_of_equipment:
-        os.remove(src)
+    if flat_images:
+        delete_images_from_disk(flat_images)
 
     db.session.delete(equipment)
     db.session.commit()

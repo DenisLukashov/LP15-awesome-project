@@ -21,7 +21,7 @@
         <div class="col-sm-3">
 
           <div class="user">
-            <p>{{ current_user.first_name }} {{ current_user.second_name }}
+            <p>{{ current_user.first_name }} {{ current_user.second_name }}</p>
             <p><img class="index_avatar rounded" src="/{{ current_user.avatar }}" alt="">
             <p class="small_text">О себе:
             <p>{{ current_user.about_me }}
@@ -29,7 +29,7 @@
 
           <div class='sport-zone'>
             {% if equipment_by_id %}
-              <p>{{ equipment_by_id.name }}
+              <p>{{ equipment_by_id.name }}</p>
               <img class="index_avatar img-fluid rounded" src="/{{ equipment_by_id.avatar }}" alt="">
               <p class="small_text">Об инвентаре:          
               <p>{{ equipment_by_id.about }}

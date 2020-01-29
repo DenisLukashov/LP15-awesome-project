@@ -29,14 +29,23 @@
     </div>
 </div>
 <div class="row align-items-center stats_view_story">
-    <div class="col-sm">
-        {% if start_date  == end_date %}
+    {% if start_date == end_date %}
+        <div class="col-sm-9">
             {% if story_and_images.story is not none %}
                 <p class="small_text">О тренировке:
                 <p>{{ story_and_images.story }}
             {% endif %}
-        {% endif %}
-    </div>
+        </div>
+        <div class="col-sm-3">
+            <a 
+                href="{{ url_for('statistics.delete_statistics', statistics_id=story_and_images.id, equipment_id=equipment_by_id.id) }}" 
+                onclick="return confirm('Вы уверены?')" 
+                class="btn btn-primary" 
+                role="button">
+                    Удалить эту запись
+            </a>
+        </div>
+    {% endif %}
 </div>
 
 {% include('/statistics/histogram.html') %}
