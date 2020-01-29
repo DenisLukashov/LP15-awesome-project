@@ -71,9 +71,9 @@
 
     <script>
     $(function() {
-      
-      $("#time").mask("99:99:99", {placeholder: "чч:мм:сс" });
-      $("#time2").mask("99:99:99", {placeholder: "чч:мм:сс" });
+      $.mask.definitions['5']='[012345]';
+      $("#time").mask("99:59:59", {placeholder: "чч:мм:сс" });
+      $("#time2").mask("99:59:59", {placeholder: "чч:мм:сс" });
     });
     </script>
 
