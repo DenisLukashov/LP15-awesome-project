@@ -112,7 +112,7 @@ class RegistrationForm(FlaskForm):
     )
 
     avatar = FileField(
-        'Выбрать файл',
+        'Выбрать фото',
         validators=[FileAllowed(
             ['jpg', 'jpeg', 'gif', 'png'],
             'Только изображения!')],

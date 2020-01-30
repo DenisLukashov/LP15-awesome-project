@@ -147,9 +147,9 @@ class Stats(db.Model):
 
             'Дистанция': total_distance / Config.METERS_PER_KILOMETER,
 
-            'Время тренировки': convert_time_to_user_view(total_time),
+            'Время': convert_time_to_user_view(total_time),
 
-            'Общее время тренировки': convert_time_to_user_view(
+            'Общее время': convert_time_to_user_view(
                 cls.filter_by_date_and_equipment(
                     db.func.sum(
                         cls.total_time), id, start_date, end_date

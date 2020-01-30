@@ -44,7 +44,7 @@ class EquipmentForm(FlaskForm):
     about = TextAreaField(
         'История связанная с инвентарем',
         render_kw={
-            'placeholder': 'Не забудте подробно описать ваш инвентарь',
+            'placeholder': 'Не забудьте подробно описать Ваш инвентарь',
             'class': 'form-control'
         }
     )

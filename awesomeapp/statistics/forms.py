@@ -108,7 +108,7 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Макс скорость'
+            'placeholder': 'Макс. скорость'
         }
     )
 
@@ -135,7 +135,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс каденс'
+            'placeholder': 'Макс. каденс'
         }
     )
 
@@ -153,7 +153,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс пульс'
+            'placeholder': 'Макс. пульс'
         }
     )
 
@@ -163,7 +163,7 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Макс температура'
+            'placeholder': 'Макс. температура'
         }
     )
 
@@ -173,7 +173,7 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Мин температура'
+            'placeholder': 'Мин. температура'
         }
     )
 
@@ -209,7 +209,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Мин высота'
+            'placeholder': 'Мин. высота'
         }
     )
 
@@ -218,7 +218,7 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс высота'
+            'placeholder': 'Макс. высота'
         }
     )
 
