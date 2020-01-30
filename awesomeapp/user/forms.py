@@ -52,6 +52,25 @@ class LoginForm(FlaskForm):
         }
     )
 
+    def validate(self):
+        valid = super().validate()
+        if not valid:
+            return False
+
+        user = User.query.filter_by(email=self.email.data).first()
+
+        if not user:
+            self.email.errors.append(
+                'Не правильные почта или пароль, или то и то:)')
+            return False
+
+        if not user.check_password(self.password.data):
+            self.email.errors.append(
+                'Не правильные почта или пароль, или то и то:)')
+            return False
+
+        return True
+
 
 class RegistrationForm(FlaskForm):
     first_name = StringField(
