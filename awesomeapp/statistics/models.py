@@ -300,7 +300,7 @@ class Image(db.Model):
 
     story_id = db.Column(
         db.Integer,
-        db.ForeignKey('stories.id', ondelete='CASCADE'),
+        db.ForeignKey('stories.id'),
         index=True
     )
     story = db.relationship(

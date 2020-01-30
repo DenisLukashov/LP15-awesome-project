@@ -1,3 +1,5 @@
+from sqlalchemy.orm import backref
+
 from awesomeapp.extensions import db
 
 
@@ -21,10 +23,11 @@ class Equipment(db.Model):
 
     type_id = db.Column(
         db.Integer,
-        db.ForeignKey('equipment_types.id', ondelete='CASCADE'),
+        db.ForeignKey('equipment_types.id'),
         index=True
     )
-    type = db.relationship('EquipmentType', backref='equipment')
+    type = db.relationship('EquipmentType',
+                           backref=backref('equipment', cascade='all,delete'))
 
     name = db.Column(db.String(128), nullable=False)
     avatar = db.Column(db.String(128))
