@@ -43,9 +43,12 @@ def delete_statistics(statistics_id, equipment_id):
 def delete_equipment(id):
     equipment = Equipment.get_by_id(id)
 
-    nested_images = [statistics.story.images for statistics in equipment.stats]
-    flat_images = [image for set_images in nested_images for
-                   image in set_images]
+    nested_images = [
+        statistics.story.images for statistics in equipment.stats
+    ]
+    flat_images = [
+        image for set_images in nested_images for image in set_images
+    ]
 
     if flat_images:
         delete_images_from_disk(flat_images)
@@ -85,7 +88,7 @@ def view(id):
             start_date=start_date,
             end_date=end_date,
             story_and_images=Stats.get_story_and_images(
-                    id, start_date, end_date),
+                id, start_date, end_date),
             statistics=Stats.get_statistics(id, start_date, end_date),
             form=form,
             title='Просмотр статистики',
@@ -131,8 +134,16 @@ def add(id):
         db.session.add(stats)
         db.session.commit()
 
+        story_text = form.story.data
+        images = form.photo.data
+        if (
+            story_text == '' and
+            images[0].mimetype == 'application/octet-stream'
+        ):
+            return redirect(url_for('statistics.menu', id=id))
+
         story = Story(
-            text=form.story.data,
+            text=story_text,
             stats_id=stats.id
         )
         db.session.add(story)
@@ -142,21 +153,25 @@ def add(id):
         db.session.add(stats)
         db.session.commit()
 
-        images = form.photo.data
-        if images[0].mimetype != 'application/octet-stream':
-            for image in images:
-                img = Image(story_id=story.id)
-                db.session.add(img)
-                db.session.commit()
-                file_type = imghdr.what(image)
-                filename = f'{img.id}.{file_type}'
-                image.save(os.path.join(Config.GLOBAL_PATH,
-                                        Config.STORY_IMAGE_PATH, filename))
-                img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
-                db.session.add(img)
-                db.session.commit()
+        if images[0].mimetype == 'application/octet-stream':
+            return redirect(url_for('statistics.menu', id=id))
+
+        for image in images:
+            img = Image(story_id=story.id)
+            db.session.add(img)
+            db.session.commit()
+            file_type = imghdr.what(image)
+            filename = f'{img.id}.{file_type}'
+            image.save(os.path.join(Config.GLOBAL_PATH,
+                                    Config.STORY_IMAGE_PATH, filename))
+            img.src = os.path.join(Config.STORY_IMAGE_PATH, filename)
+            db.session.add(img)
+            db.session.commit()
+
         return redirect(url_for('statistics.menu', id=id))
+
     fields = get_statistics_fields(Equipment.get_by_id(id).type_id, form)
+
     return render_template(
         'statistics/stats.html',
         title='Ввод данных',

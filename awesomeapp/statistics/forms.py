@@ -75,26 +75,31 @@ class StatisticsForm(FlaskForm):
     )
 
     distance = FloatField(
-        'Пройденное расстояние',
+        'Дистанция',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Пробег'}
+            'placeholder': 'Дистанция'
+        }
     )
 
     time = StringField(
-        'Время упражнения',
+        'Время тренировки',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Время упражнения чч:мм:сс'}
+            'id': 'time',
+            'placeholder': 'Время тренировки'
+        }
     )
 
     total_time = StringField(
         'Общее время тренировки',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Общее время чч:мм:сс'}
+            'id': 'time2',
+            'placeholder': 'Общее время тренировки'
+        }
     )
 
     max_speed = FloatField(
@@ -103,7 +108,8 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Макс скорость'}
+            'placeholder': 'Макс скорость'
+        }
     )
 
     steps = IntegerField(
@@ -111,15 +117,17 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Шаги'}
+            'placeholder': 'Шаги'
+        }
     )
 
     avg_cadence = IntegerField(
-        'Средний каденс',
+        'Каденс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Сред каденс'}
+            'placeholder': 'Каденс'
+        }
     )
 
     max_cadence = IntegerField(
@@ -127,15 +135,17 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс каденс'}
+            'placeholder': 'Макс каденс'
+        }
     )
 
     avg_heart_rate = IntegerField(
-        'Средний пульс',
+        'Пульс',
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Сред пульс'}
+            'placeholder': 'Пульс'
+        }
     )
 
     max_heart_rate = IntegerField(
@@ -143,7 +153,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс пульс'}
+            'placeholder': 'Макс пульс'
+        }
     )
 
     max_temperature = FloatField(
@@ -152,7 +163,8 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Макс температура'}
+            'placeholder': 'Макс температура'
+        }
     )
 
     min_temperature = FloatField(
@@ -161,7 +173,8 @@ class StatisticsForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'onchange': "this.value = this.value.replace(',', '.')",
-            'placeholder': 'Мин температура'}
+            'placeholder': 'Мин температура'
+        }
     )
 
     start_altitude = IntegerField(
@@ -169,7 +182,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Начальный уровень'}
+            'placeholder': 'Высота старта'
+        }
     )
 
     total_up_altitude = IntegerField(
@@ -177,7 +191,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Суммарный подъём'}
+            'placeholder': 'Общий подъём'
+        }
     )
 
     total_down_altitude = IntegerField(
@@ -185,7 +200,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Суммарный спуск'}
+            'placeholder': 'Общий спуск'
+        }
     )
 
     min_altitude = IntegerField(
@@ -193,7 +209,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Мин высота'}
+            'placeholder': 'Мин высота'
+        }
     )
 
     max_altitude = IntegerField(
@@ -201,7 +218,8 @@ class StatisticsForm(FlaskForm):
         validators=[optional()],
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Макс высота'}
+            'placeholder': 'Макс высота'
+        }
     )
 
     story = TextAreaField(
@@ -219,11 +237,13 @@ class StatisticsForm(FlaskForm):
             'Только изображения!')],
         render_kw={
             'class': 'form-control-file',
-            'type': 'file'}
+            'type': 'file'
+        }
     )
 
     submit = SubmitField(
         'Сохранить',
         render_kw={
-            'class': 'btn btn-lg btn-primary btn-block'}
+            'class': 'btn btn-lg btn-primary btn-block'
+        }
     )

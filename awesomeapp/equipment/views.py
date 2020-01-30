@@ -55,6 +55,8 @@ def equipment():
         db.session.commit()
         return redirect(url_for('statistics.menu', id=equipment.id))
 
-    return render_template('equipment/equipment.html',
-                           title='Инвентарь', form=form,
-                           all_equipment=Equipment.get_all(current_user.id))
+    return render_template(
+        'equipment/equipment.html',
+        title='Инвентарь', form=form,
+        all_equipment=Equipment.get_all(current_user.id)
+    )

@@ -39,7 +39,6 @@
         </div>
 
         <div class="col-sm-9">
-
           <div class='equipment-carousel'>
             <div class="owl-carousel owl-theme">
               {% for equipment in all_equipment %}
@@ -67,6 +66,16 @@
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/owl.carousel.min.js"></script>
+    <script src="/static/js/jquery.maskedinput.min.js"></script>
+
+    <script>
+    $(function() {
+      $.mask.definitions['5']='[012345]';
+      $("#time").mask("99:59:59", {placeholder: "чч:мм:сс" });
+      $("#time2").mask("99:59:59", {placeholder: "чч:мм:сс" });
+    });
+    </script>
+
     <script>
         $('.owl-carousel').owlCarousel({
           loop:true,
