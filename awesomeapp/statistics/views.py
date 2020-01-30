@@ -141,7 +141,8 @@ def add(equipment_id):
             story_text == '' and
             images[0].mimetype == 'application/octet-stream'
         ):
-            return redirect(url_for('statistics.menu', id=equipment_id))
+            return redirect(url_for('statistics.menu',
+                                    equipment_id=equipment_id))
 
         story = Story(
             text=story_text,
@@ -155,7 +156,8 @@ def add(equipment_id):
         db.session.commit()
 
         if images[0].mimetype == 'application/octet-stream':
-            return redirect(url_for('statistics.menu', id=equipment_id))
+            return redirect(url_for('statistics.menu',
+                                    equipment_id=equipment_id))
 
         for image in images:
             img = Image(story_id=story.id)
@@ -169,7 +171,7 @@ def add(equipment_id):
             db.session.add(img)
             db.session.commit()
 
-        return redirect(url_for('statistics.menu', id=equipment_id))
+        return redirect(url_for('statistics.menu', equipment_id=equipment_id))
 
     fields = get_statistics_fields(Equipment.get_by_id(
         equipment_id).type_id, form)
