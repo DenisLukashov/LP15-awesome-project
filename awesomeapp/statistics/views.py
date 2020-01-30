@@ -39,9 +39,9 @@ def delete_statistics(statistics_id, equipment_id):
     return redirect(url_for('statistics.menu', id=equipment_id))
 
 
-@blueprint.route('/delete_equipment/<int:id>')
-def delete_equipment(id):
-    equipment = Equipment.get_by_id(id)
+@blueprint.route('/delete_equipment/<int:equipment_id>')
+def delete_equipment(equipment_id):
+    equipment = Equipment.get_by_id(equipment_id)
 
     nested_images = [
         statistics.story.images for statistics in equipment.stats
@@ -58,24 +58,24 @@ def delete_equipment(id):
     return redirect(url_for('dev.start_page'))
 
 
-@blueprint.route('/menu/<int:id>', methods=['GET', 'POST'])
+@blueprint.route('/menu/<int:equipment_id>', methods=['GET', 'POST'])
 @login_required
-def menu(id):
+def menu(equipment_id):
     form = StatisticsMenuForm()
     return render_template(
         'statistics/menu.html',
         form=form,
         title='Меню инвентаря',
-        equipment_by_id=Equipment.get_by_id(id),
+        equipment_by_id=Equipment.get_by_id(equipment_id),
         all_equipment=Equipment.get_all(current_user.id)
     )
 
 
-@blueprint.route('/view/<int:id>', methods=['GET', 'POST'])
+@blueprint.route('/view/<int:equipment_id>', methods=['GET', 'POST'])
 @login_required
-def view(id):
+def view(equipment_id):
     form = StatisticsMenuForm()
-    form.id.data = id
+    form.id.data = equipment_id
     if form.validate_on_submit():
         start_date = form.start_date.data
         end_date = form.end_date.data
@@ -88,31 +88,32 @@ def view(id):
             start_date=start_date,
             end_date=end_date,
             story_and_images=Stats.get_story_and_images(
-                id, start_date, end_date),
-            statistics=Stats.get_statistics(id, start_date, end_date),
+                equipment_id, start_date, end_date),
+            statistics=Stats.get_statistics(
+                equipment_id, start_date, end_date),
             form=form,
             title='Просмотр статистики',
-            equipment_by_id=Equipment.get_by_id(id),
+            equipment_by_id=Equipment.get_by_id(equipment_id),
             all_equipment=Equipment.get_all(current_user.id),
-            histogram=Stats.histogram_data(start_date, end_date, id)
+            histogram=Stats.histogram_data(start_date, end_date, equipment_id)
         )
 
     return render_template(
         'statistics/menu.html',
         form=form,
         title='Меню инвентаря',
-        equipment_by_id=Equipment.get_by_id(id),
+        equipment_by_id=Equipment.get_by_id(equipment_id),
         all_equipment=Equipment.get_all(current_user.id),
     )
 
 
-@blueprint.route('/add/<int:id>', methods=['GET', 'POST'])
+@blueprint.route('/add/<int:equipment_id>', methods=['GET', 'POST'])
 @login_required
-def add(id):
+def add(equipment_id):
     form = StatisticsForm()
     if form.validate_on_submit():
         stats = Stats(
-            equipment_id=id,
+            equipment_id=equipment_id,
             date=form.date.data,
             distance=convert_to_meter(form.distance.data),
             time=convert_to_seconds(form.time.data),
@@ -140,7 +141,7 @@ def add(id):
             story_text == '' and
             images[0].mimetype == 'application/octet-stream'
         ):
-            return redirect(url_for('statistics.menu', id=id))
+            return redirect(url_for('statistics.menu', id=equipment_id))
 
         story = Story(
             text=story_text,
@@ -154,7 +155,7 @@ def add(id):
         db.session.commit()
 
         if images[0].mimetype == 'application/octet-stream':
-            return redirect(url_for('statistics.menu', id=id))
+            return redirect(url_for('statistics.menu', id=equipment_id))
 
         for image in images:
             img = Image(story_id=story.id)
@@ -168,15 +169,16 @@ def add(id):
             db.session.add(img)
             db.session.commit()
 
-        return redirect(url_for('statistics.menu', id=id))
+        return redirect(url_for('statistics.menu', id=equipment_id))
 
-    fields = get_statistics_fields(Equipment.get_by_id(id).type_id, form)
+    fields = get_statistics_fields(Equipment.get_by_id(
+        equipment_id).type_id, form)
 
     return render_template(
         'statistics/stats.html',
         title='Ввод данных',
         form=form,
         all_equipment=Equipment.get_all(current_user.id),
-        equipment_by_id=Equipment.get_by_id(id),
+        equipment_by_id=Equipment.get_by_id(equipment_id),
         fields=fields
     )
