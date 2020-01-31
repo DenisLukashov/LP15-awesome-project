@@ -120,6 +120,11 @@ nav {
   text-align: left;
 }
 
+.stats_text {
+  margin: 0;
+  font-size: 2vh;
+}
+
 .error {
   color: red;
   font: 90% Verdana;
