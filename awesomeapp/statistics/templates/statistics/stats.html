@@ -4,10 +4,8 @@
         <form class="form-signin" action="" method="post" novalidate enctype="multipart/form-data">
             <div class ='container'>
                 {{ form.hidden_tag() }}
-                <p class="h3 mb-3 font-weight-normal">{{ title }}</p>
-                
-                {% for name, group_field in fields.items() %}
-                    
+                <p class="h5 font-weight-normal">{{ title }}</p>       
+                {% for name, group_field in fields.items() %}       
                     {{ name }}
                     <div class="form-row">
                     {% for field in group_field %}
