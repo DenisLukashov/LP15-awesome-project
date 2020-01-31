@@ -9,7 +9,7 @@ from flask_login import current_user
 from config import Config
 from awesomeapp.equipment.models import Equipment
 
-blueprint = Blueprint('dev', __name__, template_folder='templates')
+blueprint = Blueprint('vizit', __name__, template_folder='templates')
 
 
 @blueprint.route('/static/<path>/<filename>')

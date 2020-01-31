@@ -5,7 +5,7 @@
         <div class="col-sm"></div>
         <div class="col-sm-6">
 
-            <form action="{{ url_for('statistics.view', equipment_id=equipment_by_id.id) }}" method="post" novalidate>
+            <form action="{{ url_for('statistics.view', equipment_id=equipment_by_id.id) }}" method='post' novalidate>
                 {{ form.hidden_tag() }}
                 <div class="form-row">
                     <p class="h6">Выберите промежуток времени для общей статистики или дату для детальной статистики по заданному дню

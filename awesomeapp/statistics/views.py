@@ -1,7 +1,7 @@
 import imghdr
 import os
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 
 from awesomeapp.extensions import db
@@ -36,7 +36,7 @@ def delete_statistics(statistics_id, equipment_id):
 
     db.session.delete(statistics)
     db.session.commit()
-    return redirect(url_for('statistics.menu', id=equipment_id))
+    return redirect(url_for('statistics.menu', equipment_id=equipment_id))
 
 
 @blueprint.route('/delete_equipment/<int:equipment_id>')
@@ -55,7 +55,7 @@ def delete_equipment(equipment_id):
 
     db.session.delete(equipment)
     db.session.commit()
-    return redirect(url_for('dev.start_page'))
+    return redirect(url_for('vizit.start_page'))
 
 
 @blueprint.route('/menu/<int:equipment_id>', methods=['GET', 'POST'])
@@ -76,6 +76,7 @@ def menu(equipment_id):
 def view(equipment_id):
     form = StatisticsMenuForm()
     form.id.data = equipment_id
+    print(request)
     if form.validate_on_submit():
         start_date = form.start_date.data
         end_date = form.end_date.data
