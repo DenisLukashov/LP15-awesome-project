@@ -48,6 +48,12 @@ class StatisticsMenuForm(FlaskForm):
             Stats.equipment_id == self.id.data
         ).all()
 
+        if self.start_date.data == self.end_date.data:
+            self.start_date.errors.append(
+                'Начальная дата не может совпадать с конечной'
+            )
+            return False
+
         if not statistics and self.end_date.data is None:
             self.start_date.errors.append(
                 'В этот день Вы не добавляли статистику'
