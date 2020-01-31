@@ -6,7 +6,7 @@ from awesomeapp.extensions import db, login, migrate
 from awesomeapp.statistics.views import blueprint as statistics_blueprint
 from awesomeapp.equipment.views import blueprint as equipment_blueprint
 from awesomeapp.user.views import blueprint as user_blueprint
-from awesomeapp.dev.views import blueprint as dev_blueprint
+from awesomeapp.vizit.views import blueprint as vizit_blueprint
 
 
 def create_app():
@@ -23,7 +23,7 @@ def create_app():
     app.register_blueprint(statistics_blueprint)
     app.register_blueprint(equipment_blueprint)
     app.register_blueprint(user_blueprint)
-    app.register_blueprint(dev_blueprint)
+    app.register_blueprint(vizit_blueprint)
 
     @login.user_loader
     def load_user(user_id):
