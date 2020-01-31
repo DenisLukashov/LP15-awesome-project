@@ -21,11 +21,13 @@
     </div>
     <div class="col-sm-3">
         <p class="small_text">Результаты:
-        {% for label, value in statistics.items() %}
-            {% if value != 0 %}
-            <p>{{ label }}: {{ value }}</p>
-            {% endif %}
-        {% endfor %}
+        <div class="stats_text">
+            {% for label, value in statistics.items() %}
+                {% if value != 0 %}
+                <p class="stats_text">{{ label }}: {{ value }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 <div class="row align-items-center stats_view_story">

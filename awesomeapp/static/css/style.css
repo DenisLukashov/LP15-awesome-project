@@ -1,4 +1,7 @@
 /* base style */
+p {
+  margin-bottom: 1vh;
+}
 
 footer {
   background-color: rgb(21, 122, 95);
@@ -23,8 +26,9 @@ nav {
 }
 
 /* unlog user page */
+
 .visit_text {
-  height: 60vh;
+  height: 57.8vh;
 }
 
 .visit_pic {
@@ -32,23 +36,25 @@ nav {
 }
 
 .login_content {
-  height: 89.3vh;
+  height: 87.1vh;
 }
 
 .regist_content {
-  height: 89.3vh;
+  height: 87.1vh;
 }
 
+/* login user page */
+
 .equipmnent_content {
-  height: 75.3vh;
+  height: 72.3vh;
 }
 
 .statistics_content {
-  height: 75.3vh;
+  height: 72.3vh;
 }
 
 .menu_content {
-  height: 40vh;
+  height: 37vh;
 }
 
 .menu_button {
@@ -64,7 +70,7 @@ nav {
 }
 
 .stats_view_content {
-  height: 60.7vh;
+  height: 56.7vh;
 }
 
 .user{
@@ -78,7 +84,7 @@ nav {
 
 .sport-zone{
   margin-top: 2vh;
-  height: 42vh;
+  height: 41.1vh;
 }
 
 .view-zone{
@@ -92,7 +98,6 @@ nav {
   max-width: 100%;
   max-height: 30vh;
   width: auto;
-
 }
 
 .equipment_pic {
@@ -101,6 +106,8 @@ nav {
 }
 .equipment_plus {
   margin-top: 1em;
+  width: 7vh;
+  height: 7vh;
 }
 
 .carousel_image {
@@ -111,6 +118,11 @@ nav {
 .small_text {
   color: gray;
   text-align: left;
+}
+
+.stats_text {
+  margin: 0;
+  font-size: 2vh;
 }
 
 .error {

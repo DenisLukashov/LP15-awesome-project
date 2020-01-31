@@ -149,7 +149,7 @@ class Stats(db.Model):
 
             'Время': convert_time_to_user_view(total_time),
 
-            'Общее время': convert_time_to_user_view(
+            'Общ. время': convert_time_to_user_view(
                 cls.filter_by_date_and_equipment(
                     db.func.sum(
                         cls.total_time), id, start_date, end_date

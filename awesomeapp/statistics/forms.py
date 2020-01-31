@@ -232,7 +232,8 @@ class StatisticsForm(FlaskForm):
         'О тренировке',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'О тренировке'
+            'placeholder': 'О тренировке',
+            'rows': '1'
         }
     )
 
