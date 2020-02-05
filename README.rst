@@ -19,6 +19,15 @@ LP15-awesome-project
 
 .. code-block:: text
 
-    python add_equipmnet_type.py
+    python add_equipmnet_type.
+
+Запуск
+------
+В консоле(не забывайте активировать виртуальное окружение) пропишите:
+
+.. code-block:: text
+
+	./run.sh
+
 
 Продуктивных тренировок!)
