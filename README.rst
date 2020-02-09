@@ -13,13 +13,25 @@ LP15-awesome-project
 
 Настройка
 ---------
-- Cконфигурируйте приложение, для этого создайте config.py.
-- Заполните созданный файл конфигурации по примеру config.py.template.
+- Cконфигурируйте приложение, для этого создайте config.py
+- Заполните созданный файл конфигурации по примеру config.py.template
+- Примените миграции к своей базе данных, для этого нужно выполнить в консоли следующие операции:
+    - Установить переменную среды
+    .. code-block:: text
+
+    $ export FLASK_APP=awesomeapp
+
+    - Применить миграции
+
+    .. code-block:: text
+
+    $ flask db upgrade
+
 - Заполните базу данных видами  спорта , для этого напишите в консоле:
 
 .. code-block:: text
 
-    python add_equipmnet_type.
+    python add_equipmnet_type.py
 
 Запуск
 ------
@@ -27,7 +39,7 @@ LP15-awesome-project
 
 .. code-block:: text
 
-	./run.sh
+	$ ./run.sh
 
 
 Продуктивных тренировок!)
