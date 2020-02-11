@@ -28,9 +28,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(get_redirect_target())
+            return redirect(url_for('user.login'))
+            #return redirect(url_for('equipment.equipment'))
         flash('Не верный email или пароль')
-        return redirect(url_for('.login'))
+        return redirect(url_for('users.login'))
     return render_template('user/login.html', title='Вход', form=form)
 
 
