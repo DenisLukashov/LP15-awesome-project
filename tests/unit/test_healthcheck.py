@@ -1,6 +1,6 @@
 from flask import url_for
-
 import pytest
+
 endpoints = ('user.register', 'user.logout', 'user.login',
              'equipment.equipment', 'vizit.start_page')
 
