@@ -4,6 +4,7 @@ DESCRIBE_YOURS_EQUIPMENT = 'Не забудьте подробно описат�
 
 
 def login(test_client, init_database, email, password):
+    """Запрос логина"""
     return test_client.post(url_for('user.login'), data={
         'email': email,
         'password': password

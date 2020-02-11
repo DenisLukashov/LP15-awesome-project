@@ -7,6 +7,7 @@ EMAIL_ALREADY_USED = 'Этот адрес электронной почты уж
 
 
 def register(client, init_database, email, password, password2):
+    """Запрос регистрации"""
     return client.post(url_for('user.register'), data={
         'email': email,
         'password': password,
