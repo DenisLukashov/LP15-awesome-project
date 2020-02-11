@@ -1,6 +1,6 @@
 import pytest
-from awesomeapp import create_app
 
+from awesomeapp import create_app
 from awesomeapp.user.models import User
 from awesomeapp.equipment.models import Equipment
 from config import Config
@@ -11,18 +11,13 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
     WTF_CSRF_ENABLED = False
+    SERVER_NAME = "127.0.0.1:5555"
 
 
 @pytest.fixture
-def test_client():
-    flask_app = create_app(TestConfig)
-    testing_client = flask_app.test_client()
-    ctx = flask_app.app_context()
-    ctx.push()
-
-    yield testing_client
-
-    ctx.pop()
+def app():
+    app = create_app(TestConfig)
+    return app
 
 
 @pytest.fixture()
@@ -40,22 +35,11 @@ def init_database():
 
 
 @pytest.fixture()
-def init_database_with_equipment():
-    db.create_all()
-
-    user = User(email='test@test.test')
-    user.set_password('12345')
-    db.session.add(user)
-    db.session.commit()
-
+def database_with_equipment(init_database):
     equipment = Equipment(
         name='Name',
-        user_id=user.id,
+        user_id=1,
         type_id=1
     )
     db.session.add(equipment)
     db.session.commit()
-
-    yield db
-
-    db.drop_all()

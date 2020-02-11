@@ -1,24 +1,12 @@
-def test_start_page_healthcheck(test_client, init_database):
-    response = test_client.get('/', follow_redirects=True)
+from flask import url_for
+
+import pytest
+endpoints = ('user.register', 'user.logout', 'user.login',
+             'equipment.equipment', 'vizit.start_page')
+
+
+@pytest.mark.parametrize('endpoint', endpoints)
+def test_pages_healthcheck(client, init_database, endpoint):
+    """ Проверка конечных точек на доступность"""
+    response = client.get(url_for(endpoint), follow_redirects=True)
     assert response.status_code == 200
-
-
-def test_equipmnet_page_healthcheck(test_client, init_database):
-    response = test_client.get('/equipment', follow_redirects=True)
-    assert response.status_code == 200
-
-
-def test_login_page_healthcheck(test_client, init_database):
-    response = test_client.get('/users/login')
-    assert response.status_code == 200
-
-
-def test_logout_page_healthcheck(test_client, init_database):
-    response = test_client.get('/users/logout', follow_redirects=True)
-    assert response.status_code == 200
-
-
-def test_register_page_healthcheck(test_client, init_database):
-    response = test_client.get('/users/register')
-    assert response.status_code == 200
-
