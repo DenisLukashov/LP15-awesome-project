@@ -2,6 +2,7 @@ import pytest
 from awesomeapp import create_app
 
 from awesomeapp.user.models import User
+from awesomeapp.equipment.models import Equipment
 from config import Config
 from awesomeapp.extensions import db
 
@@ -15,45 +16,46 @@ class TestConfig(Config):
 @pytest.fixture
 def test_client():
     flask_app = create_app(TestConfig)
-
-    # Flask provides a way to test your application by exposing the Werkzeug test Client
-    # and handling the context locals for you.
     testing_client = flask_app.test_client()
-
-    # Establish an application context before running the tests.
     ctx = flask_app.app_context()
     ctx.push()
 
-    yield testing_client  # this is where the testing happens!
+    yield testing_client
 
     ctx.pop()
 
 
 @pytest.fixture()
 def init_database():
-    # Create the database and the database table
     db.create_all()
 
-    # Insert user data
-    user1 = User(email='test@test.test')
-    user1.set_password('12345')
-    db.session.add(user1)
-
-
-    # Commit the changes for the users
+    user = User(email='test@test.test')
+    user.set_password('12345')
+    db.session.add(user)
     db.session.commit()
 
-    yield db  # this is where the testing happens!
+    yield db
 
     db.drop_all()
 
 
-# def test_login(test_client, init_database):
-#     response = test_client.post('/users/login', data=dict(
-#         email='test@test.test',
-#         password='12345',
-#         password2='12345'),
-#         follow_redirects=True
-#     )
-#     print(response.data.decode())
-#     # assert 'Инвентарь' in response.data.decode()
+@pytest.fixture()
+def init_database_with_equipment():
+    db.create_all()
+
+    user = User(email='test@test.test')
+    user.set_password('12345')
+    db.session.add(user)
+    db.session.commit()
+
+    equipment = Equipment(
+        name='Name',
+        user_id=user.id,
+        type_id=1
+    )
+    db.session.add(equipment)
+    db.session.commit()
+
+    yield db
+
+    db.drop_all()
