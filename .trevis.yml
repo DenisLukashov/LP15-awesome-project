@@ -11,6 +11,6 @@ install:
 
     script:
 # unit test
-- python -m pytest -v
+- pytest
 # linting test
 - flake
