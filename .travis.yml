@@ -9,4 +9,4 @@ script:
 # unit test
   - pytest
 # linting test
-  - flake
+  - flake8
