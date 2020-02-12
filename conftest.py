@@ -11,31 +11,39 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
     WTF_CSRF_ENABLED = False
-    SERVER_NAME = "127.0.0.1:5555"
+    HOST = '127.0.0.1'
+    PORT = '5555'
 
 
 @pytest.fixture
 def app():
-    app = create_app(TestConfig)
-    return app
+    flask_app = create_app(TestConfig)
+    return flask_app
 
 
 @pytest.fixture()
 def init_database():
     db.create_all()
 
-    user = User(email='test@test.test')
-    user.set_password('12345')
-    db.session.add(user)
-    db.session.commit()
-
     yield db
 
     db.drop_all()
 
 
-@pytest.fixture()
-def database_with_equipment(init_database):
+@pytest.fixture(scope='function')
+def database_with_user(init_database):
+    user = User(email='test@test.test')
+    user.set_password('12345')
+    db.session.add(user)
+    db.session.commit()
+
+
+@pytest.fixture(scope='function')
+def database_with_equipment_and_user(init_database):
+    user = User(email='test@test.test')
+    user.set_password('12345')
+    db.session.add(user)
+
     equipment = Equipment(
         name='Name',
         user_id=1,
