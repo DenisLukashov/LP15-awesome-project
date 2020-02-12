@@ -5,12 +5,8 @@ python:
 install:
   - pip install -r requirements.txt
 
-  before_script:
-    - export FLASK_APP=awesomeapp
-    - export FLASK_ENV=development
-
-    script:
+ script:
 # unit test
-- pytest
+  - pytest
 # linting test
-- flake
+  - flake
