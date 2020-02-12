@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+  before_script:
+    - export FLASK_APP=awesomeapp
+    - export FLASK_ENV=development
+
+    script:
+# unit test
+- python -m pytest -v
+# linting test
+- flake

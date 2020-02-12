@@ -22,8 +22,10 @@ def start_page():
     if current_user.is_authenticated:
         last_equipment = Equipment.get_first(current_user.id)
         if last_equipment:
-            return redirect(url_for('statistics.menu',
-                                    equipment_id=last_equipment.id))
+            return redirect(url_for(
+                'statistics.menu',
+                equipment_id=last_equipment.id)
+            )
         return redirect(url_for('equipment.equipment'))
     else:
         return redirect(url_for('user.visit'))
