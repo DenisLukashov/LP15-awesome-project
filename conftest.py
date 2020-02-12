@@ -30,7 +30,7 @@ def init_database():
     db.drop_all()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture()
 def database_with_user(init_database):
     user = User(email='test@test.test')
     user.set_password('12345')
@@ -38,7 +38,7 @@ def database_with_user(init_database):
     db.session.commit()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture()
 def database_with_equipment_and_user(init_database):
     user = User(email='test@test.test')
     user.set_password('12345')

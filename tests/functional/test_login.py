@@ -86,7 +86,7 @@ def test_login_with_equipment_redirect(client,
 
 def test_login_wrong_email(client,  database_with_user):
     """Проверка желаемого поведения логина в случае,
-    если введена не верная почта"""
+    если введена не верная почта."""
     user_not_exists = login(client,  database_with_user,
                             'wrong_email@example.com', '12345')
     assert WRONG_PASSWORD_OR_EMAIL in user_not_exists.data.decode()
@@ -94,7 +94,7 @@ def test_login_wrong_email(client,  database_with_user):
 
 def test_login_wrong_password(client, database_with_user):
     """Проверка желаемого поведения логина в случае,
-    если введен не верный пароль"""
+    если введен не верный пароль."""
     wrong_password = login(client, database_with_user,
                            'test@test.test', 'wrong_password')
     assert WRONG_PASSWORD_OR_EMAIL in wrong_password.data.decode()
