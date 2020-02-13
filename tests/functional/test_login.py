@@ -1,5 +1,7 @@
 from flask import url_for
 
+from conftest import TestConfig
+
 DESCRIBE_YOURS_EQUIPMENT = 'Не забудьте подробно описать Ваш инвентарь'
 EQUIPMENT = 'Инвентарь'
 EQUIPMENT_STORY = 'История связанная с инвентарем'
@@ -7,6 +9,10 @@ SHOW_STASTICS = 'Вывести статистику'
 ABOUT_EQUIPMENT = 'Об инвентаре'
 ADD_STATISTICS = 'Добавить статистику'
 WRONG_PASSWORD_OR_EMAIL = 'Не правильные почта или пароль'
+
+HOST = TestConfig.HOST
+PORT = TestConfig.PORT
+LOCALHOST = f'http://{HOST}:{PORT}'
 
 
 def login(client, database, email, password, redirects=True):
@@ -36,15 +42,17 @@ def test_login_without_equipment_redirect(client, database_with_user):
                        'test@test.test', '12345', redirects=False)
 
     assert login_page.status_code == 302
-    assert login_page.location == 'http://localhost/users/login'
+    assert login_page.location == f"{LOCALHOST}{url_for('user.login')}"
 
     redirect_to_login_page = client.get(login_page.location)
     assert redirect_to_login_page.status_code == 302
-    assert redirect_to_login_page.location == 'http://localhost/'
+    assert redirect_to_login_page.location == \
+        f"{LOCALHOST}{url_for('vizit.start_page')}"
 
     redirect_to_start_page = client.get(redirect_to_login_page.location)
     assert redirect_to_start_page.status_code == 302
-    assert redirect_to_start_page.location == 'http://localhost/equipment'
+    assert redirect_to_start_page.location == \
+        f"{LOCALHOST}{url_for('equipment.equipment')}"
 
     redirect_to_equipment_page = client.get(redirect_to_start_page.location)
     assert redirect_to_equipment_page.status_code == 200
@@ -69,15 +77,17 @@ def test_login_with_equipment_redirect(client,
                        'test@test.test', '12345', redirects=False)
 
     assert login_page.status_code == 302
-    assert login_page.location == 'http://localhost/users/login'
+    assert login_page.location == f"{LOCALHOST}{url_for('user.login')}"
 
     redirect_to_login_page = client.get(login_page.location)
     assert redirect_to_login_page.status_code == 302
-    assert redirect_to_login_page.location == 'http://localhost/'
+    assert redirect_to_login_page.location == \
+        f"{LOCALHOST}{url_for('vizit.start_page')}"
 
     redirect_to_start_page = client.get(redirect_to_login_page.location)
     assert redirect_to_start_page.status_code == 302
-    assert redirect_to_start_page.location == 'http://localhost/stats/menu/1'
+    assert redirect_to_start_page.location == \
+        f"{LOCALHOST}{url_for('statistics.menu', equipment_id=1)}"
 
     redirect_to_menu_page = client.get(redirect_to_start_page.location)
     assert redirect_to_menu_page.status_code == 200

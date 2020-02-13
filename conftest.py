@@ -13,6 +13,7 @@ class TestConfig(Config):
     WTF_CSRF_ENABLED = False
     HOST = '127.0.0.1'
     PORT = '5555'
+    SERVER_NAME = '127.0.0.1:5555'
 
 
 @pytest.fixture
