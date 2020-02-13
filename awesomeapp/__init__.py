@@ -9,9 +9,9 @@ from awesomeapp.user.views import blueprint as user_blueprint
 from awesomeapp.vizit.views import blueprint as vizit_blueprint
 
 
-def create_app():
+def create_app(config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config)
 
     db.init_app(app)
 
@@ -32,4 +32,4 @@ def create_app():
     return app
 
 
-app = create_app()
+app = create_app(Config)
