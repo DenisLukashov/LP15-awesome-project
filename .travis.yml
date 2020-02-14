@@ -6,6 +6,8 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
+# creat config file
+  - python creat_config_file.py
 # unit test
   - pytest
 # linting test
