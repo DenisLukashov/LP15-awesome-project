@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config():
-	# Подробно прочитать про настройки sqlalchemy можно по ссылке ниже
+    # Подробно прочитать про настройки sqlalchemy можно по ссылке ниже
     # https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/
 
     SECRET_KEY = "ваш секретный ключ приложения"
