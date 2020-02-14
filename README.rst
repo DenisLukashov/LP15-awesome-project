@@ -1,5 +1,8 @@
-LP15-awesome-project
+LP15-awesome-project 
 ====================
+
+.. image:: https://travis-ci.com/DenisLukashov/LP15-awesome-project.svg?branch=master
+    :target: https://travis-ci.com/DenisLukashov/LP15-awesome-project
 
 Веб-приложение, предназначенное для ведения и просмотра статистики по различным циклическим видам спорта.
 
