@@ -7,7 +7,7 @@ install:
 # command to run tests
 script:
 # creat config file
-  - python creat_config_file.py
+  - python create_config_file.py
 # unit test
   - pytest
 # linting test
